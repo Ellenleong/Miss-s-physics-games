@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高三物理遊戲 | 幾何物理樂園</title>
+    <!-- 引入共用的核心設計系統 -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* 針對高三頁面的專屬裝飾與佈局 */
+        .hero-green {
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+        }
+        .hero-green h1 {
+            font-size: 3rem;
+            color: var(--fg);
+            margin-bottom: 15px;
+        }
+        
+        /* 綠色的不規則幾何裝飾 (Blob) - 呈現狹長的波動感 */
+        .decor-blob-green {
+            position: absolute;
+            width: 160px;
+            height: 120px;
+            background-color: var(--quaternary); 
+            border: 2px solid var(--border);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 25px;
+            left: 12%;
+            z-index: -1;
+            opacity: 0.85;
+        }
+
+        /* 頂部導覽列 (返回按鈕) */
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            padding: 20px;
+            max-width: 1152px;
+            margin: 0 auto;
+        }
+        .btn-back {
+            display: inline-block;
+            padding: 8px 24px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-full);
+            font-weight: bold;
+            color: var(--fg);
+            text-decoration: none;
+            box-shadow: 4px 4px 0px 0px var(--border);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .btn-back:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px var(--border);
+            /* Hover 時變成高三的主題綠色 */
+            background: var(--quaternary); 
+        }
+        .btn-back:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px var(--border);
+        }
+    </style>
+</head>
+<body>
+
+<!-- 頂部返回區塊 -->
+<div class="top-nav">
+    <a href="index.html" class="btn-back">← 返回首頁</a>
+</div>
+
+<div class="container" style="padding-top: 0;">
+    <!-- 頁面標題區 -->
+    <div class="hero-green">
+        <div class="decor-blob-green"></div>
+        <h1>高三物理挑戰區 🌀</h1>
+        <p style="font-size: 1.2rem; color: var(--muted-fg); max-w-2xl; margin: 0 auto;">
+            進階電磁學、波動、近代物理與量子力學入門。挑戰最高難度的物理思維！
+        </p>
+    </div>
+
+    <!-- 遊戲卡片列表 -->
+    <div class="card-grid">
+        
+        <!-- 遊戲 1：預留的電磁學遊戲 -->
+        <a href="electromagnetism_game.html" class="sticker-card card-green">
+            <h2>電磁感應大挑戰 🧲</h2>
+            <p style="color: var(--muted-fg); margin: 12px 0 24px 0; line-height: 1.6;">
+                透過互動視覺化模型，判斷磁場變化、感應電流方向，徹底征服冷次定律與法拉第電磁感應定律！
+            </p>
+            <div style="font-weight: 800; color: var(--quaternary); font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                開始挑戰 <span style="font-size: 1.5rem;">➔</span>
+            </div>
+        </a>
+
+        <!-- 這裡可以繼續新增其他高三遊戲卡片 -->
+        
+    </div>
+</div>
+
+</body>
+</html>

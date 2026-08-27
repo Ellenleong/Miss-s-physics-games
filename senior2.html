@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高二物理遊戲 | 幾何物理樂園</title>
+    <!-- 引入共用的核心設計系統 -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* 針對高二頁面的專屬裝飾與佈局 */
+        .hero-yellow {
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+        }
+        .hero-yellow h1 {
+            font-size: 3rem;
+            color: var(--fg);
+            margin-bottom: 15px;
+        }
+        
+        /* 黃色的不規則幾何裝飾 (Blob) - 形狀與高一不同 */
+        .decor-blob-yellow {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-color: var(--tertiary); 
+            border: 2px solid var(--border);
+            /* 創造出偏向三角形的圓潤幾何體 */
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            top: 15px;
+            left: 18%;
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        /* 頂部導覽列 (返回按鈕) */
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            padding: 20px;
+            max-width: 1152px;
+            margin: 0 auto;
+        }
+        .btn-back {
+            display: inline-block;
+            padding: 8px 24px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-full);
+            font-weight: bold;
+            color: var(--fg);
+            text-decoration: none;
+            box-shadow: 4px 4px 0px 0px var(--border);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .btn-back:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px var(--border);
+            /* Hover 時變成高二的主題黃色 */
+            background: var(--tertiary); 
+        }
+        .btn-back:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px var(--border);
+        }
+    </style>
+</head>
+<body>
+
+<!-- 頂部返回區塊 -->
+<div class="top-nav">
+    <a href="index.html" class="btn-back">← 返回首頁</a>
+</div>
+
+<div class="container" style="padding-top: 0;">
+    <!-- 頁面標題區 -->
+    <div class="hero-yellow">
+        <div class="decor-blob-yellow"></div>
+        <h1>高二物理挑戰區 ⚡</h1>
+        <p style="font-size: 1.2rem; color: var(--muted-fg); max-w-2xl; margin: 0 auto;">
+            動量、碰撞、熱學與各種進階力學。準備好迎接更複雜的物理世界了嗎？
+        </p>
+    </div>
+
+    <!-- 遊戲卡片列表 -->
+    <div class="card-grid">
+        
+        <!-- 遊戲 1：壓強實驗室 (為我們接下來要做的遊戲預留位置) -->
+        <a href="pressure_lab.html" class="sticker-card card-yellow">
+            <h2>壓強與壓力 🧽</h2>
+            <p style="color: var(--muted-fg); margin: 12px 0 24px 0; line-height: 1.6;">
+                相同的重量，為什麼踩在冰上會破，穿上雪橇卻不會？透過視覺化實驗，徹底搞懂「壓力」與「壓強」的愛恨情仇！
+            </p>
+            <div style="font-weight: 800; color: var(--tertiary); font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                開始挑戰 <span style="font-size: 1.5rem;">➔</span>
+            </div>
+        </a>
+
+        <!-- 這裡可以繼續新增其他高二遊戲卡片 -->
+        
+    </div>
+</div>
+
+</body>
+</html>
