@@ -1,0 +1,69 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物理遊戲樂園 | 首頁</title>
+    <!-- 引入我們的核心設計系統 -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            color: var(--fg);
+            margin-bottom: 20px;
+        }
+        /* 裝飾性黃色圓形 */
+        .decor-circle {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background-color: var(--tertiary);
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            top: 40px;
+            left: 20%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <div class="decor-circle"></div>
+        <h1>梁Miss的物理的樂園 🚀</h1>
+        <p style="font-size: 1.2rem; color: var(--muted-fg); max-w-2xl; margin: 0 auto;">
+            拋開枯燥的課本，點擊下方的年級，選擇屬於你的物理挑戰！
+        </p>
+    </div>
+
+    <!-- 貼紙卡片網格佈局 -->
+    <div class="card-grid">
+        <a href="senior1.html" class="sticker-card card-pink">
+            <h2>高一物理 ⚛️</h2>
+            <p>基礎運動學、牛頓力學、功與能。打好高中的第一步基礎！</p>
+            <div style="margin-top: 20px; font-weight: bold; color: var(--secondary);">進入挑戰 ➔</div>
+        </a>
+
+        <a href="senior2.html" class="sticker-card card-yellow">
+            <h2>高二物理 ⚡</h2>
+            <p>動量、碰撞、熱學與基礎電磁學。迎接更複雜的物理世界。</p>
+            <div style="margin-top: 20px; font-weight: bold; color: var(--tertiary);">進入挑戰 ➔</div>
+        </a>
+
+        <a href="senior3.html" class="sticker-card card-green">
+            <h2>高三物理 🌀</h2>
+            <p>進階電磁學、波動、近代物理與量子力學入門。</p>
+            <div style="margin-top: 20px; font-weight: bold; color: var(--quaternary);">進入挑戰 ➔</div>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
