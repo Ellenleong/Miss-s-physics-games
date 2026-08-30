@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>壓強實驗室：破冰生存戰 🧊</title>
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --bg: #F0F9FF; 
+            --surface: #FFFFFF;
+            --text: #1E293B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --border: #1E293B;
+            --shadow-hard: 4px 4px 0px 0px var(--border);
+            --shadow-hard-hover: 6px 6px 0px 0px var(--border);
+            --shadow-hard-active: 2px 2px 0px 0px var(--border);
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            background-image: radial-gradient(#93C5FD 2px, transparent 2px);
+            background-size: 30px 30px;
+        }
+        .container {
+            max-width: 950px;
+            width: 100%;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            box-shadow: 8px 8px 0px 0px #BFDBFE;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed #93C5FD;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .header h1 { margin: 0; font-size: 22px; color: #2563EB; font-weight: 800; }
+        .stats { font-size: 16px; font-weight: bold; color: #334155; }
+        .time-highlight { color: #DC2626; font-family: monospace; font-size: 20px; }
+        
+        .formula-banner {
+            background-color: #FEF08A;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 4px 4px 0px 0px var(--border);
+            color: #1E293B;
+            flex-wrap: wrap;
+        }
+        .formula-container {
+            background: #FFFFFF;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 6px 16px;
+            display: flex;
+            align-items: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            gap: 10px;
+        }
+        .fraction {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+        }
+        .fraction .numerator {
+            border-bottom: 3px solid var(--border);
+            padding: 2px 8px;
+        }
+        .fraction .denominator {
+            padding: 2px 8px;
+        }
+
+        .main-layout { display: flex; gap: 20px; }
+        @media (max-width: 768px) { .main-layout { flex-direction: column-reverse; } }
+        
+        .sidebar { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+        .canvas-container {
+            flex: 2;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+        canvas {
+            background-color: #E0F2FE;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            box-shadow: inset 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .control-panel {
+            background: #F8FAFC;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 4px 4px 0px 0px #CBD5E1;
+        }
+        .param-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
+        .val-hl { color: #2563EB; font-family: monospace; font-size: 16px; }
+        .val-danger { color: #DC2626; font-family: monospace; font-size: 16px; }
+
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #FFF;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 5px;
+            margin-top: 10px;
+            height: 40px;
+        }
+        .btn-count {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            width: 36px; height: 36px;
+            font-size: 20px; font-weight: bold;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+        .btn-count:hover { background: #DBEAFE; }
+        .btn-count:active { transform: scale(0.95); }
+        .plank-num { font-size: 20px; font-weight: 800; width: 40px; text-align: center; }
+        
+        .input-n {
+            width: 100px; padding: 4px; border: 2px solid var(--border);
+            border-radius: 6px; text-align: center; font-size: 18px; font-weight: bold; font-family: monospace;
+        }
+
+        .btn-primary {
+            background: var(--warning);
+            color: #1E293B;
+            border: 2px solid var(--border);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 16px; font-weight: 800;
+            cursor: pointer;
+            box-shadow: var(--shadow-hard);
+            transition: all 0.2s;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: var(--shadow-hard-hover); background: #FDE047; }
+        .btn-primary:active { transform: translate(2px, 2px); box-shadow: var(--shadow-hard-active); }
+        .btn-danger { background: var(--danger); color: white; border: 2px solid var(--border); font-weight: 800; padding: 12px; border-radius: 12px; cursor: pointer; box-shadow: var(--shadow-hard); margin-top: 10px; width: 100%;}
+        
+        .feedback {
+            margin-top: 15px; padding: 12px; border-radius: 8px; display: none; font-weight: bold; line-height: 1.5; border: 2px solid var(--border);
+        }
+        .feedback.success { background: #D1FAE5; color: #065F46; box-shadow: 4px 4px 0px 0px #34D399; }
+        .feedback.error { background: #FEE2E2; color: #991B1B; box-shadow: 4px 4px 0px 0px #F87171; }
+        
+        .submit-form { margin-top: 15px; padding-top: 15px; border-top: 2px dashed #93C5FD; }
+        .submit-input { width: 100%; padding: 8px; margin-bottom: 10px; border: 2px solid var(--border); border-radius: 6px; box-sizing: border-box; font-family: inherit; font-weight: bold; }
+        .submit-row { display: flex; gap: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>破冰生存戰 🧊</h1>
+        <div class="stats">
+            ⏱️ 時間: <span id="time-display" class="time-highlight">00:00</span> | 關卡: <span id="level-display">1/5</span>
+        </div>
+    </div>
+
+    <div class="formula-banner">
+        <div>💡 <strong>物理公式：</strong></div>
+        <div class="formula-container">
+            <span>壓強 (P) = </span>
+            <div class="fraction">
+                <span class="numerator">總受力 (F)</span>
+                <span class="denominator">總接觸面積 (A)</span>
+            </div>
+        </div>
+        <div style="font-size: 0.9rem; color: #475569;">※ 1 N/m² = 1 Pa</div>
+    </div>
+
+    <div class="main-layout">
+        <div class="sidebar">
+            <div id="mission-text" style="background: #E0F2FE; border: 2px solid var(--border); border-radius: 8px; padding: 10px; font-size: 14px; font-weight: bold; color:#0369A1; line-height: 1.5;">
+                【任務】一命通關！找出能過河的「最少」木板數。<br>
+                <span style="color: #DC2626;">※ 嚴禁切換分頁，若本身壓強安全，不加木板才是正確解答！</span>
+            </div>
+            
+            <div class="control-panel">
+                <div class="param-row">角色名稱：<span id="ui-name" style="color:#047857;">Tom</span></div>
+                <hr style="border: 0; border-top: 1px solid #CBD5E1; margin: 8px 0;">
+                <div class="param-row">角色重力 (F)：<span id="ui-f0" class="val-hl">500 N</span></div>
+                <div class="param-row">角色腳底面積：<span id="ui-a0" class="val-hl">0.04 m²</span></div>
+                <hr style="border: 0; border-top: 1px dashed #CBD5E1; margin: 8px 0;">
+                <div class="param-row" style="color: #DC2626;">冰面極限壓強：<span id="ui-pmax" class="val-danger">10000 Pa</span></div>
+                
+                <div style="margin-top: 15px; font-size: 13px; color: #475569; font-weight: bold; line-height: 1.4;">
+                    🪵 裝備木板（橫向鋪設）<br>
+                    <span style="color: #059669;">※ 木板質量不計，每塊接觸面積 +<span id="ui-ap">0.1</span> m²</span>
+                </div>
+                
+                <div class="counter-controls">
+                    <button class="btn-count" id="btn-minus">-</button>
+                    <div class="plank-num" id="ui-n">0</div>
+                    <button class="btn-count" id="btn-plus">+</button>
+                    
+                    <input type="number" id="ui-n-input" class="input-n" style="display:none;" step="0.01" min="0" placeholder="0.00">
+                </div>
+                
+                <div style="background: #1E293B; color: #FFF; padding: 10px; border-radius: 8px; margin-top: 15px; font-size: 14px;">
+                    <div class="param-row" style="margin-bottom:4px;">總受力 = <span id="ui-total-f">500 N</span></div>
+                    <div class="param-row" style="margin-bottom:0;">總接觸面積 = <span id="ui-total-a">0.04 m²</span></div>
+                </div>
+            </div>
+
+            <button class="btn-primary" id="btn-go">🚶‍♂️ 開始過河 (測試)</button>
+            <button class="btn-primary" id="btn-next" style="display:none; background: #34D399;">➡️ 進入下一關</button>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="gameCanvas" width="600" height="400"></canvas>
+        </div>
+    </div>
+
+    <div id="feedback-box" class="feedback"></div>
+</div>
+
+<script>
+// 運用 IIFE (Immediately Invoked Function Expression) 封裝所有變數
+// 這樣學生打開開發者工具 (Console) 也無法讀取或修改系統數值
+(function() {
+    // ⚠️ 請在這裡貼上你 Google Apps Script 發布後的網址
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydJf87Glpeqixgjd-mtwW_hsmyJiToPYetGxSpG_dfXKA9LJJyEIa9s4YV0BH8ZNlIIQ/exec";
+
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    let currentLevelIdx = 0;
+    let totalSeconds = 0;
+    let timerInterval = null;
+    let isGameFinished = false;
+    let gameStartDate = null;
+    let gameEndDate = null;
+    let finalCalculatedScore = 0;
+
+    let animState = 'IDLE'; 
+    let charX = 60; 
+    let groundY = 260; 
+    let frameCount = 0;
+
+    let lvl = {};
+    let levelsData = [];
+
+    // ==========================================
+    // 🛡️ 防作弊系統：切換分頁偵測 (Out of Focus)
+    // ==========================================
+    function triggerCheatPenalty() {
+        if (isGameFinished || animState === 'FAIL_CHEAT') return;
+        animState = 'FAIL_CHEAT';
+        document.getElementById('btn-go').disabled = true;
+        showFeedback(false, "⚠️ <strong>警告：系統偵測到您切換了分頁或離開了測驗畫面！</strong><br>為求公平，本次測驗強制中斷，請保持專注。", "🔄 重新開始測驗");
+    }
+
+    window.addEventListener("blur", triggerCheatPenalty);
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) triggerCheatPenalty();
+    });
+
+    function formatTime(seconds) {
+        let m = Math.floor(seconds / 60).toString().padStart(2, '0');
+        let s = (seconds % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+    }
+
+    function startTimer() {
+        if (!gameStartDate) gameStartDate = new Date();
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            if (!isGameFinished) {
+                totalSeconds++;
+                document.getElementById('time-display').innerText = formatTime(totalSeconds);
+            }
+        }, 1000);
+    }
+
+    function generateLevels() {
+        const configs = [
+            { id: 'tom', name: 'Tom', mRange: [40, 60], a0: 0.04, ap: 0.12 },
+            { id: 'cindy', name: 'Cindy', mRange: [45, 65], a0: 0.03, ap: 0.10 },
+            { id: 'husky', name: '哈士奇狗', mRange: [25, 35], a0: 0.02, ap: 0.08 },
+            { id: 'bear', name: '北極熊', mRange: [200, 300], a0: 0.20, ap: 0.40 },
+            { id: 'penguin', name: '企鵝', mRange: [20, 30], a0: 0.02, ap: 0.08 },
+            { id: 'seal', name: '海豹', mRange: [80, 120], a0: 0.15, ap: 0.20 }
+        ];
+
+        let generated = [];
+        let shuffledConfigs = configs.sort(() => 0.5 - Math.random());
+
+        for (let i = 0; i < 5; i++) {
+            let cfg = shuffledConfigs[i];
+            let F0 = (Math.floor(Math.random() * (cfg.mRange[1] - cfg.mRange[0] + 1)) + cfg.mRange[0]) * 10;
+            let targetN, P_max;
+
+            if (i < 4) {
+                targetN = Math.floor(Math.random() * 4); 
+                let P_req = F0 / (cfg.a0 + targetN * cfg.ap);
+                if (targetN === 0) {
+                    P_max = Math.ceil(P_req / 10) * 10 + Math.floor(Math.random() * 20) * 10; 
+                } else {
+                    let P_prev = F0 / (cfg.a0 + (targetN - 1) * cfg.ap);
+                    let ceilReq = Math.ceil(P_req);
+                    let floorPrev = Math.floor(P_prev);
+                    if (floorPrev <= ceilReq) P_max = ceilReq; 
+                    else P_max = Math.floor(Math.random() * (floorPrev - ceilReq)) + ceilReq;
+                }
+                P_max = Math.floor(P_max / 10) * 10;
+                if (targetN > 0 && P_max < P_req) P_max += 10;
+            } else {
+                let floatTarget = Math.random() * 2.5 + 1.25; 
+                P_max = F0 / (cfg.a0 + floatTarget * cfg.ap);
+                P_max = Math.floor(P_max / 10) * 10; 
+                let exactN = (F0 / P_max - cfg.a0) / cfg.ap;
+                targetN = Math.max(0, Math.ceil(exactN * 100) / 100); 
+            }
+
+            generated.push({
+                id: cfg.id, name: cfg.name, F0: F0, a0: cfg.a0, ap: cfg.ap,
+                P_max: P_max, targetN: targetN, currentN: 0, isSafe: undefined, isFloat: (i === 4)
+            });
+        }
+        return generated;
+    }
+
+    function updateUI() {
+        document.getElementById('ui-name').innerText = lvl.name;
+        document.getElementById('ui-f0').innerText = lvl.F0 + ' N';
+        document.getElementById('ui-a0').innerText = lvl.a0.toFixed(2) + ' m²';
+        document.getElementById('ui-pmax').innerText = lvl.P_max + ' Pa';
+        document.getElementById('ui-ap').innerText = lvl.ap.toFixed(2);
+        
+        let missionText = document.getElementById('mission-text');
+        let btnMinus = document.getElementById('btn-minus');
+        let btnPlus = document.getElementById('btn-plus');
+        let uiN = document.getElementById('ui-n');
+        let inputN = document.getElementById('ui-n-input');
+        
+        if (lvl.isFloat) {
+            missionText.innerHTML = `【終極任務】一命通關！請輸入能過河的「最少」木板數量（精準至小數後2位）。<br><span style="color: #DC2626;">※ 第五關考驗：填入精確的浮點數，拯救角色！嚴禁切換分頁！</span>`;
+            btnMinus.style.display = 'none';
+            btnPlus.style.display = 'none';
+            uiN.style.display = 'none';
+            inputN.style.display = 'block';
+            lvl.currentN = parseFloat(inputN.value) || 0;
+        } else {
+            missionText.innerHTML = `【任務】一命通關！找出能過河的「最少」木板數。<br><span style="color: #DC2626;">※ 若本身壓強安全，不加木板才是正確解答！嚴禁切換分頁！</span>`;
+            btnMinus.style.display = 'block';
+            btnPlus.style.display = 'block';
+            uiN.style.display = 'block';
+            inputN.style.display = 'none';
+            uiN.innerText = lvl.currentN;
+        }
+        
+        let totalF = lvl.F0;
+        let totalA = lvl.a0 + lvl.currentN * lvl.ap;
+        document.getElementById('ui-total-f').innerText = totalF + ' N';
+        document.getElementById('ui-total-a').innerText = totalA.toFixed(4) + ' m²'; 
+    }
+
+    document.getElementById('ui-n-input').addEventListener('input', () => {
+        if (animState === 'IDLE') {
+            lvl.currentN = Math.max(0, parseFloat(document.getElementById('ui-n-input').value) || 0);
+            updateUI();
+            drawScene();
+        }
+    });
+
+    function initLevel() {
+        if (levelsData.length === 0) levelsData = generateLevels();
+        
+        lvl = levelsData[currentLevelIdx];
+        lvl.currentN = 0;
+        lvl.isSafe = undefined;
+        animState = 'IDLE';
+        charX = 60;
+        frameCount = 0;
+        document.getElementById('ui-n-input').value = '';
+        
+        document.getElementById('level-display').innerText = `${currentLevelIdx + 1} / 5`;
+        document.getElementById('feedback-box').style.display = 'none'; 
+        document.getElementById('btn-next').style.display = 'none';
+        document.getElementById('btn-go').style.display = 'block';
+        document.getElementById('btn-go').disabled = false;
+        
+        updateUI();
+        drawScene();
+
+        if (currentLevelIdx === 0 && totalSeconds === 0) startTimer();
+    }
+
+    function restartGame() {
+        currentLevelIdx = 0;
+        totalSeconds = 0;
+        gameStartDate = new Date();
+        levelsData = generateLevels(); 
+        initLevel();
+    }
+
+    function drawBox(ctx, x, y, w, h, dx, dy, frontCol, topCol, sideCol) {
+        ctx.lineWidth = 2; ctx.strokeStyle = '#1E293B'; ctx.lineJoin = 'round';
+        ctx.fillStyle = topCol; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + dx, y - dy); ctx.lineTo(x + w + dx, y - dy); ctx.lineTo(x + w, y); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = sideCol; ctx.beginPath(); ctx.moveTo(x + w, y); ctx.lineTo(x + w + dx, y - dy); ctx.lineTo(x + w + dx, y + h - dy); ctx.lineTo(x + w, y + h); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = frontCol; ctx.beginPath(); ctx.rect(x, y, w, h); ctx.fill(); ctx.stroke();
+    }
+
+    function drawTom(ctx, x, standY, frame) {
+        let ls = Math.sin(frame * 0.4) * 8; 
+        drawBox(ctx, x - 12 + ls, standY - 40, 8, 18, 4, 2, '#60A5FA', '#93C5FD', '#3B82F6');
+        drawBox(ctx, x - 10 + ls, standY - 15, 10, 15, 6, 3, '#1E3A8A', '#1E40AF', '#172554');
+        drawBox(ctx, x + 0 - ls, standY - 15, 10, 15, 6, 3, '#1E3A8A', '#1E40AF', '#172554');
+        drawBox(ctx, x - 12, standY - 40, 24, 25, 8, 4, '#3B82F6', '#93C5FD', '#2563EB');
+        drawBox(ctx, x - 10, standY - 60, 20, 20, 8, 4, '#FDBA74', '#FFEDD5', '#FB923C');
+        ctx.fillStyle = '#1E293B'; ctx.fillRect(x - 2, standY - 52, 4, 4); ctx.fillRect(x + 6, standY - 52, 4, 4);
+        drawBox(ctx, x + 4 - ls, standY - 40, 8, 18, 4, 2, '#60A5FA', '#93C5FD', '#3B82F6');
+    }
+
+    function drawCindy(ctx, x, standY, frame) {
+        let ls = Math.sin(frame * 0.4) * 8;
+        drawBox(ctx, x - 12 + ls, standY - 40, 6, 18, 3, 1.5, '#F9A8D4', '#FBCFE8', '#F472B6'); 
+        drawBox(ctx, x - 10 + ls, standY - 15, 10, 15, 6, 3, '#831843', '#9D174D', '#500724');
+        drawBox(ctx, x + 0 - ls, standY - 15, 10, 15, 6, 3, '#831843', '#9D174D', '#500724');
+        drawBox(ctx, x - 18, standY - 35, 6, 18, 8, 4, '#A855F7', '#D8B4FE', '#7E22CE');
+        drawBox(ctx, x - 12, standY - 40, 24, 25, 8, 4, '#F472B6', '#FBCFE8', '#DB2777'); 
+        drawBox(ctx, x - 10, standY - 60, 20, 20, 8, 4, '#FDBA74', '#FFEDD5', '#FB923C'); 
+        drawBox(ctx, x - 12, standY - 62, 24, 6, 10, 5, '#78350F', '#92400E', '#451A03'); 
+        ctx.fillStyle = '#1E293B'; ctx.fillRect(x - 2, standY - 52, 4, 4); ctx.fillRect(x + 6, standY - 52, 4, 4);
+        drawBox(ctx, x + 6 - ls, standY - 40, 6, 18, 3, 1.5, '#F9A8D4', '#FBCFE8', '#F472B6');
+    }
+
+    function drawHusky(ctx, x, standY, frame) {
+        let ls = Math.sin(frame * 0.5) * 6;
+        drawBox(ctx, x - 20 + ls, standY - 15, 8, 15, 4, 2, '#94A3B8', '#CBD5E1', '#64748B');
+        drawBox(ctx, x + 10 + ls, standY - 15, 8, 15, 4, 2, '#94A3B8', '#CBD5E1', '#64748B');
+        drawBox(ctx, x - 25, standY - 35, 45, 20, 12, 6, '#E2E8F0', '#F8FAFC', '#CBD5E1');
+        drawBox(ctx, x - 20 - ls, standY - 15, 8, 15, 4, 2, '#94A3B8', '#CBD5E1', '#64748B');
+        drawBox(ctx, x + 10 - ls, standY - 15, 8, 15, 4, 2, '#94A3B8', '#CBD5E1', '#64748B');
+        drawBox(ctx, x + 15, standY - 45, 18, 18, 8, 4, '#94A3B8', '#CBD5E1', '#64748B');
+        drawBox(ctx, x + 25, standY - 35, 10, 8, 4, 2, '#F1F5F9', '#FFFFFF', '#E2E8F0');
+        ctx.fillStyle = '#1E293B'; ctx.fillRect(x + 32, standY - 33, 4, 4); 
+    }
+
+    function drawPolarBear(ctx, x, standY, frame) {
+        let ls = Math.sin(frame * 0.3) * 8;
+        drawBox(ctx, x - 30 + ls, standY - 20, 12, 20, 6, 3, '#F1F5F9', '#FFFFFF', '#E2E8F0');
+        drawBox(ctx, x + 15 + ls, standY - 20, 12, 20, 6, 3, '#F1F5F9', '#FFFFFF', '#E2E8F0');
+        drawBox(ctx, x - 40, standY - 50, 70, 30, 18, 9, '#FFFFFF', '#FFFFFF', '#F1F5F9');
+        drawBox(ctx, x - 30 - ls, standY - 20, 12, 20, 6, 3, '#F1F5F9', '#FFFFFF', '#E2E8F0');
+        drawBox(ctx, x + 15 - ls, standY - 20, 12, 20, 6, 3, '#F1F5F9', '#FFFFFF', '#E2E8F0');
+        drawBox(ctx, x + 25, standY - 60, 25, 25, 12, 6, '#FFFFFF', '#FFFFFF', '#F1F5F9');
+        ctx.fillStyle = '#1E293B'; ctx.fillRect(x + 45, standY - 45, 6, 6);
+    }
+
+    function drawPenguin(ctx, x, standY, frame) {
+        let ls = Math.sin(frame * 0.5) * 6;
+        drawBox(ctx, x - 10 + ls, standY - 5, 8, 5, 4, 2, '#EA580C', '#F97316', '#C2410C');
+        drawBox(ctx, x + 2 - ls, standY - 5, 8, 5, 4, 2, '#EA580C', '#F97316', '#C2410C');
+        drawBox(ctx, x - 12, standY - 35, 24, 30, 8, 4, '#1E293B', '#334155', '#0F172A');
+        ctx.fillStyle = '#FFF'; ctx.fillRect(x - 8, standY - 30, 16, 20); ctx.strokeRect(x - 8, standY - 30, 16, 20);
+        drawBox(ctx, x - 10, standY - 50, 20, 15, 8, 4, '#1E293B', '#334155', '#0F172A');
+        drawBox(ctx, x + 4, standY - 42, 8, 4, 2, 1, '#EA580C', '#F97316', '#C2410C');
+        ctx.fillStyle = '#FFF'; ctx.fillRect(x - 2, standY - 48, 4, 4); ctx.fillRect(x + 6, standY - 48, 4, 4);
+        ctx.fillStyle = '#000'; ctx.fillRect(x, standY - 48, 2, 2); ctx.fillRect(x + 8, standY - 48, 2, 2);
+    }
+
+    function drawSeal(ctx, x, standY, frame) {
+        let bounce = Math.sin(frame * 0.4) * 3;
+        let sY = standY - 15 + bounce;
+        drawBox(ctx, x - 35, sY + 5, 10, 10, 8, 4, '#CBD5E1', '#E2E8F0', '#94A3B8');
+        drawBox(ctx, x - 25, sY, 40, 15, 10, 5, '#E2E8F0', '#F8FAFC', '#CBD5E1');
+        drawBox(ctx, x + 15, sY - 5, 15, 15, 8, 4, '#E2E8F0', '#F8FAFC', '#CBD5E1');
+        drawBox(ctx, x + 5, sY + 10, 10, 5, 12, 6, '#CBD5E1', '#E2E8F0', '#94A3B8');
+        ctx.fillStyle = '#1E293B'; ctx.fillRect(x + 20, sY + 2, 3, 3); ctx.fillRect(x + 28, sY + 5, 3, 3);
+    }
+
+    function drawCharacter(ctx, id, x, standY, frame) {
+        if (id === 'tom') drawTom(ctx, x, standY, frame);
+        else if (id === 'cindy') drawCindy(ctx, x, standY, frame);
+        else if (id === 'husky') drawHusky(ctx, x, standY, frame);
+        else if (id === 'bear') drawPolarBear(ctx, x, standY, frame);
+        else if (id === 'penguin') drawPenguin(ctx, x, standY, frame);
+        else drawSeal(ctx, x, standY, frame);
+    }
+
+    document.getElementById('btn-plus').addEventListener('click', () => {
+        if (animState !== 'IDLE') return;
+        if (lvl.currentN < 6) lvl.currentN++; 
+        updateUI(); drawScene();
+    });
+
+    document.getElementById('btn-minus').addEventListener('click', () => {
+        if (animState !== 'IDLE') return;
+        if (lvl.currentN > 0) lvl.currentN--;
+        updateUI(); drawScene();
+    });
+
+    function drawScene() {
+        ctx.save();
+        
+        if (animState === 'CRACK') {
+            let shakeX = (Math.random() - 0.5) * 12;
+            let shakeY = (Math.random() - 0.5) * 12;
+            ctx.translate(shakeX, shakeY);
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#E0F2FE'; ctx.fillRect(0, 0, 600, 400); 
+        drawBox(ctx, -20, groundY, 160, 140, 40, 20, '#F8FAFC', '#FFFFFF', '#E2E8F0');
+        drawBox(ctx, 140, groundY + 10, 320, 130, 40, 20, '#7DD3FC', '#BAE6FD', '#38BDF8');
+        drawBox(ctx, 460, groundY, 160, 140, 40, 20, '#F8FAFC', '#FFFFFF', '#E2E8F0');
+
+        ctx.fillStyle = '#78350F'; ctx.fillRect(205, 190, 8, 60); ctx.strokeRect(205, 190, 8, 60);
+        ctx.fillStyle = '#DC2626'; ctx.fillRect(170, 150, 80, 50); ctx.strokeRect(170, 150, 80, 50);
+        ctx.fillStyle = '#FFF'; ctx.font = '13px Arial bold'; 
+        ctx.fillText('極限壓強', 182, 170); ctx.fillText(lvl.P_max, 182, 190);
+
+        let dropOffset = (animState === 'CRACK') ? 50 : 0; 
+        let plankThickness = 8;
+        let pW = 35; 
+        let gap = 2; 
+        let standY = groundY + dropOffset - (lvl.currentN > 0 ? plankThickness : 0);
+
+        if (lvl.currentN > 0) {
+            let fullPlanks = Math.floor(lvl.currentN);
+            let remainder = lvl.currentN - fullPlanks;
+            let totalPlanksToDraw = Math.ceil(lvl.currentN);
+            
+            let totalW = fullPlanks * pW + (remainder > 0 ? remainder * pW : 0) + Math.max(0, totalPlanksToDraw - 1) * gap;
+            let startX = charX - totalW / 2; 
+
+            for (let i = 0; i < totalPlanksToDraw; i++) {
+                let isLast = (i === totalPlanksToDraw - 1);
+                let w = (isLast && remainder > 0) ? pW * remainder : pW;
+                let dx = 12 * (w / pW); 
+                drawBox(ctx, startX, groundY + dropOffset, w, plankThickness, dx, 6, '#D97706', '#FBBF24', '#B45309');
+                startX += w + gap;
+            }
+        }
+
+        drawCharacter(ctx, lvl.id, charX, standY, frameCount);
+
+        ctx.fillStyle = '#1E293B';
+        ctx.font = '15px Arial bold';
+        ctx.textAlign = 'center';
+        ctx.lineWidth = 3; ctx.strokeStyle = '#FFFFFF';
+        ctx.strokeText(lvl.name, charX, standY - 70);
+        ctx.fillText(lvl.name, charX, standY - 70);
+        ctx.textAlign = 'left';
+
+        if (animState === 'CRACK') {
+            ctx.strokeStyle = '#0284C7'; ctx.lineWidth = 3; ctx.beginPath();
+            for (let i = 0; i < 15; i++) {
+                ctx.moveTo(charX, groundY + 10);
+                let angle = (Math.PI * 2 * i) / 15 + (Math.random() - 0.5);
+                let len = 60 + Math.random() * 140;
+                ctx.lineTo(charX + Math.cos(angle)*len, groundY + 10 + Math.sin(angle)*len*0.4);
+            }
+            ctx.stroke();
+            
+            ctx.fillStyle = '#DC2626'; ctx.font = '40px Arial bold'; ctx.fillText('💥 冰碎了！', 200, 100);
+        } else if (animState === 'SUCCESS') {
+            ctx.fillStyle = '#10B981'; ctx.font = '40px Arial bold'; ctx.fillText('✅ 安全過河！', 180, 100);
+        }
+
+        ctx.restore();
+    }
+
+    function shakeLoop() {
+        if (animState === 'CRACK' || animState === 'FAIL_CHEAT') {
+            drawScene();
+            requestAnimationFrame(shakeLoop);
+        }
+    }
+
+    function animate() {
+        if (animState === 'WALKING') {
+            charX += 3.5; 
+            frameCount++;
+
+            if (charX >= 300 && lvl.isSafe === undefined) {
+                let totalF = lvl.F0;
+                let totalA = lvl.a0 + lvl.currentN * lvl.ap;
+                let currentP = totalF / totalA;
+
+                if (currentP > lvl.P_max) {
+                    lvl.isSafe = false;
+                    animState = 'CRACK';
+                    showFeedback(false, `總壓強 ${currentP.toFixed(1)} Pa 超過極限 ${lvl.P_max} Pa，冰面破裂！`, "🔄 冰面破裂，請由第一關重新開始");
+                    requestAnimationFrame(shakeLoop); 
+                    return; 
+                } else {
+                    lvl.isSafe = true; 
+                }
+            }
+
+            if (lvl.isSafe === true && charX >= 510) {
+                let totalF = lvl.F0;
+                let totalA = lvl.a0 + lvl.currentN * lvl.ap;
+                let currentP = totalF / totalA;
+
+                if (lvl.currentN > lvl.targetN + 0.001) {
+                    animState = 'FAIL_WASTE'; 
+                    showFeedback(false, `雖然壓強安全，但你用了 ${lvl.currentN} 塊木板，浪費了材料！<br>正解是 ${lvl.targetN} 塊木板！`, "🔄 木板數過多，請由第一關重新開始");
+                } else {
+                    animState = 'SUCCESS'; 
+                    if (lvl.currentN === 0) {
+                        showFeedback(true, `完美判斷！本身壓強 ${currentP.toFixed(1)} Pa 就很安全，不加木板才是聰明的選擇！`);
+                    } else {
+                        showFeedback(true, `完美！總壓強 ${currentP.toFixed(1)} Pa ≤ ${lvl.P_max} Pa。<br>你精準地使用了最少的木板！`);
+                    }
+                }
+                drawScene();
+                return;
+            }
+
+            drawScene();
+            if (animState === 'WALKING') {
+                requestAnimationFrame(animate);
+            }
+        }
+    }
+
+    document.getElementById('btn-go').addEventListener('click', () => {
+        if (animState !== 'IDLE') return;
+        document.getElementById('btn-go').disabled = true;
+        animState = 'WALKING';
+        animate();
+    });
+
+    // 為了不在 HTML 內使用 onclick，我們動態綁定事件
+    function showFeedback(isSuccess, msg, customBtnText = "🔄 重新開始遊戲 (回到第一關)") {
+        let fb = document.getElementById('feedback-box');
+        fb.style.display = 'block'; 
+        
+        if (isSuccess) {
+            fb.className = 'feedback success';
+            fb.innerHTML = `🎉 <strong>成功！</strong><br>${msg}`;
+            document.getElementById('btn-go').style.display = 'none';
+            
+            if (currentLevelIdx < 4) {
+                document.getElementById('btn-next').style.display = 'block';
+            } else {
+                isGameFinished = true;
+                clearInterval(timerInterval);
+                gameEndDate = new Date();
+                finalCalculatedScore = calculateFinalScore();
+                
+                fb.innerHTML += `
+                    <hr style="border: 0; border-top: 1px solid #10B981; margin: 15px 0;">
+                    <div class="final-score">
+                        🏆 恭喜完成所有 5 關挑戰！<br>
+                        ⏱️ 總耗時：${formatTime(totalSeconds)}<br>
+                        🌟 最終得分：<strong>${finalCalculatedScore} 分</strong>
+                    </div>
+                    <div id="submit-form-area" class="submit-form">
+                        <div style="color: #374151; margin-bottom: 8px;">📋 請填寫資料以登記成績：</div>
+                        <div class="submit-row">
+                            <input type="text" id="stu-class" class="submit-input" placeholder="班別 (例: 3A)">
+                            <input type="text" id="stu-id" class="submit-input" placeholder="學號 (例: 15)">
+                        </div>
+                        <input type="text" id="stu-name" class="submit-input" placeholder="姓名">
+                        <button id="btn-real-submit" class="btn-primary" style="width: 100%;">📤 提交成績</button>
+                    </div>`;
+                
+                // 動態綁定提交按鈕
+                setTimeout(() => {
+                    document.getElementById('btn-real-submit').addEventListener('click', submitScoreToGoogle);
+                }, 100);
+            }
+        } else {
+            fb.className = 'feedback error';
+            fb.innerHTML = `❌ <strong>挑戰失敗！</strong><br>${msg}<br><br><button class="btn-danger" id="btn-restart-fail">${customBtnText}</button>`;
+            // 動態綁定重新開始按鈕，避免暴露全域函數
+            setTimeout(() => {
+                document.getElementById('btn-restart-fail').addEventListener('click', restartGame);
+            }, 100);
+        }
+    }
+
+    document.getElementById('btn-next').addEventListener('click', () => {
+        currentLevelIdx++;
+        initLevel();
+    });
+
+    function calculateFinalScore() {
+        let baseScore = 100;
+        let diff = Math.floor((100 - totalSeconds) / 10) * 10;
+        return Math.max(0, baseScore + diff); 
+    }
+
+    function formatDateForGoogle(dateObj) {
+        let d = dateObj.getDate().toString().padStart(2, '0');
+        let m = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+        let y = dateObj.getFullYear();
+        return `${y}-${m}-${d}`;
+    }
+    
+    function formatTimeForGoogle(dateObj) {
+        let h = dateObj.getHours().toString().padStart(2, '0');
+        let m = dateObj.getMinutes().toString().padStart(2, '0');
+        let s = dateObj.getSeconds().toString().padStart(2, '0');
+        return `${h}:${m}:${s}`;
+    }
+
+    function submitScoreToGoogle() {
+        let className = document.getElementById('stu-class').value.trim();
+        let studentId = document.getElementById('stu-id').value.trim();
+        let studentName = document.getElementById('stu-name').value.trim();
+        
+        if (!className || !studentId || !studentName) { alert("⚠️ 請完整填寫班別、學號與姓名！"); return; }
+        if (GOOGLE_SCRIPT_URL === "請將這裡替換成你的 Google Apps Script 網址") { alert("⚠️ 錯誤：尚未設定 Google Apps Script 網址。"); return; }
+
+        let submitBtn = document.getElementById('btn-real-submit');
+        submitBtn.disabled = true; submitBtn.innerText = "⏳ 正在提交中...";
+
+        let payload = {
+            date: formatDateForGoogle(gameEndDate), startTime: formatTimeForGoogle(gameStartDate), endTime: formatTimeForGoogle(gameEndDate),
+            duration: formatTime(totalSeconds), score: finalCalculatedScore, name: studentName, classStr: className, studentId: studentId
+        };
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload)
+        }).then(response => response.text()).then(text => {
+            if(text === 'success') {
+                document.getElementById('submit-form-area').innerHTML = `<div style="background: #D1FAE5; color: #065F46; padding: 12px; border-radius: 6px; text-align: center; margin-top: 15px;">✅ <strong>成績提交成功！</strong></div>`;
+            } else {
+                alert("❌ 提交似乎有問題，請檢查試算表內的錯誤紀錄。"); submitBtn.disabled = false; submitBtn.innerText = "📤 重新提交";
+            }
+        }).catch(err => {
+            alert("❌ 提交失敗，請檢查網路連線或稍後再試。"); submitBtn.disabled = false; submitBtn.innerText = "📤 重新提交";
+        });
+    }
+
+    initLevel();
+
+})(); // 結束 IIFE 封裝
+</script>
+</body>
+</html>
