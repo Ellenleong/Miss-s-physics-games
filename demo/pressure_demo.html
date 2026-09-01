@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>固體壓強、切割與等體積/等質量演示</title>
+    <title>固體壓強、切割與等體積/等質量演示 - NEO BRUTALISM EDITION</title>
+    <!-- 引入 Neo-brutalism 標誌性字體 Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b1120;
-            --panel-bg: rgba(30, 41, 59, 0.94);
-            --border-color: #475569;
-            --accent-blue: #38bdf8;
-            --accent-amber: #fbbf24;
-            --accent-emerald: #34d399;
-            --accent-rose: #f43f5e;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
+            /* Neo-brutalism 色彩 Token */
+            --bg-canvas: #FFFDF5;         /* 復古米白/奶油色底紙 */
+            --ink-black: #000000;         /* 純黑結構線條 */
+            --neo-red: #FF6B6B;           /* 高飽和亮紅 */
+            --neo-yellow: #FFD93D;        /* 高亮黃色 */
+            --neo-violet: #C4B5FD;        /* 柔和紫 */
+            --neo-cyan: #38BDF8;          /* 亮青藍 (甲) */
+            --neo-green: #34D399;         /* 亮螢光綠 */
+            --neo-white: #FFFFFF;
+            
+            /* 陰影 Token */
+            --shadow-sm: 3px 3px 0px 0px #000000;
+            --shadow-md: 6px 6px 0px 0px #000000;
+            --shadow-lg: 8px 8px 0px 0px #000000;
         }
 
         * {
@@ -25,60 +34,88 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
-            background: var(--bg-color);
-            color: var(--text-primary);
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-canvas);
+            /* 40px 方格網紋紙底圖 (Grid Pattern) */
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.08) 1.5px, transparent 1.5px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1.5px, transparent 1.5px);
+            background-size: 32px 32px;
+            color: var(--ink-black);
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            font-size: 16px;
+            font-size: 15px;
+            font-weight: 700;
         }
 
+        /* 頂部導覽列 (貼紙拼貼風) */
         header {
             padding: 10px 20px;
-            background: var(--panel-bg);
-            border-bottom: 2px solid var(--border-color);
+            background: var(--neo-yellow);
+            border-bottom: 4px solid var(--ink-black);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-shrink: 0;
+            box-shadow: 0 4px 0px 0px #000;
+            z-index: 10;
         }
 
         header h1 {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: var(--accent-blue);
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: var(--ink-black);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+        }
+
+        .header-tag {
+            background: var(--neo-red);
+            color: var(--neo-white);
+            border: 3px solid var(--ink-black);
+            padding: 2px 8px;
+            box-shadow: var(--shadow-sm);
+            transform: rotate(-2deg);
+            display: inline-block;
         }
 
         .header-sub {
             font-size: 1rem;
-            color: var(--accent-amber);
-            font-weight: 600;
+            background: var(--neo-white);
+            color: var(--ink-black);
+            font-weight: 900;
+            border: 3px solid var(--ink-black);
+            padding: 4px 14px;
+            box-shadow: var(--shadow-sm);
+            transform: rotate(1deg);
         }
 
+        /* 主容器佈局 */
         .container {
             display: grid;
-            grid-template-columns: 1fr 440px;
-            gap: 14px;
-            padding: 12px 16px;
+            grid-template-columns: 1fr 450px;
+            gap: 16px;
+            padding: 14px 18px;
             flex: 1;
             min-height: 0;
-            max-width: 1850px;
+            max-width: 1920px;
             margin: 0 auto;
             width: 100%;
         }
 
+        /* 畫布卡片 */
         .canvas-card {
-            background: var(--panel-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
+            background: var(--neo-white);
+            border: 4px solid var(--ink-black);
+            border-radius: 0px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            box-shadow: var(--shadow-lg);
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -90,32 +127,36 @@
             display: block;
         }
 
+        /* 側邊控制欄 */
         .sidebar {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             height: 100%;
             justify-content: space-between;
         }
 
-        .control-panel, .info-panel {
-            background: var(--panel-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
+        /* 新粗獷主義卡片容器 */
+        .neo-card {
+            background: var(--neo-white);
+            border: 4px solid var(--ink-black);
+            border-radius: 0px;
             padding: 12px 14px;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            box-shadow: var(--shadow-md);
         }
 
         .section-title {
             font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--accent-amber);
-            margin-bottom: 8px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: var(--ink-black);
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 4px;
+            border-bottom: 3px solid var(--ink-black);
+            padding-bottom: 6px;
         }
 
         .form-group {
@@ -123,52 +164,56 @@
         }
 
         .form-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
+            font-size: 0.88rem;
+            font-weight: 900;
+            color: var(--ink-black);
             margin-bottom: 4px;
             display: flex;
             justify-content: space-between;
         }
 
+        /* 參數調節卡片 */
         .param-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 10px;
         }
 
         .param-card {
-            background: #0f172a;
+            background: var(--neo-cyan);
+            border: 3px solid var(--ink-black);
             padding: 8px 10px;
-            border-radius: 6px;
-            border-left: 3px solid var(--accent-blue);
+            box-shadow: var(--shadow-sm);
         }
         .param-card.card-b {
-            border-left-color: var(--accent-amber);
+            background: var(--neo-yellow);
         }
 
         .btn-grid-3 {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
+            gap: 8px;
         }
 
         .btn-triple {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
+            gap: 8px;
         }
 
+        /* 新粗獷主義機械按鈕 (Tactile Mechanical Buttons) */
         button {
-            padding: 7px 8px;
-            font-size: 0.88rem;
-            font-weight: 700;
-            border-radius: 6px;
-            border: 1.5px solid var(--border-color);
-            background: #1e293b;
-            color: var(--text-primary);
+            padding: 8px 8px;
+            font-size: 0.9rem;
+            font-weight: 900;
+            font-family: inherit;
+            border-radius: 0px;
+            border: 3px solid var(--ink-black);
+            background: var(--neo-white);
+            color: var(--ink-black);
             cursor: pointer;
-            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
             text-align: center;
             display: flex;
             align-items: center;
@@ -177,66 +222,94 @@
         }
 
         button:hover {
-            background: #334155;
-            border-color: var(--accent-blue);
+            background: var(--neo-yellow);
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px 0px #000;
+        }
+
+        button:active {
+            transform: translate(3px, 3px);
+            box-shadow: 0px 0px 0px 0px #000;
         }
 
         button.active {
-            background: rgba(56, 189, 248, 0.25);
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
+            background: var(--neo-red) !important;
+            color: var(--neo-white) !important;
+            box-shadow: inset 2px 2px 0px #000;
         }
 
         button.active-amber {
-            background: rgba(251, 191, 36, 0.25);
-            border-color: var(--accent-amber);
-            color: var(--accent-amber);
+            background: var(--neo-yellow) !important;
+            color: var(--ink-black) !important;
+            box-shadow: inset 2px 2px 0px #000;
         }
 
+        /* 滑桿造型 */
         .slider-container {
-            background: #0f172a;
-            padding: 8px 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
+            background: var(--bg-canvas);
+            padding: 6px 10px;
+            border: 3px solid var(--ink-black);
+            box-shadow: var(--shadow-sm);
         }
 
         input[type=range] {
+            -webkit-appearance: none;
             width: 100%;
-            height: 6px;
-            border-radius: 3px;
-            background: #334155;
+            height: 12px;
+            background: var(--neo-white);
+            border: 2px solid var(--ink-black);
             outline: none;
             cursor: pointer;
-            accent-color: var(--accent-blue);
         }
 
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: var(--neo-red);
+            border: 3px solid var(--ink-black);
+            box-shadow: 2px 2px 0px #000;
+            cursor: grab;
+            transition: transform 0.1s;
+        }
+
+        input[type=range]::-webkit-slider-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.15);
+            background: var(--neo-yellow);
+        }
+
+        /* 物理原理常駐看板 */
         .physics-explanation {
-            background: #0f172a;
-            border-radius: 6px;
+            background: var(--neo-violet);
+            border: 3px solid var(--ink-black);
             padding: 10px 12px;
-            border-left: 4px solid var(--accent-emerald);
             font-size: 0.88rem;
-            line-height: 1.55;
-            color: #f1f5f9;
-            min-height: 155px;
+            line-height: 1.5;
+            color: var(--ink-black);
+            min-height: 140px;
+            box-shadow: var(--shadow-sm);
+            font-weight: 700;
         }
 
         .formula-tag {
             display: inline-block;
-            background: #334155;
-            padding: 1px 5px;
-            border-radius: 4px;
+            background: var(--neo-white);
+            border: 2px solid var(--ink-black);
+            padding: 0px 6px;
+            margin: 1px 2px;
+            box-shadow: 2px 2px 0px #000;
             font-family: monospace;
-            color: var(--accent-blue);
-            font-weight: bold;
+            font-weight: 900;
+            color: var(--ink-black);
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1><span>📐</span> 固體壓強、切割與等體積/等質量演示</h1>
-        <div class="header-sub">柱體壓強：p = ρ · g · h = F / S</div>
+        <h1><span class="header-tag">NEO-PHYSICS</span> 固體壓強與幾何切割演示</h1>
+        <div class="header-sub">柱體壓強公式：p = ρ · g · h = F / S</div>
     </header>
 
     <div class="container">
@@ -249,15 +322,15 @@
         <div class="sidebar">
             
             <!-- 參數調節區 -->
-            <div class="control-panel">
+            <div class="neo-card">
                 <div class="section-title">
-                    <span>⚙️ 物理參數 (初設 p甲=p乙)</span>
-                    <button style="font-size:0.75rem; padding:3px 6px; background:#0284c7;" onclick="matchPressure()">⚡ 一鍵配平</button>
+                    <span>⚙️ 物理參數調節</span>
+                    <button style="font-size:0.75rem; padding:3px 8px; background:var(--neo-green);" onclick="matchPressure()">⚡ 一鍵配平</button>
                 </div>
 
                 <div class="param-grid">
                     <div class="param-card">
-                        <div style="font-weight:bold; color:var(--accent-blue); margin-bottom:4px; font-size:0.85rem;">物體 甲</div>
+                        <div style="font-weight:900; color:var(--ink-black); margin-bottom:4px; font-size:0.85rem; border-bottom: 2px solid #000; padding-bottom: 2px;">物體 甲 (BLUE)</div>
                         <div class="form-label" style="font-size:0.75rem;">
                             <span>密度 ρ:</span><span id="disp-rho-a">1.00 g/cm³</span>
                         </div>
@@ -270,7 +343,7 @@
                     </div>
 
                     <div class="param-card card-b">
-                        <div style="font-weight:bold; color:var(--accent-amber); margin-bottom:4px; font-size:0.85rem;">物體 乙</div>
+                        <div style="font-weight:900; color:var(--ink-black); margin-bottom:4px; font-size:0.85rem; border-bottom: 2px solid #000; padding-bottom: 2px;">物體 乙 (YELLOW)</div>
                         <div class="form-label" style="font-size:0.75rem;">
                             <span>密度 ρ:</span><span id="disp-rho-b">1.50 g/cm³</span>
                         </div>
@@ -285,7 +358,7 @@
             </div>
 
             <!-- 切割控制區 -->
-            <div class="control-panel">
+            <div class="neo-card">
                 <div class="section-title">🔪 切割方式與比較</div>
 
                 <div class="form-group">
@@ -298,7 +371,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="form-label">2. 切割模式 (核心考點)</div>
+                    <div class="form-label">2. 切割模式</div>
                     <div class="btn-grid-3">
                         <button id="cut-vert" class="active-amber" onclick="setCutType('vertical')">🔪 垂直豎切</button>
                         <button id="cut-horiz-mass" onclick="setCutType('horiz-mass')">⚖️ 切等質量</button>
@@ -309,7 +382,7 @@
                 <div class="form-group">
                     <div class="form-label">
                         <span id="slider-title">3. 切割比例 (Δ)</span>
-                        <span id="cut-val-display" style="color:var(--accent-blue); font-size:0.95rem; font-weight:800;">切除 0%</span>
+                        <span id="cut-val-display" style="background:var(--neo-red); color:#fff; padding:1px 6px; border:2px solid #000; font-size:0.85rem;">切除 0%</span>
                     </div>
                     <div class="slider-container">
                         <input type="range" id="cutSlider" min="0" max="80" value="0" step="5" oninput="updateCutRatio(this.value)">
@@ -318,17 +391,17 @@
             </div>
 
             <!-- 水果配重區 -->
-            <div class="control-panel">
+            <div class="neo-card">
                 <div class="section-title">🍎 甲頂部配重 (+F)</div>
                 <div class="btn-triple">
                     <button onclick="addFruit('apple')">🍎 蘋果 (+20N)</button>
                     <button onclick="addFruit('durian')">🍈 榴槤 (+80N)</button>
-                    <button style="background:#475569;" onclick="clearFruit()">🗑️ 清空</button>
+                    <button style="background:var(--bg-canvas);" onclick="clearFruit()">🗑️ 清空</button>
                 </div>
             </div>
 
             <!-- 原理常駐面板 -->
-            <div class="info-panel" style="flex:1; display:flex; flex-direction:column;">
+            <div class="neo-card" style="flex:1; display:flex; flex-direction:column;">
                 <div class="section-title">💡 物理原理推導 (動態計算)</div>
                 <div class="physics-explanation" id="principle-box">
                     滑動切割比例或點選操作以進行對比。
@@ -353,24 +426,24 @@
         const SPONGE_K = 0.32;
         const PIXEL_SCALE = 9;
 
-        let target = 'A'; // 'A', 'B', 'Both'
-        let cutType = 'vertical'; // 'vertical', 'horiz-mass', 'horiz-vol'
-        let cutRatio = 0; // 0 ~ 0.8
+        let target = 'A'; 
+        let cutType = 'vertical'; 
+        let cutRatio = 0; 
         let fruitsOnA = [];
 
-        // 預設為正方體 L x L x L
+        // Neo-brutalist 色彩配置
         const blockA = {
             name: "正方體 甲",
             length: 15,
             rho: 1.00,
-            color: '#38bdf8'
+            color: '#38BDF8' // Neo Cyan
         };
 
         const blockB = {
             name: "正方體 乙",
             length: 10,
             rho: 1.50,
-            color: '#fbbf24'
+            color: '#FFD93D' // Neo Yellow
         };
 
         function changeParam(param, val) {
@@ -434,7 +507,6 @@
             document.getElementById('cut-horiz-mass').classList.toggle('active-amber', type === 'horiz-mass');
             document.getElementById('cut-horiz-vol').classList.toggle('active-amber', type === 'horiz-vol');
             
-            // 等質量與等體積比較時，自動切換為對比雙方
             if (type === 'horiz-mass' || type === 'horiz-vol') {
                 setTarget('Both');
             }
@@ -446,7 +518,7 @@
             } else {
                 document.getElementById('slider-title').innerText = "3. 切割比例 (Δ)";
             }
-            updateCutRatio(document.getElementById('cutSlider').value); // 刷新文字
+            updateCutRatio(document.getElementById('cutSlider').value);
         }
 
         function updateCutRatio(val) {
@@ -465,10 +537,6 @@
             updateExplanation();
         }
 
-        // ==========================================
-        // 核心更新：全動態物理邏輯推導文字
-        // 包含詳細的「橫切等體積」與「橫切等質量」推導
-        // ==========================================
         function updateExplanation() {
             const box = document.getElementById('principle-box');
             
@@ -483,7 +551,7 @@
             let contentHTML = "";
 
             if (fruitW > 0) {
-                contentHTML += `<div style="color:var(--accent-rose); margin-bottom:6px; padding-bottom:6px; border-bottom:1px dashed #475569;">
+                contentHTML += `<div style="background:#FFE4E6; border:2px solid #000; padding:4px 8px; margin-bottom:6px; box-shadow:2px 2px 0 #000;">
                 🍎 <strong>【水果加壓】</strong> 甲加載 <span class="formula-tag">+${fruitW} N</span>，底面積 <span class="formula-tag">S<sub>甲</sub></span> 不變。<br>
                 由 <span class="formula-tag">p = (G+G<sub>果</sub>)/S</span>，甲壓強明顯增加！</div>`;
             }
@@ -520,7 +588,6 @@
                 • 壓強減少公式：<span class="formula-tag">Δp = Δm · g / S</span><br>
                 • ${relationStr}`;
             } else if (cutType === 'horiz-vol') {
-                // 等體積分析
                 const deltaP_ratioA = blockA.rho / sA;
                 const deltaP_ratioB = blockB.rho / sB;
                 let relationStr = "";
@@ -547,6 +614,26 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            // 畫布背景 (Neo-brutalist 紙紋方格)
+            ctx.fillStyle = '#FFFDF5';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.lineWidth = 1;
+            const gridSize = 25;
+            for (let x = 0; x < canvas.width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
             const centerX = canvas.width / 2;
             const centerAX = centerX - 240;
             const centerBX = centerX + 140;
@@ -561,7 +648,6 @@
             let ratioA = 0, ratioB = 0;
 
             if (cutType === 'horiz-mass') {
-                // 橫切相同質量 Δm
                 const massB_total = blockB.rho * Math.pow(blockB.length, 3);
                 const deltaM = massB_total * cutRatio; 
 
@@ -574,7 +660,6 @@
                 ratioA = deltaHA_cm / blockA.length;
                 ratioB = deltaHB_cm / blockB.length;
             } else if (cutType === 'horiz-vol') {
-                // 橫切相同體積 ΔV
                 const volB_total = Math.pow(blockB.length, 3);
                 const deltaV = volB_total * cutRatio;
 
@@ -593,7 +678,6 @@
                 curWB = fullWB * (1 - ratioB);
             }
 
-            // 水果重力
             const fruitWeight = getFruitWeight();
             const realAreaA = (curWA * curWA / 100);
             const deltaPA = (fruitWeight / realAreaA) * 10;
@@ -607,11 +691,21 @@
             const posAX = centerAX - fullWA / 2;
             const posBX = centerBX - fullWB / 2;
 
-            // 1. 繪製海綿底座
-            ctx.fillStyle = '#334155';
+            // 1. 繪製海綿底座 (Neo-brutalism 粗黑結構底座)
+            ctx.fillStyle = '#E2E8F0';
             ctx.fillRect(0, SPONGE_Y, canvas.width, canvas.height - SPONGE_Y);
+            
+            // 海綿網點紋理 (Halftone Texture)
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            for (let dotX = 10; dotX < canvas.width; dotX += 20) {
+                for (let dotY = SPONGE_Y + 15; dotY < canvas.height; dotY += 20) {
+                    ctx.beginPath();
+                    ctx.arc(dotX, dotY, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
 
-            // 海綿形變面
+            // 海綿形變頂面 (加厚黑邊)
             ctx.beginPath();
             ctx.moveTo(0, SPONGE_Y);
             ctx.lineTo(posAX - 25, SPONGE_Y);
@@ -625,34 +719,39 @@
             ctx.quadraticCurveTo(posBX + curWB, SPONGE_Y + sinkB, posBX + curWB + 25, SPONGE_Y);
 
             ctx.lineTo(canvas.width, SPONGE_Y);
-            ctx.lineTo(canvas.width, SPONGE_Y + 16);
-            ctx.lineTo(0, SPONGE_Y + 16);
+            ctx.lineTo(canvas.width, SPONGE_Y + 14);
+            ctx.lineTo(0, SPONGE_Y + 14);
             ctx.closePath();
-            ctx.fillStyle = '#475569';
+            
+            ctx.fillStyle = '#CBD5E1';
             ctx.fill();
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#000000';
+            ctx.stroke();
 
-            // 基準線
-            ctx.strokeStyle = '#94a3b8';
-            ctx.lineWidth = 1.5;
-            ctx.setLineDash([6, 6]);
+            // 基準線 (高對比紅黑虛線)
+            ctx.strokeStyle = '#FF6B6B';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([8, 6]);
             ctx.beginPath();
             ctx.moveTo(0, SPONGE_Y);
             ctx.lineTo(canvas.width, SPONGE_Y);
             ctx.stroke();
             ctx.setLineDash([]);
 
-            // 基準線常駐標牌 (置頂左上角)
-            ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
-            ctx.strokeStyle = '#94a3b8';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.roundRect(14, 14, 230, 36, 6);
-            ctx.fill();
-            ctx.stroke();
-            ctx.fillStyle = '#38bdf8';
-            ctx.font = "bold 14px sans-serif";
+            // 基準線標牌 (Neo-brutalist 貼紙標籤)
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(16, 16, 220, 36); // 硬陰影
+            ctx.fillStyle = '#FFD93D';
+            ctx.fillRect(14, 14, 220, 36);
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#000000';
+            ctx.strokeRect(14, 14, 220, 36);
+
+            ctx.fillStyle = '#000000';
+            ctx.font = "900 14px 'Space Grotesk', sans-serif";
             ctx.textAlign = 'left';
-            ctx.fillText("--- 海綿基準線 (h = 0)", 24, 37);
+            ctx.fillText("--- 海綿基準線 (h = 0)", 26, 37);
 
             // 2. 繪製物體 甲 & 乙
             renderBlock(blockA, centerAX, posAX, curWA, curHA, fullWA, fullHA, sinkA, ratioA, fruitWeight);
@@ -664,16 +763,20 @@
         function renderBlock(b, centerX, x, w, h, fullW, fullH, sink, ratio, fruitW) {
             const currentY = SPONGE_Y + sink - h;
 
+            // 方塊本體硬陰影 (Offset 6px)
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(x + 6, currentY + 6, w, h);
+
             // 方塊主體
             ctx.fillStyle = b.color;
-            ctx.lineWidth = 2.5;
-            ctx.strokeStyle = '#ffffff';
             ctx.fillRect(x, currentY, w, h);
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#000000';
             ctx.strokeRect(x, currentY, w, h);
 
-            // 方塊名稱
-            ctx.fillStyle = '#0f172a';
-            ctx.font = "bold 22px sans-serif";
+            // 方塊名稱標籤 (粗體大字)
+            ctx.fillStyle = '#000000';
+            ctx.font = "900 22px 'Space Grotesk', sans-serif";
             ctx.textAlign = 'center';
             ctx.fillText(b.name, x + w / 2, currentY + h / 2 + 8);
 
@@ -683,60 +786,80 @@
                 fruitsOnA.forEach((fruit, idx) => {
                     const fx = x + fruitSpacing * (idx + 1);
                     const fy = currentY - 16;
-                    ctx.font = "26px sans-serif";
+                    ctx.font = "28px sans-serif";
                     ctx.textAlign = "center";
                     ctx.fillText(fruit === 'apple' ? "🍎" : "🍈", fx, fy);
                 });
             }
 
-            // 切除虛影
+            // 切除虛影 (黑白斜條紋質感)
             if (ratio > 0.005) {
                 ctx.save();
-                ctx.globalAlpha = 0.35;
-                ctx.fillStyle = b.color;
-                ctx.setLineDash([5, 5]);
-                ctx.strokeStyle = '#ffffff';
-
                 if (cutType === 'vertical') {
                     const cutW = fullW * ratio;
-                    const cutX = x + w + 10;
+                    const cutX = x + w + 12;
+                    ctx.fillStyle = 'rgba(0,0,0,0.08)';
                     ctx.fillRect(cutX, currentY, cutW, h);
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = '#000000';
+                    ctx.setLineDash([6, 6]);
                     ctx.strokeRect(cutX, currentY, cutW, h);
                 } else {
                     const cutH = fullH * ratio;
-                    const cutY = currentY - cutH - 10;
+                    const cutY = currentY - cutH - 12;
+                    ctx.fillStyle = 'rgba(0,0,0,0.08)';
                     ctx.fillRect(x, cutY, w, cutH);
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = '#000000';
+                    ctx.setLineDash([6, 6]);
                     ctx.strokeRect(x, cutY, w, cutH);
                 }
                 ctx.restore();
             }
 
-            // 下陷指示
-            const arrowX = x + w + 8;
-            ctx.strokeStyle = '#f43f5e';
-            ctx.lineWidth = 2;
+            // 下陷指示 (硬派紅色標籤)
+            const arrowX = x + w + 10;
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 3;
             ctx.beginPath();
             ctx.moveTo(arrowX, SPONGE_Y);
             ctx.lineTo(arrowX, SPONGE_Y + sink);
             ctx.stroke();
 
-            ctx.fillStyle = '#f43f5e';
-            ctx.font = "bold 15px monospace";
-            ctx.textAlign = 'left';
-            ctx.fillText(`深:${(sink/10/SPONGE_K).toFixed(1)}cm`, arrowX + 5, SPONGE_Y + sink / 2 + 5);
+            ctx.fillStyle = '#FF6B6B';
+            ctx.fillRect(arrowX + 4, SPONGE_Y + sink / 2 - 12, 85, 24);
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#000000';
+            ctx.strokeRect(arrowX + 4, SPONGE_Y + sink / 2 - 12, 85, 24);
 
-            // 物體正下方測量看板 (緊湊大字體)
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = "900 13px 'Space Grotesk', monospace";
+            ctx.textAlign = 'left';
+            ctx.fillText(`深:${(sink/10/SPONGE_K).toFixed(1)}cm`, arrowX + 8, SPONGE_Y + sink / 2 + 4);
+
+            // ==========================================
+            // 物體下方數據看板 (Neo-brutalist 卡片)
+            // ==========================================
             const panelY = SPONGE_Y + 50;
             const panelW = 230;
+            const panelH = 165;
             const panelX = centerX - panelW / 2;
 
-            ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-            ctx.strokeStyle = b.color;
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.roundRect(panelX, panelY, panelW, 160, 8);
-            ctx.fill();
-            ctx.stroke();
+            // 硬陰影
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(panelX + 6, panelY + 6, panelW, panelH);
+
+            // 主體卡片
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(panelX, panelY, panelW, panelH);
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#000000';
+            ctx.strokeRect(panelX, panelY, panelW, panelH);
+
+            // 頂部小色條
+            ctx.fillStyle = b.color;
+            ctx.fillRect(panelX, panelY, panelW, 28);
+            ctx.strokeRect(panelX, panelY, panelW, 28);
 
             const curH_cm = (h / PIXEL_SCALE);
             const curW_cm = (w / PIXEL_SCALE);
@@ -745,32 +868,38 @@
             const totalF = (baseF + fruitW).toFixed(1);
             const p_val = (sink / 10 / SPONGE_K).toFixed(2);
 
-            ctx.fillStyle = '#f8fafc';
-            ctx.font = "bold 16px sans-serif";
+            // 卡片標題
+            ctx.fillStyle = '#000000';
+            ctx.font = "900 14px 'Space Grotesk', sans-serif";
             ctx.textAlign = 'left';
+            ctx.fillText(`【${b.name} 數據】`, panelX + 10, panelY + 19);
 
-            let lineY = panelY + 24;
-            ctx.fillText(`【${b.name} 測量數據】`, panelX + 12, lineY);
-
-            ctx.font = "14px monospace";
-            ctx.fillStyle = '#cbd5e1';
+            ctx.font = "700 13px 'Space Grotesk', monospace";
+            ctx.fillStyle = '#000000';
             
-            lineY += 22;
+            let lineY = panelY + 50;
             ctx.fillText(`密度 ρ  = ${b.rho.toFixed(2)} g/cm³`, panelX + 12, lineY);
 
-            lineY += 21;
+            lineY += 22;
             ctx.fillText(`高度 h  = ${curH_cm.toFixed(1)} cm`, panelX + 12, lineY);
 
-            lineY += 21;
+            lineY += 22;
             ctx.fillText(`總壓力 F = ${totalF} N`, panelX + 12, lineY);
 
-            lineY += 21;
+            lineY += 22;
             ctx.fillText(`底面積 S = ${S_val} cm²`, panelX + 12, lineY);
 
-            lineY += 25;
-            ctx.font = "bold 16px monospace";
-            ctx.fillStyle = b.color;
-            ctx.fillText(`壓強 p  = ${p_val} Pa`, panelX + 12, lineY);
+            // 壓強特別凸顯標籤
+            lineY += 24;
+            ctx.fillStyle = '#FFD93D';
+            ctx.fillRect(panelX + 8, lineY - 16, panelW - 16, 22);
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#000000';
+            ctx.strokeRect(panelX + 8, lineY - 16, panelW - 16, 22);
+
+            ctx.font = "900 14px 'Space Grotesk', monospace";
+            ctx.fillStyle = '#000000';
+            ctx.fillText(`壓強 p  = ${p_val} Pa`, panelX + 14, lineY);
         }
 
         resize();
