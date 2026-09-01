@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>固體壓強、切割與等體積/等質量演示</title>
+    <style>
+        :root {
+            --bg-color: #0b1120;
+            --panel-bg: rgba(30, 41, 59, 0.94);
+            --border-color: #475569;
+            --accent-blue: #38bdf8;
+            --accent-amber: #fbbf24;
+            --accent-emerald: #34d399;
+            --accent-rose: #f43f5e;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-size: 16px;
+        }
+
+        header {
+            padding: 10px 20px;
+            background: var(--panel-bg);
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        header h1 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-sub {
+            font-size: 1rem;
+            color: var(--accent-amber);
+            font-weight: 600;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 440px;
+            gap: 14px;
+            padding: 12px 16px;
+            flex: 1;
+            min-height: 0;
+            max-width: 1850px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .canvas-card {
+            background: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            height: 100%;
+            justify-content: space-between;
+        }
+
+        .control-panel, .info-panel {
+            background: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 14px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+        }
+
+        .section-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--accent-amber);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 8px;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .param-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .param-card {
+            background: #0f172a;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-blue);
+        }
+        .param-card.card-b {
+            border-left-color: var(--accent-amber);
+        }
+
+        .btn-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+        }
+
+        .btn-triple {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+        }
+
+        button {
+            padding: 7px 8px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border-radius: 6px;
+            border: 1.5px solid var(--border-color);
+            background: #1e293b;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        button:hover {
+            background: #334155;
+            border-color: var(--accent-blue);
+        }
+
+        button.active {
+            background: rgba(56, 189, 248, 0.25);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        button.active-amber {
+            background: rgba(251, 191, 36, 0.25);
+            border-color: var(--accent-amber);
+            color: var(--accent-amber);
+        }
+
+        .slider-container {
+            background: #0f172a;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #334155;
+            outline: none;
+            cursor: pointer;
+            accent-color: var(--accent-blue);
+        }
+
+        .physics-explanation {
+            background: #0f172a;
+            border-radius: 6px;
+            padding: 10px 12px;
+            border-left: 4px solid var(--accent-emerald);
+            font-size: 0.88rem;
+            line-height: 1.55;
+            color: #f1f5f9;
+            min-height: 155px;
+        }
+
+        .formula-tag {
+            display: inline-block;
+            background: #334155;
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><span>📐</span> 固體壓強、切割與等體積/等質量演示</h1>
+        <div class="header-sub">柱體壓強：p = ρ · g · h = F / S</div>
+    </header>
+
+    <div class="container">
+        <!-- 畫布主畫面 -->
+        <div class="canvas-card">
+            <canvas id="simCanvas"></canvas>
+        </div>
+
+        <!-- 側邊控制欄 -->
+        <div class="sidebar">
+            
+            <!-- 參數調節區 -->
+            <div class="control-panel">
+                <div class="section-title">
+                    <span>⚙️ 物理參數 (初設 p甲=p乙)</span>
+                    <button style="font-size:0.75rem; padding:3px 6px; background:#0284c7;" onclick="matchPressure()">⚡ 一鍵配平</button>
+                </div>
+
+                <div class="param-grid">
+                    <div class="param-card">
+                        <div style="font-weight:bold; color:var(--accent-blue); margin-bottom:4px; font-size:0.85rem;">物體 甲</div>
+                        <div class="form-label" style="font-size:0.75rem;">
+                            <span>密度 ρ:</span><span id="disp-rho-a">1.00 g/cm³</span>
+                        </div>
+                        <input type="range" id="slider-rho-a" min="0.5" max="3.0" step="0.05" value="1.00" oninput="changeParam('rhoA', this.value)">
+                        
+                        <div class="form-label" style="font-size:0.75rem; margin-top:4px;">
+                            <span>邊長 L:</span><span id="disp-len-a">15 cm</span>
+                        </div>
+                        <input type="range" id="slider-len-a" min="8" max="18" step="1" value="15" oninput="changeParam('lenA', this.value)">
+                    </div>
+
+                    <div class="param-card card-b">
+                        <div style="font-weight:bold; color:var(--accent-amber); margin-bottom:4px; font-size:0.85rem;">物體 乙</div>
+                        <div class="form-label" style="font-size:0.75rem;">
+                            <span>密度 ρ:</span><span id="disp-rho-b">1.50 g/cm³</span>
+                        </div>
+                        <input type="range" id="slider-rho-b" min="0.5" max="3.0" step="0.05" value="1.50" oninput="changeParam('rhoB', this.value)">
+                        
+                        <div class="form-label" style="font-size:0.75rem; margin-top:4px;">
+                            <span>邊長 L:</span><span id="disp-len-b">10 cm</span>
+                        </div>
+                        <input type="range" id="slider-len-b" min="8" max="18" step="1" value="10" oninput="changeParam('lenB', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 切割控制區 -->
+            <div class="control-panel">
+                <div class="section-title">🔪 切割方式與比較</div>
+
+                <div class="form-group">
+                    <div class="form-label">1. 操作對象</div>
+                    <div class="btn-triple">
+                        <button id="target-A" class="active" onclick="setTarget('A')">物體 甲</button>
+                        <button id="target-B" onclick="setTarget('B')">物體 乙</button>
+                        <button id="target-Both" onclick="setTarget('Both')">甲 ＆ 乙</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label">2. 切割模式 (核心考點)</div>
+                    <div class="btn-grid-3">
+                        <button id="cut-vert" class="active-amber" onclick="setCutType('vertical')">🔪 垂直豎切</button>
+                        <button id="cut-horiz-mass" onclick="setCutType('horiz-mass')">⚖️ 切等質量</button>
+                        <button id="cut-horiz-vol" onclick="setCutType('horiz-vol')">📦 切等體積</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label">
+                        <span id="slider-title">3. 切割比例 (Δ)</span>
+                        <span id="cut-val-display" style="color:var(--accent-blue); font-size:0.95rem; font-weight:800;">切除 0%</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="cutSlider" min="0" max="80" value="0" step="5" oninput="updateCutRatio(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 水果配重區 -->
+            <div class="control-panel">
+                <div class="section-title">🍎 甲頂部配重 (+F)</div>
+                <div class="btn-triple">
+                    <button onclick="addFruit('apple')">🍎 蘋果 (+20N)</button>
+                    <button onclick="addFruit('durian')">🍈 榴槤 (+80N)</button>
+                    <button style="background:#475569;" onclick="clearFruit()">🗑️ 清空</button>
+                </div>
+            </div>
+
+            <!-- 原理常駐面板 -->
+            <div class="info-panel" style="flex:1; display:flex; flex-direction:column;">
+                <div class="section-title">💡 物理原理推導 (動態計算)</div>
+                <div class="physics-explanation" id="principle-box">
+                    滑動切割比例或點選操作以進行對比。
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        window.addEventListener('resize', resize);
+
+        const SPONGE_Y = 270; 
+        const SPONGE_K = 0.32;
+        const PIXEL_SCALE = 9;
+
+        let target = 'A'; // 'A', 'B', 'Both'
+        let cutType = 'vertical'; // 'vertical', 'horiz-mass', 'horiz-vol'
+        let cutRatio = 0; // 0 ~ 0.8
+        let fruitsOnA = [];
+
+        // 預設為正方體 L x L x L
+        const blockA = {
+            name: "正方體 甲",
+            length: 15,
+            rho: 1.00,
+            color: '#38bdf8'
+        };
+
+        const blockB = {
+            name: "正方體 乙",
+            length: 10,
+            rho: 1.50,
+            color: '#fbbf24'
+        };
+
+        function changeParam(param, val) {
+            val = parseFloat(val);
+            if (param === 'rhoA') {
+                blockA.rho = val;
+                document.getElementById('disp-rho-a').innerText = `${val.toFixed(2)} g/cm³`;
+            } else if (param === 'lenA') {
+                blockA.length = val;
+                document.getElementById('disp-len-a').innerText = `${val} cm`;
+            } else if (param === 'rhoB') {
+                blockB.rho = val;
+                document.getElementById('disp-rho-b').innerText = `${val.toFixed(2)} g/cm³`;
+            } else if (param === 'lenB') {
+                blockB.length = val;
+                document.getElementById('disp-len-b').innerText = `${val} cm`;
+            }
+            updateExplanation();
+        }
+
+        function matchPressure() {
+            const pA = blockA.rho * blockA.length;
+            const newRhoB = pA / blockB.length;
+            blockB.rho = Math.min(Math.max(newRhoB, 0.5), 3.0);
+            document.getElementById('slider-rho-b').value = blockB.rho.toFixed(2);
+            document.getElementById('disp-rho-b').innerText = `${blockB.rho.toFixed(2)} g/cm³`;
+            updateExplanation();
+        }
+
+        function addFruit(type) {
+            if (fruitsOnA.length >= 4) return;
+            fruitsOnA.push(type);
+            updateExplanation();
+        }
+
+        function clearFruit() {
+            fruitsOnA = [];
+            updateExplanation();
+        }
+
+        function getFruitWeight() {
+            let w = 0;
+            fruitsOnA.forEach(f => {
+                if (f === 'apple') w += 20;
+                if (f === 'durian') w += 80;
+            });
+            return w;
+        }
+
+        function setTarget(t) {
+            target = t;
+            document.getElementById('target-A').classList.toggle('active', t === 'A');
+            document.getElementById('target-B').classList.toggle('active', t === 'B');
+            document.getElementById('target-Both').classList.toggle('active', t === 'Both');
+            updateExplanation();
+        }
+
+        function setCutType(type) {
+            cutType = type;
+            document.getElementById('cut-vert').classList.toggle('active-amber', type === 'vertical');
+            document.getElementById('cut-horiz-mass').classList.toggle('active-amber', type === 'horiz-mass');
+            document.getElementById('cut-horiz-vol').classList.toggle('active-amber', type === 'horiz-vol');
+            
+            // 等質量與等體積比較時，自動切換為對比雙方
+            if (type === 'horiz-mass' || type === 'horiz-vol') {
+                setTarget('Both');
+            }
+
+            if (type === 'horiz-mass') {
+                document.getElementById('slider-title').innerText = "3. 切除質量 (Δm)";
+            } else if (type === 'horiz-vol') {
+                document.getElementById('slider-title').innerText = "3. 切除體積 (ΔV)";
+            } else {
+                document.getElementById('slider-title').innerText = "3. 切割比例 (Δ)";
+            }
+            updateCutRatio(document.getElementById('cutSlider').value); // 刷新文字
+        }
+
+        function updateCutRatio(val) {
+            cutRatio = parseFloat(val) / 100;
+            if (cutType === 'horiz-mass') {
+                const totalMassB = blockB.rho * Math.pow(blockB.length, 3);
+                const deltaM = (totalMassB * cutRatio).toFixed(0);
+                document.getElementById('cut-val-display').innerText = `切除 Δm = ${deltaM} g`;
+            } else if (cutType === 'horiz-vol') {
+                const totalVolB = Math.pow(blockB.length, 3);
+                const deltaV = (totalVolB * cutRatio).toFixed(0);
+                document.getElementById('cut-val-display').innerText = `切除 ΔV = ${deltaV} cm³`;
+            } else {
+                document.getElementById('cut-val-display').innerText = `切除 ${val}%`;
+            }
+            updateExplanation();
+        }
+
+        // ==========================================
+        // 核心更新：全動態物理邏輯推導文字
+        // 包含詳細的「橫切等體積」與「橫切等質量」推導
+        // ==========================================
+        function updateExplanation() {
+            const box = document.getElementById('principle-box');
+            
+            const fruitW = getFruitWeight();
+            const pA_initial = blockA.rho * blockA.length;
+            const pB_initial = blockB.rho * blockB.length;
+            const sA = blockA.length * blockA.length;
+            const sB = blockB.length * blockB.length;
+            
+            const isPressureEqual = Math.abs(pA_initial - pB_initial) < 0.1;
+
+            let contentHTML = "";
+
+            if (fruitW > 0) {
+                contentHTML += `<div style="color:var(--accent-rose); margin-bottom:6px; padding-bottom:6px; border-bottom:1px dashed #475569;">
+                🍎 <strong>【水果加壓】</strong> 甲加載 <span class="formula-tag">+${fruitW} N</span>，底面積 <span class="formula-tag">S<sub>甲</sub></span> 不變。<br>
+                由 <span class="formula-tag">p = (G+G<sub>果</sub>)/S</span>，甲壓強明顯增加！</div>`;
+            }
+
+            if (cutRatio === 0) {
+                if (isPressureEqual) {
+                    contentHTML += `<strong>【未切割狀態 - 壓強相等】</strong><br>
+                    滿足 <span class="formula-tag">ρ<sub>甲</sub>h<sub>甲</sub> = ρ<sub>乙</sub>h<sub>乙</sub></span><br>
+                    👉 <strong>結論：兩者壓強相等，海綿下陷深度完全一致。</strong>`;
+                } else {
+                    contentHTML += `<strong>【未切割狀態 - 參數自由調節】</strong><br>
+                    • p<sub>甲</sub> = ${pA_initial.toFixed(1)} Pa<br>
+                    • p<sub>乙</sub> = ${pB_initial.toFixed(1)} Pa<br>
+                    👉 <strong>結論：下陷深度正比於各自的 <span class="formula-tag">ρ · h</span>。</strong>`;
+                }
+            } else if (cutType === 'vertical') {
+                contentHTML += `<strong>【垂直豎切分析】</strong><br>
+                • 壓力與受力面積同比例縮小，比值不變：<span class="formula-tag">F/S = (1-k)F₀/(1-k)S₀ = p₀</span><br>
+                • 柱體高度(h)與密度(ρ)未改變：<span class="formula-tag">p = ρ · g · h</span><br>
+                👉 <strong>結論：垂直豎切時，剩餘壓強與下陷深度完全不變！</strong>`;
+            } else if (cutType === 'horiz-mass') {
+                let relationStr = "";
+                if (sA > sB) {
+                    relationStr = `因底面積 <span class="formula-tag">S<sub>甲</sub> > S<sub>乙</sub></span>，甲壓強減少較少 (Δp<sub>甲</sub> < Δp<sub>乙</sub>)。`;
+                    if(isPressureEqual) relationStr += `<br>👉 <strong>剩餘壓強 p<sub>甲</sub> > p<sub>乙</sub>，甲下陷深度較大！</strong>`;
+                } else if (sA < sB) {
+                    relationStr = `因底面積 <span class="formula-tag">S<sub>甲</sub> < S<sub>乙</sub></span>，乙壓強減少較少 (Δp<sub>甲</sub> > Δp<sub>乙</sub>)。`;
+                    if(isPressureEqual) relationStr += `<br>👉 <strong>剩餘壓強 p<sub>乙</sub> > p<sub>甲</sub>，乙下陷深度較大！</strong>`;
+                } else {
+                    relationStr = `底面積相同，兩者壓強減小量相同 (Δp<sub>甲</sub> = Δp<sub>乙</sub>)。`;
+                }
+
+                contentHTML += `<strong>【橫切相同質量 Δm 分析】</strong><br>
+                • 壓強減少公式：<span class="formula-tag">Δp = Δm · g / S</span><br>
+                • ${relationStr}`;
+            } else if (cutType === 'horiz-vol') {
+                // 等體積分析
+                const deltaP_ratioA = blockA.rho / sA;
+                const deltaP_ratioB = blockB.rho / sB;
+                let relationStr = "";
+
+                if (deltaP_ratioA < deltaP_ratioB) {
+                    relationStr = `因 <span class="formula-tag">ρ<sub>甲</sub>/S<sub>甲</sub> < ρ<sub>乙</sub>/S<sub>乙</sub></span>，甲的壓強減小量較少 (Δp<sub>甲</sub> < Δp<sub>乙</sub>)。`;
+                    if(isPressureEqual) relationStr += `<br>👉 <strong>剩餘壓強 p<sub>甲</sub> > p<sub>乙</sub>，甲下陷深度較大！</strong>`;
+                } else if (deltaP_ratioA > deltaP_ratioB) {
+                    relationStr = `因 <span class="formula-tag">ρ<sub>甲</sub>/S<sub>甲</sub> > ρ<sub>乙</sub>/S<sub>乙</sub></span>，乙的壓強減小量較少 (Δp<sub>甲</sub> > Δp<sub>乙</sub>)。`;
+                    if(isPressureEqual) relationStr += `<br>👉 <strong>剩餘壓強 p<sub>乙</sub> > p<sub>甲</sub>，乙下陷深度較大！</strong>`;
+                } else {
+                    relationStr = `因 <span class="formula-tag">ρ/S</span> 相同，兩者壓強減小量相同 (Δp<sub>甲</sub> = Δp<sub>乙</sub>)。`;
+                }
+
+                contentHTML += `<strong>【橫切相同體積 ΔV 分析】</strong><br>
+                • 高度減少量：<span class="formula-tag">Δh = ΔV / S</span><br>
+                • 壓強減少公式：<span class="formula-tag">Δp = ρ · g · Δh = ρ · g · (ΔV / S)</span><br>
+                • ${relationStr}`;
+            }
+
+            box.innerHTML = contentHTML;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const centerX = canvas.width / 2;
+            const centerAX = centerX - 240;
+            const centerBX = centerX + 140;
+
+            const fullWA = blockA.length * PIXEL_SCALE;
+            const fullHA = blockA.length * PIXEL_SCALE;
+            const fullWB = blockB.length * PIXEL_SCALE;
+            const fullHB = blockB.length * PIXEL_SCALE;
+
+            let curWA = fullWA, curHA = fullHA;
+            let curWB = fullWB, curHB = fullHB;
+            let ratioA = 0, ratioB = 0;
+
+            if (cutType === 'horiz-mass') {
+                // 橫切相同質量 Δm
+                const massB_total = blockB.rho * Math.pow(blockB.length, 3);
+                const deltaM = massB_total * cutRatio; 
+
+                const deltaHA_cm = deltaM / (blockA.rho * Math.pow(blockA.length, 2));
+                const deltaHB_cm = deltaM / (blockB.rho * Math.pow(blockB.length, 2));
+
+                curHA = Math.max(0, (blockA.length - deltaHA_cm) * PIXEL_SCALE);
+                curHB = Math.max(0, (blockB.length - deltaHB_cm) * PIXEL_SCALE);
+
+                ratioA = deltaHA_cm / blockA.length;
+                ratioB = deltaHB_cm / blockB.length;
+            } else if (cutType === 'horiz-vol') {
+                // 橫切相同體積 ΔV
+                const volB_total = Math.pow(blockB.length, 3);
+                const deltaV = volB_total * cutRatio;
+
+                const deltaHA_cm = deltaV / Math.pow(blockA.length, 2);
+                const deltaHB_cm = deltaV / Math.pow(blockB.length, 2);
+
+                curHA = Math.max(0, (blockA.length - deltaHA_cm) * PIXEL_SCALE);
+                curHB = Math.max(0, (blockB.length - deltaHB_cm) * PIXEL_SCALE);
+
+                ratioA = deltaHA_cm / blockA.length;
+                ratioB = deltaHB_cm / blockB.length;
+            } else if (cutType === 'vertical') {
+                ratioA = (target === 'A' || target === 'Both') ? cutRatio : 0;
+                ratioB = (target === 'B' || target === 'Both') ? cutRatio : 0;
+                curWA = fullWA * (1 - ratioA);
+                curWB = fullWB * (1 - ratioB);
+            }
+
+            // 水果重力
+            const fruitWeight = getFruitWeight();
+            const realAreaA = (curWA * curWA / 100);
+            const deltaPA = (fruitWeight / realAreaA) * 10;
+
+            const pA = blockA.rho * (curHA / PIXEL_SCALE) + deltaPA;
+            const sinkA = pA * 10 * SPONGE_K;
+
+            const pB = blockB.rho * (curHB / PIXEL_SCALE);
+            const sinkB = pB * 10 * SPONGE_K;
+
+            const posAX = centerAX - fullWA / 2;
+            const posBX = centerBX - fullWB / 2;
+
+            // 1. 繪製海綿底座
+            ctx.fillStyle = '#334155';
+            ctx.fillRect(0, SPONGE_Y, canvas.width, canvas.height - SPONGE_Y);
+
+            // 海綿形變面
+            ctx.beginPath();
+            ctx.moveTo(0, SPONGE_Y);
+            ctx.lineTo(posAX - 25, SPONGE_Y);
+            ctx.quadraticCurveTo(posAX, SPONGE_Y + sinkA, posAX + 12, SPONGE_Y + sinkA);
+            ctx.lineTo(posAX + curWA - 12, SPONGE_Y + sinkA);
+            ctx.quadraticCurveTo(posAX + curWA, SPONGE_Y + sinkA, posAX + curWA + 25, SPONGE_Y);
+
+            ctx.lineTo(posBX - 25, SPONGE_Y);
+            ctx.quadraticCurveTo(posBX, SPONGE_Y + sinkB, posBX + 12, SPONGE_Y + sinkB);
+            ctx.lineTo(posBX + curWB - 12, SPONGE_Y + sinkB);
+            ctx.quadraticCurveTo(posBX + curWB, SPONGE_Y + sinkB, posBX + curWB + 25, SPONGE_Y);
+
+            ctx.lineTo(canvas.width, SPONGE_Y);
+            ctx.lineTo(canvas.width, SPONGE_Y + 16);
+            ctx.lineTo(0, SPONGE_Y + 16);
+            ctx.closePath();
+            ctx.fillStyle = '#475569';
+            ctx.fill();
+
+            // 基準線
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([6, 6]);
+            ctx.beginPath();
+            ctx.moveTo(0, SPONGE_Y);
+            ctx.lineTo(canvas.width, SPONGE_Y);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // 基準線常駐標牌 (置頂左上角)
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(14, 14, 230, 36, 6);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = "bold 14px sans-serif";
+            ctx.textAlign = 'left';
+            ctx.fillText("--- 海綿基準線 (h = 0)", 24, 37);
+
+            // 2. 繪製物體 甲 & 乙
+            renderBlock(blockA, centerAX, posAX, curWA, curHA, fullWA, fullHA, sinkA, ratioA, fruitWeight);
+            renderBlock(blockB, centerBX, posBX, curWB, curHB, fullWB, fullHB, sinkB, ratioB, 0);
+
+            requestAnimationFrame(draw);
+        }
+
+        function renderBlock(b, centerX, x, w, h, fullW, fullH, sink, ratio, fruitW) {
+            const currentY = SPONGE_Y + sink - h;
+
+            // 方塊主體
+            ctx.fillStyle = b.color;
+            ctx.lineWidth = 2.5;
+            ctx.strokeStyle = '#ffffff';
+            ctx.fillRect(x, currentY, w, h);
+            ctx.strokeRect(x, currentY, w, h);
+
+            // 方塊名稱
+            ctx.fillStyle = '#0f172a';
+            ctx.font = "bold 22px sans-serif";
+            ctx.textAlign = 'center';
+            ctx.fillText(b.name, x + w / 2, currentY + h / 2 + 8);
+
+            // 水果
+            if (b.name.includes("甲") && fruitsOnA.length > 0) {
+                const fruitSpacing = w / (fruitsOnA.length + 1);
+                fruitsOnA.forEach((fruit, idx) => {
+                    const fx = x + fruitSpacing * (idx + 1);
+                    const fy = currentY - 16;
+                    ctx.font = "26px sans-serif";
+                    ctx.textAlign = "center";
+                    ctx.fillText(fruit === 'apple' ? "🍎" : "🍈", fx, fy);
+                });
+            }
+
+            // 切除虛影
+            if (ratio > 0.005) {
+                ctx.save();
+                ctx.globalAlpha = 0.35;
+                ctx.fillStyle = b.color;
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#ffffff';
+
+                if (cutType === 'vertical') {
+                    const cutW = fullW * ratio;
+                    const cutX = x + w + 10;
+                    ctx.fillRect(cutX, currentY, cutW, h);
+                    ctx.strokeRect(cutX, currentY, cutW, h);
+                } else {
+                    const cutH = fullH * ratio;
+                    const cutY = currentY - cutH - 10;
+                    ctx.fillRect(x, cutY, w, cutH);
+                    ctx.strokeRect(x, cutY, w, cutH);
+                }
+                ctx.restore();
+            }
+
+            // 下陷指示
+            const arrowX = x + w + 8;
+            ctx.strokeStyle = '#f43f5e';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(arrowX, SPONGE_Y);
+            ctx.lineTo(arrowX, SPONGE_Y + sink);
+            ctx.stroke();
+
+            ctx.fillStyle = '#f43f5e';
+            ctx.font = "bold 15px monospace";
+            ctx.textAlign = 'left';
+            ctx.fillText(`深:${(sink/10/SPONGE_K).toFixed(1)}cm`, arrowX + 5, SPONGE_Y + sink / 2 + 5);
+
+            // 物體正下方測量看板 (緊湊大字體)
+            const panelY = SPONGE_Y + 50;
+            const panelW = 230;
+            const panelX = centerX - panelW / 2;
+
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
+            ctx.strokeStyle = b.color;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(panelX, panelY, panelW, 160, 8);
+            ctx.fill();
+            ctx.stroke();
+
+            const curH_cm = (h / PIXEL_SCALE);
+            const curW_cm = (w / PIXEL_SCALE);
+            const S_val = (curW_cm * curW_cm).toFixed(1);
+            const baseF = (b.rho * (curW_cm * curW_cm * curH_cm));
+            const totalF = (baseF + fruitW).toFixed(1);
+            const p_val = (sink / 10 / SPONGE_K).toFixed(2);
+
+            ctx.fillStyle = '#f8fafc';
+            ctx.font = "bold 16px sans-serif";
+            ctx.textAlign = 'left';
+
+            let lineY = panelY + 24;
+            ctx.fillText(`【${b.name} 測量數據】`, panelX + 12, lineY);
+
+            ctx.font = "14px monospace";
+            ctx.fillStyle = '#cbd5e1';
+            
+            lineY += 22;
+            ctx.fillText(`密度 ρ  = ${b.rho.toFixed(2)} g/cm³`, panelX + 12, lineY);
+
+            lineY += 21;
+            ctx.fillText(`高度 h  = ${curH_cm.toFixed(1)} cm`, panelX + 12, lineY);
+
+            lineY += 21;
+            ctx.fillText(`總壓力 F = ${totalF} N`, panelX + 12, lineY);
+
+            lineY += 21;
+            ctx.fillText(`底面積 S = ${S_val} cm²`, panelX + 12, lineY);
+
+            lineY += 25;
+            ctx.font = "bold 16px monospace";
+            ctx.fillStyle = b.color;
+            ctx.fillText(`壓強 p  = ${p_val} Pa`, panelX + 12, lineY);
+        }
+
+        resize();
+        updateExplanation();
+        draw();
+    </script>
+</body>
+</html>
