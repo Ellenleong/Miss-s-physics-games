@@ -150,6 +150,7 @@
         .input-n {
             width: 100px; padding: 4px; border: 2px solid var(--border);
             border-radius: 6px; text-align: center; font-size: 18px; font-weight: bold; font-family: monospace;
+            box-sizing: border-box;
         }
 
         .btn-primary {
@@ -176,7 +177,7 @@
         .feedback.error { background: #FEE2E2; color: #991B1B; box-shadow: 4px 4px 0px 0px #F87171; }
         
         .submit-form { margin-top: 15px; padding-top: 15px; border-top: 2px dashed #93C5FD; }
-        .submit-input { width: 100%; padding: 8px; margin-bottom: 10px; border: 2px solid var(--border); border-radius: 6px; box-sizing: border-box; font-family: inherit; font-weight: bold; }
+        .submit-input { width: 100%; padding: 10px; margin-bottom: 10px; border: 2px solid var(--border); border-radius: 6px; box-sizing: border-box; font-family: inherit; font-size: 16px; font-weight: bold; }
         .submit-row { display: flex; gap: 10px; }
     </style>
 </head>
@@ -227,7 +228,7 @@
                     <div class="plank-num" id="ui-n">0</div>
                     <button class="btn-count" id="btn-plus">+</button>
                     
-                    <input type="number" id="ui-n-input" class="input-n" style="display:none;" step="0.01" min="0" placeholder="0.00">
+                    <input type="number" id="ui-n-input" class="input-n" style="display:none;" step="0.01" min="0" placeholder="0.00" inputmode="decimal">
                 </div>
                 
                 <div style="background: #1E293B; color: #FFF; padding: 10px; border-radius: 8px; margin-top: 15px; font-size: 14px;">
@@ -249,10 +250,7 @@
 </div>
 
 <script>
-// 運用 IIFE (Immediately Invoked Function Expression) 封裝所有變數
-// 這樣學生打開開發者工具 (Console) 也無法讀取或修改系統數值
 (function() {
-    // ⚠️ 請在這裡貼上你 Google Apps Script 發布後的網址
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydJf87Glpeqixgjd-mtwW_hsmyJiToPYetGxSpG_dfXKA9LJJyEIa9s4YV0BH8ZNlIIQ/exec";
 
     const canvas = document.getElementById('gameCanvas');
@@ -275,18 +273,33 @@
     let levelsData = [];
 
     // ==========================================
-    // 🛡️ 防作弊系統：切換分頁偵測 (Out of Focus)
+    // 🛡️ 防作弊系統：針對 iPad 鍵盤彈出優化
     // ==========================================
+    let isFocusingInput = false;
+
+    function bindInputSafety(inputElem) {
+        if (!inputElem) return;
+        inputElem.addEventListener('focus', () => { isFocusingInput = true; });
+        inputElem.addEventListener('blur', () => {
+            // 延遲重設狀態，避免鍵盤收起瞬間觸發偽失焦
+            setTimeout(() => { isFocusingInput = false; }, 300);
+        });
+    }
+
+    bindInputSafety(document.getElementById('ui-n-input'));
+
     function triggerCheatPenalty() {
-        if (isGameFinished || animState === 'FAIL_CHEAT') return;
+        if (isGameFinished || animState === 'FAIL_CHEAT' || isFocusingInput) return;
         animState = 'FAIL_CHEAT';
         document.getElementById('btn-go').disabled = true;
         showFeedback(false, "⚠️ <strong>警告：系統偵測到您切換了分頁或離開了測驗畫面！</strong><br>為求公平，本次測驗強制中斷，請保持專注。", "🔄 重新開始測驗");
     }
 
-    window.addEventListener("blur", triggerCheatPenalty);
+    // 在行動端與 iPad 上僅靠 visibilitychange 偵測切換分頁，完全避免鍵盤彈出的 window blur 誤判
     document.addEventListener("visibilitychange", () => {
-        if (document.hidden) triggerCheatPenalty();
+        if (document.hidden && !isFocusingInput) {
+            triggerCheatPenalty();
+        }
     });
 
     function formatTime(seconds) {
@@ -659,7 +672,6 @@
         animate();
     });
 
-    // 為了不在 HTML 內使用 onclick，我們動態綁定事件
     function showFeedback(isSuccess, msg, customBtnText = "🔄 重新開始遊戲 (回到第一關)") {
         let fb = document.getElementById('feedback-box');
         fb.style.display = 'block'; 
@@ -667,7 +679,7 @@
         if (isSuccess) {
             fb.className = 'feedback success';
             fb.innerHTML = `🎉 <strong>成功！</strong><br>${msg}`;
-            document.getElementById('btn-go').style.display = 'none';
+            document.getElementById('btn-go').style.display = 'none'; 
             
             if (currentLevelIdx < 4) {
                 document.getElementById('btn-next').style.display = 'block';
@@ -694,15 +706,17 @@
                         <button id="btn-real-submit" class="btn-primary" style="width: 100%;">📤 提交成績</button>
                     </div>`;
                 
-                // 動態綁定提交按鈕
                 setTimeout(() => {
+                    // 同樣保護結尾登記成績的輸入框
+                    bindInputSafety(document.getElementById('stu-class'));
+                    bindInputSafety(document.getElementById('stu-id'));
+                    bindInputSafety(document.getElementById('stu-name'));
                     document.getElementById('btn-real-submit').addEventListener('click', submitScoreToGoogle);
                 }, 100);
             }
         } else {
             fb.className = 'feedback error';
             fb.innerHTML = `❌ <strong>挑戰失敗！</strong><br>${msg}<br><br><button class="btn-danger" id="btn-restart-fail">${customBtnText}</button>`;
-            // 動態綁定重新開始按鈕，避免暴露全域函數
             setTimeout(() => {
                 document.getElementById('btn-restart-fail').addEventListener('click', restartGame);
             }, 100);
@@ -765,7 +779,7 @@
 
     initLevel();
 
-})(); // 結束 IIFE 封裝
+})();
 </script>
 </body>
 </html>
