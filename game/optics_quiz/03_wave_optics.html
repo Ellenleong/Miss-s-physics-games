@@ -1,0 +1,200 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>3. 光的干涉、繞射與色散</title><style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#162033;--muted:#667085;--line:#d9e1ec;--primary:#2457d6;--primary2:#163c9e;--ok:#0f9f6e;--bad:#d92d20;--warn:#f79009;--canvas:#0d1728;--shadow:0 10px 30px rgba(22,32,51,.10)}
+*{box-sizing:border-box}html{-webkit-tap-highlight-color:transparent}body{margin:0;background:linear-gradient(180deg,#f8fbff 0,#eef3f9 100%);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}body.is-drawing,body.is-drawing *{-webkit-user-select:none!important;user-select:none!important}button,input{font:inherit}button{cursor:pointer}.app{max-width:1240px;margin:0 auto;padding:22px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.brand h1{font-size:24px;margin:0 0 3px}.brand small{color:var(--muted)}.top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.timer{font-weight:800;font-variant-numeric:tabular-nums;background:#fff;border:1px solid var(--line);padding:10px 14px;border-radius:12px}.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 14px;border-radius:12px;font-weight:700;transition:.15s}.btn:hover{transform:translateY(-1px);box-shadow:0 5px 15px rgba(22,32,51,.08)}.btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}.btn.ok{background:var(--ok);color:#fff;border-color:var(--ok)}.btn.bad{background:#fff5f4;color:var(--bad);border-color:#f4b8b3}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}.statusbar{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 15px;margin-bottom:14px;box-shadow:var(--shadow)}.statusbar strong{font-size:17px}.status-right{display:flex;gap:14px;color:var(--muted);font-size:14px;flex-wrap:wrap}.question-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}.question-title{font-size:19px;font-weight:850;line-height:1.55;margin-bottom:10px}.question-sub{color:var(--muted);font-size:14px;line-height:1.72;margin-bottom:14px}.draw-layout{display:grid;grid-template-columns:300px 1fr;gap:16px}.toolbox{background:#f8fafc;border:1px solid var(--line);border-radius:15px;padding:13px;display:flex;flex-direction:column;gap:9px}.toolbox .row{display:grid;grid-template-columns:1fr 1fr;gap:7px}.toolbox h4{margin:0 0 2px;font-size:13px;color:var(--muted)}.toolbtn{border:1px solid #cbd5e1;background:#fff;padding:9px 10px;border-radius:10px;font-weight:700;font-size:13px}.toolbtn.active{background:#e8efff;border-color:#7ea0ef;color:#163c9e}.toolbtn.danger{color:var(--bad)}.image-tool-group{border-top:1px dashed #cbd5e1;margin-top:2px;padding-top:9px}.image-tool-group .toolbtn[data-tool="imageReal"]{color:#08724e}.image-tool-group .toolbtn[data-tool="imageVirtual"]{color:#7c3aed}.angle-readout{font-size:13px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;line-height:1.5}.canvas-wrap{background:#0d1728;border-radius:16px;overflow:hidden;border:1px solid #26364f;min-height:390px;display:grid;place-items:center;-webkit-user-select:none;user-select:none;overscroll-behavior:contain}.canvas-wrap canvas{display:block;width:100%;height:auto;max-height:610px;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;background:#0d1728}.answer-panel{max-width:800px;margin:0 auto}.numeric-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.numeric-row input{min-width:220px;flex:1;border:1px solid #b9c5d6;border-radius:12px;padding:12px 13px;font-size:18px}.unit-chip{background:#eef2f7;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-weight:700;color:#475467}.options{display:grid;gap:10px}.option{display:flex;gap:10px;align-items:flex-start;border:1px solid #cfd8e6;border-radius:13px;padding:12px 13px;background:#fff;cursor:pointer;transition:.12s}.option:hover{border-color:#88a4e9;background:#f8faff}.option.selected{border-color:var(--primary);background:#edf3ff}.option .letter{flex:0 0 28px;height:28px;border-radius:8px;display:grid;place-items:center;background:#eef2f7;font-weight:900}.option.selected .letter{background:var(--primary);color:#fff}.bottom-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:14px}.feedback{display:none;margin-top:14px;border-radius:13px;padding:12px 14px;font-weight:700;line-height:1.55}.feedback.ok{display:block;background:#ecfdf3;border:1px solid #a9e5c8;color:#08724e}.feedback.bad{display:block;background:#fff1f0;border:1px solid #f1b6b2;color:#a1261d}.overlay{position:fixed;inset:0;background:rgba(10,20,35,.58);display:none;align-items:center;justify-content:center;padding:18px;z-index:99}.overlay.show{display:flex}.modal{width:min(560px,100%);background:#fff;border-radius:20px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.25)}.modal h3{margin:0 0 9px}.modal p{color:var(--muted);line-height:1.65}.scorebox{font-size:46px;font-weight:950;color:var(--primary);margin:8px 0}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.form-grid .full{grid-column:1/-1}.form-grid input{width:100%;border:1px solid #b9c5d6;border-radius:11px;padding:11px 12px}.privacy{font-size:12px;color:var(--muted);line-height:1.55;background:#f8fafc;border:1px solid var(--line);padding:10px;border-radius:10px;margin:10px 0}.submit-status{font-size:13px;margin-top:8px;color:var(--muted)}.hidden{display:none!important}
+@media(max-width:980px){.draw-layout{grid-template-columns:1fr}.toolbox{order:2}.canvas-wrap{order:1}}@media(max-width:620px){.app{padding:12px}.topbar{align-items:flex-start}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}.statusbar{align-items:flex-start;flex-direction:column}.numeric-row input{min-width:0;width:100%}}
+
+/* iPad / 12pt minimum typography */
+html{font-size:16px}body,.btn,input,.option,.unit-chip,.feedback,.modal,.privacy,.submit-status,.question-sub,.status-right,.brand small,.toolbox h4,.toolbtn,.angle-readout{font-size:16px!important}.brand h1{font-size:28px!important}.question-title{font-size:22px!important}.statusbar strong{font-size:18px!important}.btn,.toolbtn,input,.option{min-height:44px}.option{align-items:center}.internal-stat{display:none!important}.hint-btn{background:#fff7ed!important;border-color:#f59e0b!important;color:#9a4b00!important}.hint-cost{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:10px 12px;color:#9a4b00!important;font-weight:800}.hint-text{font-size:18px!important;line-height:1.7;color:#26354a!important}.hint-text strong{color:#173a8f}.bottom-actions{flex-wrap:wrap}
+
+/* LEVEL 03 color theme */
+:root{--accent:#db2777;--soft:#fce7f3}.app{padding-top:18px}body{background:radial-gradient(circle at 92% 8%,#fce7f3 0 13%,transparent 28%),linear-gradient(180deg,#fff7fb 0,#f5f7fb 100%)}.topbar{background:#fff;border:2px solid #172033;border-radius:22px;padding:16px 18px;box-shadow:5px 5px 0 #172033}.statusbar{border:2px solid #172033;box-shadow:4px 4px 0 #f3b8d2}.statusbar strong{color:#a71960}.question-card{position:relative;overflow:hidden;border:2px solid #172033;box-shadow:7px 7px 0 #172033}.question-card:before{content:"";position:absolute;left:0;top:0;width:100%;height:7px;background:linear-gradient(90deg,#db2777,#f97316,#eab308)}.btn.primary{background:#db2777;border-color:#172033;box-shadow:2px 2px 0 #172033}.option{border:2px solid #d7dce5}.option:hover{border-color:#db2777;background:#fff7fb}.option.selected{border-color:#db2777;background:#fce7f3}.option.selected .letter{background:#db2777}.timer{border:2px solid #172033;background:#fff}.unit-chip{background:#fce7f3;color:#9d174d;border-color:#f9a8d4}
+
+/* Focus guard / iPad safe interaction */
+.focus-lock{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:9px 12px;border:2px solid #172033;border-radius:12px;background:#fff;color:#344054;font-size:16px!important;font-weight:800;white-space:nowrap}
+.focus-lock .dot{width:9px;height:9px;border-radius:50%;background:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.14)}
+.focus-warning{font-size:16px!important;line-height:1.65;color:#475467;background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:12px}
+@supports (padding:max(0px)){.app{padding-left:max(22px,env(safe-area-inset-left));padding-right:max(22px,env(safe-area-inset-right));padding-bottom:max(22px,env(safe-area-inset-bottom))}}
+@media(max-width:620px){@supports (padding:max(0px)){.app{padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right));padding-bottom:max(12px,env(safe-area-inset-bottom))}}}
+
+</style></head><body>
+<div class="app"><div class="topbar"><div class="brand"><h1>3. 光的干涉、繞射與色散</h1><small>高中光學互動測驗</small></div><div class="top-actions"><div class="focus-lock" title="切換分頁或其他 App 會返回第 1 題"><span class="dot"></span>專注模式</div><div class="timer">⏱ <span id="timerText">00:00</span></div><button id="restartBtn" class="btn">重新開始</button><button id="homeBtn" class="btn">返回主頁</button></div></div>
+<div class="statusbar"><strong>3. 光的干涉、繞射與色散</strong><div class="status-right"><span>題目：<b id="progressText">1 / 10</b></span><span class="internal-stat">失敗重來：<b id="failCount">0</b></span><span class="internal-stat">手動重開：<b id="restartCount">0</b></span><span>學生：<b id="studentBadge"></b></span></div></div>
+<div class="question-card"><div id="questionTitle" class="question-title"></div><div id="questionSub" class="question-sub"></div><div id="answerArea" class="answer-panel"></div><div id="feedback" class="feedback"></div><div class="bottom-actions"><button id="hintBtn" class="btn hint-btn">提示（-5分）</button><button id="checkBtn" class="btn primary">檢查答案</button></div></div></div>
+<div id="studentOverlay" class="overlay"><div class="modal"><h3>學生資料</h3><p>找不到主頁所儲存的學生資料。請在此輸入一次。</p><div class="form-grid"><input id="stuClass" placeholder="班別"><input id="stuId" placeholder="學號"><input id="stuName" class="full" placeholder="姓名"></div><div id="studentStatus" class="submit-status"></div><button id="studentEnter" class="btn primary" style="width:100%;margin-top:12px">開始測驗</button></div></div>
+<div id="failOverlay" class="overlay"><div class="modal"><h3>本題未通過</h3><p id="failMessage"></p><p><strong>依規則，本部分返回第 1 題；計時繼續。</strong></p><button id="failContinue" class="btn primary" style="width:100%">由第 1 題重新開始</button></div></div>
+<div id="focusOverlay" class="overlay"><div class="modal"><h3>專注模式：偵測到離開測驗</h3><p>測驗期間不可切換分頁、其他 App 或其他內容。</p><p><strong>本部分返回第 1 題；計時繼續。</strong></p><button id="focusContinue" class="btn primary" style="width:100%">返回第 1 題繼續</button></div></div>
+<div id="hintOverlay" class="overlay"><div class="modal"><h3>提示</h3><p id="hintMessage" class="hint-text"></p><p class="hint-cost">使用本次提示扣 5 分。</p><button id="hintClose" class="btn primary" style="width:100%">繼續作答</button></div></div>
+<div id="finishOverlay" class="overlay"><div class="modal"><h3>完成 10 題</h3><div id="scoreBox" class="scorebox">100</div><p id="finishSummary"></p><p>學生：<strong id="finishStudent"></strong></p><div class="privacy">每個部分獨立提交。Google Sheet 會記錄本次測驗的基本成績資料。</div><button id="submitBtn" class="btn ok" style="width:100%">提交成績至 Google Sheet</button><div id="submitStatus" class="submit-status"></div><button id="finishHome" class="btn" style="width:100%;margin-top:9px">返回主頁</button></div></div>
+<script>(()=>{'use strict';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const MODULE_NAME='3. 光的干涉、繞射與色散';
+const IP_ENDPOINT='https://api64.ipify.org?format=json';
+const student={className:'',studentId:'',name:''};
+const state={qIndex:0,seconds:0,timer:null,startedAt:null,endedAt:null,failCount:0,restartCount:0,hintCount:0,selectedOption:null,answerValue:'',finished:false};
+const HINTS=["光速關係：<strong>c = fλ</strong>。留意 m 與 nm 的換算。", "雙縫條紋間距：<strong>Δy = λL/d</strong>。", "亮紋：<strong>Δ = mλ</strong>；暗紋：<strong>Δ = (m+1/2)λ</strong>。", "比較路程差 Δ 與 λ：整數倍為亮，半整數倍為暗。", "先用 <strong>c = fλ</strong> 找 λ，再判斷路程差。", "介質中波長：<strong>λ = λ₀/n</strong>；條紋間距仍看 Δy = λL/d。", "折射定律：<strong>n₁ sin i = n₂ sin r</strong>；紅、紫光分開計算。", "狹縫寬度與波長<strong>同數量級</strong>時，繞射較明顯。", "雙縫條紋間距：<strong>Δy = λL/d</strong>；d 增大，條紋變密。", "有色濾光片主要讓<strong>自身顏色</strong>的光通過。"];
+function fmtTime(sec){const m=Math.floor(sec/60).toString().padStart(2,'0'),s=(sec%60).toString().padStart(2,'0');return `${m}:${s}`}
+function scoreFor(sec){let base=sec<=200?100:100-Math.ceil((sec-200)/10)*5;return Math.max(60,base-state.hintCount*5)}
+function updateTimer(){$('#timerText').textContent=fmtTime(state.seconds)}
+function syncTimerFromClock(){if(!state.startedAt||state.finished)return;state.seconds=Math.max(0,Math.floor((Date.now()-state.startedAt.getTime())/1000));updateTimer()}
+function startTimer(){clearInterval(state.timer);syncTimerFromClock();state.timer=setInterval(syncTimerFromClock,500)}
+function stopTimer(){clearInterval(state.timer);state.timer=null}
+
+const focusGuard={armed:false,triggered:false,suppressUntil:0,blurTimer:null,keyboardLikelyOpen:false};
+function isEditableTarget(el){return !!el&&(el.tagName==='INPUT'||el.tagName==='TEXTAREA'||el.tagName==='SELECT'||el.isContentEditable)}
+function refreshKeyboardState(){
+  const el=document.activeElement,vv=window.visualViewport;
+  const reduced=vv?Math.max(0,window.innerHeight-vv.height):0;
+  focusGuard.keyboardLikelyOpen=!!(isEditableTarget(el)&&vv&&reduced>120);
+}
+function suppressFocusGuard(ms=1800){focusGuard.suppressUntil=Date.now()+ms}
+function armFocusGuard(){focusGuard.armed=true;focusGuard.triggered=false;refreshKeyboardState()}
+function disarmFocusGuard(){focusGuard.armed=false;focusGuard.triggered=false;if(focusGuard.blurTimer){clearTimeout(focusGuard.blurTimer);focusGuard.blurTimer=null}}
+function triggerFocusPenalty(){
+  if(!focusGuard.armed||state.finished||focusGuard.triggered||Date.now()<focusGuard.suppressUntil)return;
+  const fail=$('#failOverlay');if(fail&&fail.classList.contains('show'))return;
+  focusGuard.triggered=true;
+  syncTimerFromClock();
+  state.failCount++;
+  const fc=$('#failCount');if(fc)fc.textContent=state.failCount;
+  const hint=$('#hintOverlay');if(hint)hint.classList.remove('show');
+  const fb=$('#feedback');if(fb)fb.style.display='none';
+  const cb=$('#checkBtn');if(cb)cb.disabled=true;
+  $('#focusOverlay').classList.add('show');
+}
+function resumeAfterFocusPenalty(){
+  $('#focusOverlay').classList.remove('show');
+  state.qIndex=0;
+  const cb=$('#checkBtn');if(cb)cb.disabled=false;
+  focusGuard.triggered=false;
+  renderQuestion();
+}
+$('#focusContinue').addEventListener('click',resumeAfterFocusPenalty);
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',refreshKeyboardState,{passive:true});
+  window.visualViewport.addEventListener('scroll',refreshKeyboardState,{passive:true});
+}
+document.addEventListener('focusin',()=>setTimeout(refreshKeyboardState,80),true);
+document.addEventListener('focusout',()=>setTimeout(refreshKeyboardState,160),true);
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)triggerFocusPenalty();
+  else{syncTimerFromClock();refreshKeyboardState()}
+});
+window.addEventListener('blur',()=>{
+  if(focusGuard.blurTimer)clearTimeout(focusGuard.blurTimer);
+  focusGuard.blurTimer=setTimeout(()=>{
+    refreshKeyboardState();
+    if(document.hidden){triggerFocusPenalty();return}
+    // iPad/iPhone software keyboard may blur the window while an input remains active.
+    if(focusGuard.keyboardLikelyOpen&&isEditableTarget(document.activeElement))return;
+    if(!document.hasFocus())triggerFocusPenalty();
+  },700);
+});
+window.addEventListener('focus',()=>{
+  if(focusGuard.blurTimer){clearTimeout(focusGuard.blurTimer);focusGuard.blurTimer=null}
+  syncTimerFromClock();refreshKeyboardState();
+});
+window.addEventListener('beforeunload',e=>{
+  if(focusGuard.armed&&!state.finished){e.preventDefault();e.returnValue=''}
+});
+
+function setFeedback(type,msg){const f=$('#feedback');f.className=`feedback ${type}`;f.innerHTML=msg}
+function clearFeedback(){const f=$('#feedback');f.className='feedback';f.innerHTML=''}
+function updateStudentUI(){const t=`${student.className}｜${student.studentId}｜${student.name}`;$('#studentBadge').textContent=t;$('#finishStudent').textContent=t}
+function loadStudent(){try{const x=JSON.parse(localStorage.getItem('opticsStudent')||'null');if(x&&x.className&&x.studentId&&x.name){Object.assign(student,x);updateStudentUI();return true}}catch{}$('#studentOverlay').classList.add('show');return false}
+function saveStudent(){const c=$('#stuClass').value.trim(),id=$('#stuId').value.trim(),n=$('#stuName').value.trim();if(!c||!id||!n){$('#studentStatus').textContent='請完整填寫資料。';return false}Object.assign(student,{className:c,studentId:id,name:n});localStorage.setItem('opticsStudent',JSON.stringify(student));updateStudentUI();$('#studentOverlay').classList.remove('show');startTest(false);return true}
+$('#studentEnter').addEventListener('click',saveStudent);
+function startTest(manual=false){if(manual)state.restartCount++;else state.restartCount=0;state.qIndex=0;state.seconds=0;state.failCount=0;state.selectedOption=null;state.answerValue='';state.hintCount=0;state.finished=false;state.startedAt=new Date();state.endedAt=null;$('#failCount').textContent='0';$('#restartCount').textContent=state.restartCount;updateTimer();prepareBank();renderQuestion();startTimer();armFocusGuard()}
+$('#restartBtn').addEventListener('click',()=>{suppressFocusGuard(1800);if(confirm('確定重新開始本測試？題目與計時會重設。'))startTest(true)});
+function goHome(){disarmFocusGuard();stopTimer();location.href='index.html'}
+$('#homeBtn').addEventListener('click',()=>{suppressFocusGuard(1800);if(confirm('返回主頁會離開目前測試，確定嗎？'))goHome()});$('#finishHome').addEventListener('click',goHome);
+function failQuestion(message){state.failCount++;$('#failCount').textContent=state.failCount;$('#failMessage').innerHTML=message;$('#failOverlay').classList.add('show');$('#checkBtn').disabled=true}
+$('#failContinue').addEventListener('click',()=>{$('#failOverlay').classList.remove('show');state.qIndex=0;$('#checkBtn').disabled=false;renderQuestion()});
+
+function currentHintText(){
+  const q=(typeof BANK!=="undefined"&&BANK[state.qIndex])?BANK[state.qIndex]:null;
+  if(q&&q.hint)return q.hint;
+  if(typeof HINTS!=="undefined"&&HINTS[state.qIndex])return HINTS[state.qIndex];
+  return '先找出本題涉及的基本光學定律，再逐步判斷。';
+}
+function showHint(){if(state.finished)return;state.hintCount++;$('#hintMessage').innerHTML=currentHintText();$('#hintOverlay').classList.add('show')}
+$('#hintBtn').addEventListener('click',showHint);
+$('#hintClose').addEventListener('click',()=>$('#hintOverlay').classList.remove('show'));
+function passQuestion(){setFeedback('ok','✓ 正確。');$('#checkBtn').disabled=true;setTimeout(()=>{state.qIndex++;if(state.qIndex>=10)finishModule();else{$('#checkBtn').disabled=false;renderQuestion()}},350)}
+function finishModule(){state.finished=true;disarmFocusGuard();stopTimer();state.endedAt=new Date();const score=scoreFor(state.seconds);$('#scoreBox').textContent=score;$('#finishSummary').innerHTML=`${MODULE_NAME}<br>完成時間：<strong>${fmtTime(state.seconds)}</strong><br>分數已包含提示扣分。`;$('#submitStatus').textContent='';$('#submitBtn').disabled=false;$('#finishOverlay').classList.add('show')}
+function formatLocalDate(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function formatLocalClock(d){return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`}
+function getGoogleScriptUrl(){
+  const q=new URLSearchParams(location.search).get('gas');
+  if(q){try{localStorage.setItem('opticsGoogleScriptUrl_v4',q)}catch{} return q;}
+  try{return localStorage.getItem('opticsGoogleScriptUrl_v4')||''}catch{return ''}
+}
+async function submitScore(){
+  let url=getGoogleScriptUrl();
+  if(!url){
+    const entered=prompt('尚未設定 Google Apps Script Web App URL。請貼上以 /exec 結尾的網址：','');
+    if(!entered){$('#submitStatus').textContent='未設定提交網址，尚未上傳。';return;}
+    url=entered.trim();
+    try{localStorage.setItem('opticsGoogleScriptUrl_v4',url)}catch{}
+  }
+  const btn=$('#submitBtn');btn.disabled=true;$('#submitStatus').textContent='正在提交成績至「03_干涉繞射色散」…';
+  const ended=state.endedAt||new Date();
+  const started=state.startedAt||new Date(ended.getTime()-state.seconds*1000);
+  const payload={
+    exerciseNo:3,
+    routingVersion:'v5',
+    exerciseKey:'wave',
+    sheetName:'03_干涉繞射色散',
+    sourcePage:'03_wave_optics.html',
+    date:formatLocalDate(ended),
+    startTime:formatLocalClock(started),
+    endTime:formatLocalClock(ended),
+    duration:state.seconds,
+    score:scoreFor(state.seconds),
+    failCount:state.failCount,
+    restartCount:state.restartCount,
+    name:student.name,
+    classStr:student.className,
+    studentId:student.studentId
+  };
+  try{
+    const routedUrl=url+(url.includes('?')?'&':'?')+'exerciseNo=3&sheetName='+encodeURIComponent('03_干涉繞射色散')+'&routingVersion=v5&_t='+Date.now();
+    await fetch(routedUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+    $('#submitStatus').textContent='提交請求已送出，目標分頁：03_干涉繞射色散。遊戲時間以秒數記錄。';
+  }catch(e){
+    $('#submitStatus').textContent='提交失敗：'+e.message;
+    btn.disabled=false;
+  }
+}
+$('#submitBtn').addEventListener('click',submitScore);
+
+function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min}function pick(a){return a[randInt(0,a.length-1)]}function roundTo(n,d=2){const p=10**d;return Math.round(n*p)/p}
+let BANK=[];
+function makeFringeClass(lambda){const bright=Math.random()<.5;const k=randInt(1,4);return bright?{delta:lambda*k,ans:['亮','亮紋','明','明紋'],kind:'整數倍'}:{delta:lambda*(k-.5),ans:['暗','暗紋'],kind:'半整數倍'}}
+function prepareBank(){
+ const f1=pick([4.8,5.0,5.2,5.4,5.6]),lambda1=roundTo(3000/f1,2);
+ const lambda2=pick([520,540,560,580,600,620]),d2=pick([0.20,0.25,0.30,0.40,0.50]),L2=pick([1.20,1.50,1.80,2.00]),beta2=roundTo(lambda2*L2/d2*1e-3,2);
+ const lambda3=pick([480,500,550,600,650,700]),c3=makeFringeClass(lambda3);
+ const lambda4=pick([400,450,500,550,600,650]),c4=makeFringeClass(lambda4);
+ const f5=pick([5.0,6.0,7.5]),lambda5=3000/f5,c5=makeFringeClass(lambda5),delta5=roundTo(c5.delta,2);
+ const lambda6=pick([0.48,0.51,0.54,0.60]),waterN=pick([1.33,1.34]),lambda6NewAir=waterN*lambda6,f6=roundTo(3/lambda6NewAir,2);
+ const i7=pick([30,35,40,45]),nRed=pick([1.50,1.51,1.52]),nV=roundTo(nRed+pick([0.02,0.03,0.04]),2),rR=Math.asin(Math.sin(i7*Math.PI/180)/nRed)*180/Math.PI,rV=Math.asin(Math.sin(i7*Math.PI/180)/nV)*180/Math.PI,diff7=roundTo(Math.abs(rR-rV),2);
+ const wave8=pick([450,500,550,600]),clearDiffraction8=pick([true,false]),slitMultiplier8=clearDiffraction8?pick([0.5,1,2,4,6]):pick([50,100,200]),slit8=roundTo((wave8/1000)*slitMultiplier8,2),ans8=clearDiffraction8?'明顯':'不明顯';
+ const lambda9=pick([450,500,550,600]),L9=pick([1.0,1.2,1.5]),d9a=pick([0.20,0.25,0.30]),factor9=pick([2,3]),d9b=roundTo(d9a*factor9,2),beta9=roundTo(lambda9*L9/d9b*1e-3,2);
+ const filter=pick([{glass:'紅色',obj:'白色',ans:['紅','紅色']},{glass:'藍色',obj:'白色',ans:['藍','藍色']},{glass:'綠色',obj:'白色',ans:['綠','綠色']}]);
+ BANK=[
+ {title:'1. 頻率與波長',sub:`某單色光在空氣中的頻率為 ${f1.toFixed(1)} × 10¹⁴ Hz。取光速 3.0 × 10⁸ m/s，求該光在空氣中的波長。答案以 nm 表示，並精確至小數點後 2 位。`,type:'numeric',unit:'nm',answer:lambda1,tol:.005,placeholder:'答案至小數點後兩位',requireTwoDecimals:true},
+ {title:'2. 楊氏雙縫條紋間距',sub:`以波長 ${lambda2} nm 的單色光進行雙縫干涉。雙縫中心距離為 ${d2.toFixed(2)} mm，雙縫到光屏距離為 ${L2.toFixed(2)} m。求相鄰兩條亮紋中心距離。答案以 mm 表示，並精確至小數點後 2 位。`,type:'numeric',unit:'mm',answer:beta2,tol:.005,placeholder:'答案至小數點後兩位',requireTwoDecimals:true},
+ {title:'3. 路程差與干涉條紋',sub:`在一次楊氏雙縫干涉實驗中，使用波長為 ${lambda3} nm 的單色光。光屏上的 P 點到兩條狹縫的路程差為 ${c3.delta} nm。判斷 P 點形成亮紋還是暗紋，並輸入「亮」或「暗」。`,type:'text',answer:c3.ans},
+ {title:'4. 干涉條紋判斷',sub:`雙縫干涉實驗使用波長為 ${lambda4} nm 的單色光。光屏上 Q 點到兩條狹縫的路程差為 ${c4.delta} nm。判斷 Q 點形成亮紋還是暗紋，並輸入「亮」或「暗」。`,type:'text',answer:c4.ans},
+ {title:'5. 頻率與干涉條紋',sub:`雙縫干涉實驗使用頻率為 ${f5.toFixed(1)} × 10¹⁴ Hz 的單色光。取光速 3.0 × 10⁸ m/s。光屏上 R 點到兩狹縫的路程差為 ${delta5} nm。判斷 R 點形成亮紋還是暗紋，並輸入「亮」或「暗」。`,type:'text',answer:c5.ans},
+ {title:'6. 裝置浸入水中',sub:`第一階段：雙縫裝置置於空氣中，使用空氣中波長為 ${lambda6.toFixed(2)} μm 的單色光。第二階段：把同一套裝置完全浸入折射率為 ${waterN} 的水中，改用另一種單色光，並測得相鄰亮紋的間距與第一階段相同。求第二階段所用單色光在空氣中的頻率。答案以科學記數法 a × 10^b Hz 表示，係數 a 精確至小數點後 2 位；a 與 b 均須自行輸入。`,type:'scientific',mantissaAnswer:f6,mantissaTol:.005,exponentAnswer:14,unit:'Hz',requireTwoDecimals:true},
+ {title:'7. 色散中的折射角差',sub:`白光由空氣以 ${i7.toFixed(1)}° 入射玻璃。玻璃對紅光的折射率為 ${nRed.toFixed(2)}，對紫光為 ${nV.toFixed(2)}。求紅光與紫光在玻璃內折射角的差值（取正值）。答案必須寫至小數點後兩位。`,type:'numeric',unit:'°',answer:diff7,tol:.03,placeholder:'答案至小數點後兩位'},
+ {title:'8. 單縫繞射判斷',sub:`波長 ${wave8} nm 的單色光通過寬度 ${slit8.toFixed(2)} μm 的單縫。判斷是否會出現明顯繞射。`,type:'binary',answer:ans8==='明顯'?'會':'不會'},
+ {title:'9. 改變雙縫距離',sub:`雙縫實驗使用波長 ${lambda9} nm 的光，光屏距離 ${L9.toFixed(2)} m。雙縫距離由 ${d9a.toFixed(2)} mm 增加到 ${d9b.toFixed(2)} mm。求新的相鄰亮紋間距。答案以 mm 表示，並精確至小數點後 2 位。`,type:'numeric',unit:'mm',answer:beta9,tol:.005,placeholder:'答案至小數點後兩位',requireTwoDecimals:true},
+ {title:'10. 色光與濾光片',sub:`以白光照射${filter.glass}玻璃紙，再觀察玻璃紙後方的${filter.obj}物體。忽略其他吸收細節，通過玻璃紙後主要能到達眼睛的是甚麼顏色的光？`,type:'text',answer:filter.ans}
+ ];
+}
+function renderQuestion(){clearFeedback();state.selectedOption=null;state.answerValue='';const q=BANK[state.qIndex];$('#progressText').textContent=`${state.qIndex+1} / 10`;$('#failCount').textContent=state.failCount;$('#restartCount').textContent=state.restartCount;$('#questionTitle').textContent=q.title;$('#questionSub').textContent=q.sub;const area=$('#answerArea');if(q.type==='numeric'){area.innerHTML=`<div class="numeric-row"><input id="answerInput" inputmode="decimal" autocomplete="off" placeholder="${q.placeholder||'輸入數值'}"><span class="unit-chip">${q.unit||''}</span></div>`;$('#answerInput').addEventListener('input',e=>state.answerValue=e.target.value.trim())}else if(q.type==='scientific'){area.innerHTML=`<div class="numeric-row"><input id="mantissaInput" inputmode="decimal" placeholder="係數 a"><span class="unit-chip">× 10 ^</span><input id="expInput" inputmode="numeric" placeholder="指數 b"><span class="unit-chip">${q.unit}</span></div>`;const save=()=>state.answerValue={mantissa:$('#mantissaInput').value.trim(),exp:$('#expInput').value.trim()};$('#mantissaInput').addEventListener('input',save);$('#expInput').addEventListener('input',save)}else if(q.type==='binary'){area.innerHTML='<div class="options"><div class="option" data-binary="會"><span class="letter">A</span><span>會</span></div><div class="option" data-binary="不會"><span class="letter">B</span><span>不會</span></div></div>';$$('[data-binary]').forEach(el=>el.addEventListener('click',()=>{state.answerValue=el.dataset.binary;$$('[data-binary]').forEach(x=>x.classList.toggle('selected',x===el));}))}else{area.innerHTML='<div class="numeric-row"><input id="answerInput" autocomplete="off" placeholder="輸入短答"></div>';$('#answerInput').addEventListener('input',e=>state.answerValue=e.target.value.trim())}}
+function checkAnswer(){const q=BANK[state.qIndex];if(!state.answerValue||(typeof state.answerValue==='object'&&!state.answerValue.mantissa&&!state.answerValue.exp)){setFeedback('bad',q.type==='binary'?'請先選擇「會」或「不會」。':'請先輸入答案。');return}let ok=false;if(q.type==='numeric'){const raw=String(state.answerValue).trim().replace(/,/g,'').replace('。','.');const v=Number(raw);if(q.requireTwoDecimals){const decimalsOk=/^-?\d+\.\d{2}$/.test(raw);const expected=Number(q.answer).toFixed(2);const entered=Number.isFinite(v)?v.toFixed(2):'';ok=decimalsOk&&entered===expected}else{ok=Number.isFinite(v)&&Math.abs(v-q.answer)<=q.tol}}else if(q.type==='scientific'){const rawM=String(state.answerValue.mantissa||'').trim().replace(/,/g,'').replace('。','.');const m=Number(rawM),e=Number(String(state.answerValue.exp||'').trim());const decimalsOk=!q.requireTwoDecimals||/^-?\d+\.\d{2}$/.test(rawM);ok=decimalsOk&&Number.isFinite(m)&&Number.isFinite(e)&&Math.abs(m-q.mantissaAnswer)<=q.mantissaTol&&e===q.exponentAnswer}else if(q.type==='binary'){ok=state.answerValue===q.answer}else{const v=String(state.answerValue).replace(/\s+/g,'').toLowerCase();ok=q.answer.some(a=>v===String(a).replace(/\s+/g,'').toLowerCase())}if(ok)passQuestion();else failQuestion('答案不正確。')}
+$('#checkBtn').addEventListener('click',checkAnswer);
+if(loadStudent())startTest(false);})();</script></body></html>

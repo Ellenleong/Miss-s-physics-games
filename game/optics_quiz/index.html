@@ -1,0 +1,81 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>高中光學互動測驗</title><style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#162033;--muted:#667085;--line:#d9e1ec;--primary:#2457d6;--primary2:#163c9e;--ok:#0f9f6e;--bad:#d92d20;--warn:#f79009;--canvas:#0d1728;--shadow:0 10px 30px rgba(22,32,51,.10)}
+*{box-sizing:border-box}html{-webkit-tap-highlight-color:transparent}body{margin:0;background:linear-gradient(180deg,#f8fbff 0,#eef3f9 100%);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}body.is-drawing,body.is-drawing *{-webkit-user-select:none!important;user-select:none!important}button,input{font:inherit}button{cursor:pointer}.app{max-width:1240px;margin:0 auto;padding:22px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.brand h1{font-size:24px;margin:0 0 3px}.brand small{color:var(--muted)}.top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.timer{font-weight:800;font-variant-numeric:tabular-nums;background:#fff;border:1px solid var(--line);padding:10px 14px;border-radius:12px}.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 14px;border-radius:12px;font-weight:700;transition:.15s}.btn:hover{transform:translateY(-1px);box-shadow:0 5px 15px rgba(22,32,51,.08)}.btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}.btn.ok{background:var(--ok);color:#fff;border-color:var(--ok)}.btn.bad{background:#fff5f4;color:var(--bad);border-color:#f4b8b3}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}.statusbar{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 15px;margin-bottom:14px;box-shadow:var(--shadow)}.statusbar strong{font-size:17px}.status-right{display:flex;gap:14px;color:var(--muted);font-size:14px;flex-wrap:wrap}.question-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}.question-title{font-size:19px;font-weight:850;line-height:1.55;margin-bottom:10px}.question-sub{color:var(--muted);font-size:14px;line-height:1.72;margin-bottom:14px}.draw-layout{display:grid;grid-template-columns:300px 1fr;gap:16px}.toolbox{background:#f8fafc;border:1px solid var(--line);border-radius:15px;padding:13px;display:flex;flex-direction:column;gap:9px}.toolbox .row{display:grid;grid-template-columns:1fr 1fr;gap:7px}.toolbox h4{margin:0 0 2px;font-size:13px;color:var(--muted)}.toolbtn{border:1px solid #cbd5e1;background:#fff;padding:9px 10px;border-radius:10px;font-weight:700;font-size:13px}.toolbtn.active{background:#e8efff;border-color:#7ea0ef;color:#163c9e}.toolbtn.danger{color:var(--bad)}.image-tool-group{border-top:1px dashed #cbd5e1;margin-top:2px;padding-top:9px}.image-tool-group .toolbtn[data-tool="imageReal"]{color:#08724e}.image-tool-group .toolbtn[data-tool="imageVirtual"]{color:#7c3aed}.angle-readout{font-size:13px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;line-height:1.5}.canvas-wrap{background:#0d1728;border-radius:16px;overflow:hidden;border:1px solid #26364f;min-height:390px;display:grid;place-items:center;-webkit-user-select:none;user-select:none;overscroll-behavior:contain}.canvas-wrap canvas{display:block;width:100%;height:auto;max-height:610px;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;background:#0d1728}.answer-panel{max-width:800px;margin:0 auto}.numeric-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.numeric-row input{min-width:220px;flex:1;border:1px solid #b9c5d6;border-radius:12px;padding:12px 13px;font-size:18px}.unit-chip{background:#eef2f7;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-weight:700;color:#475467}.options{display:grid;gap:10px}.option{display:flex;gap:10px;align-items:flex-start;border:1px solid #cfd8e6;border-radius:13px;padding:12px 13px;background:#fff;cursor:pointer;transition:.12s}.option:hover{border-color:#88a4e9;background:#f8faff}.option.selected{border-color:var(--primary);background:#edf3ff}.option .letter{flex:0 0 28px;height:28px;border-radius:8px;display:grid;place-items:center;background:#eef2f7;font-weight:900}.option.selected .letter{background:var(--primary);color:#fff}.bottom-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:14px}.feedback{display:none;margin-top:14px;border-radius:13px;padding:12px 14px;font-weight:700;line-height:1.55}.feedback.ok{display:block;background:#ecfdf3;border:1px solid #a9e5c8;color:#08724e}.feedback.bad{display:block;background:#fff1f0;border:1px solid #f1b6b2;color:#a1261d}.overlay{position:fixed;inset:0;background:rgba(10,20,35,.58);display:none;align-items:center;justify-content:center;padding:18px;z-index:99}.overlay.show{display:flex}.modal{width:min(560px,100%);background:#fff;border-radius:20px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.25)}.modal h3{margin:0 0 9px}.modal p{color:var(--muted);line-height:1.65}.scorebox{font-size:46px;font-weight:950;color:var(--primary);margin:8px 0}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.form-grid .full{grid-column:1/-1}.form-grid input{width:100%;border:1px solid #b9c5d6;border-radius:11px;padding:11px 12px}.privacy{font-size:12px;color:var(--muted);line-height:1.55;background:#f8fafc;border:1px solid var(--line);padding:10px;border-radius:10px;margin:10px 0}.submit-status{font-size:13px;margin-top:8px;color:var(--muted)}.hidden{display:none!important}
+@media(max-width:980px){.draw-layout{grid-template-columns:1fr}.toolbox{order:2}.canvas-wrap{order:1}}@media(max-width:620px){.app{padding:12px}.topbar{align-items:flex-start}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}.statusbar{align-items:flex-start;flex-direction:column}.numeric-row input{min-width:0;width:100%}}
+
+.hero{text-align:center;padding:28px 8px 24px}.hero h2{margin:0 0 10px;font-size:clamp(30px,4vw,44px);font-weight:950}.hero p{margin:0 auto;color:#667085;line-height:1.8;max-width:800px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.module-card{--accent:#2457d6;--soft:#edf3ff;position:relative;overflow:hidden;background:#fff;border:2px solid #172033;border-radius:24px;padding:22px;box-shadow:7px 7px 0 #172033;display:flex;flex-direction:column;min-height:235px;transition:.16s}.module-card::after{content:"";position:absolute;right:-42px;top:-42px;width:135px;height:135px;border-radius:50%;background:var(--soft)}.module-card>*{position:relative;z-index:1}.module-card:hover{transform:translate(-3px,-3px);box-shadow:10px 10px 0 #172033}.module-card:nth-child(1){--accent:#2563eb;--soft:#dbeafe}.module-card:nth-child(2){--accent:#7c3aed;--soft:#ede9fe}.module-card:nth-child(3){--accent:#db2777;--soft:#fce7f3}.module-card:nth-child(4){--accent:#059669;--soft:#d1fae5}.module-card:nth-child(5){--accent:#d97706;--soft:#fef3c7}.module-head{display:flex;align-items:center;justify-content:space-between}.module-icon{width:58px;height:58px;border:2px solid #172033;border-radius:18px;background:var(--soft);display:grid;place-items:center;font-size:29px;box-shadow:3px 3px 0 #172033}.num{background:var(--soft);color:var(--accent);padding:6px 10px;border-radius:999px;font-weight:900;font-size:12px;letter-spacing:.08em}.module-card h3{font-size:21px;margin:18px 0 8px}.module-card p{font-size:13.5px;line-height:1.7;color:#667085;margin:0 0 18px}.module-card a{margin-top:auto;width:100%;border:2px solid #172033;background:var(--accent);color:#fff;border-radius:14px;padding:12px 14px;font-weight:900;box-shadow:3px 3px 0 #172033;text-decoration:none;display:flex;align-items:center;justify-content:space-between}.module-card a::after{content:"➜"}.note{margin-top:22px;background:#fff;border:2px solid #172033;border-radius:18px;padding:14px 16px;color:#5b6473;font-size:13px;line-height:1.7;box-shadow:4px 4px 0 #dbe5f1}.note strong{color:#172033}details.teacher{margin-top:16px;background:#fff;border:1px dashed #b8c3d3;border-radius:14px;padding:10px 12px;color:#667085;font-size:12px}details.teacher input{width:100%;margin-top:8px;border:1px solid #b9c5d6;border-radius:10px;padding:9px}@media(max-width:980px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){.grid{grid-template-columns:1fr}}
+
+/* iPad typography */
+html{font-size:16px}.brand small,.hero p,.module-card p,.note,details.teacher,.btn,details.teacher input{font-size:16px!important}.module-card h3{font-size:22px!important}.module-card a{font-size:17px!important;min-height:48px}.btn,details.teacher input{min-height:44px}
+</style></head><body>
+<div class="app"><div class="topbar"><div class="brand"><h1>高中光學互動測驗</h1><small>高三｜完整光學綜合訓練</small></div><button id="editStudent" class="btn">更改學生資料</button></div>
+<div class="hero"><h2>選擇練習</h2><p>每一部分共 10 題。任何一題答錯，該部分立即返回第 1 題；完成 10 題後獨立計分及提交。每次使用提示扣 5 分。</p></div>
+<div class="grid">
+<article class="module-card"><div class="module-head"><div class="module-icon">🪞</div><div class="num">LEVEL 01</div></div><h3>簡單光路練習</h3><p>反射、折射、全反射。直接在黑色光學畫布上作圖，可拖動、旋轉及微調。</p><a class="module-link" href="01_basic_optics.html">開始挑戰</a></article>
+<article class="module-card"><div class="module-head"><div class="module-icon">🔭</div><div class="num">LEVEL 02</div></div><h3>進階光路練習</h3><p>凹面鏡、凸面鏡、凸透鏡、凹透鏡，以主光線及成像作圖為核心。</p><a class="module-link" href="02_advanced_optics.html">開始挑戰</a></article>
+<article class="module-card"><div class="module-head"><div class="module-icon">🌈</div><div class="num">LEVEL 03</div></div><h3>光的干涉、繞射與色散</h3><p>計算與短答為主；數值每次進入重新產生，題目不顯示公式。</p><a class="module-link" href="03_wave_optics.html">開始挑戰</a></article>
+<article class="module-card"><div class="module-head"><div class="module-icon">⚡</div><div class="num">LEVEL 04</div></div><h3>綜合練習</h3><p>全範圍單項選擇；題目及選項次序每次隨機。45 秒內完成可獲時間滿分。</p><a class="module-link" href="04_mixed_optics.html">開始挑戰</a></article>
+<article class="module-card"><div class="module-head"><div class="module-icon">🏆</div><div class="num">LEVEL 05</div></div><h3>綜合練習進階</h3><p>較高難度的多步推理與數值判斷；題目及選項次序每次隨機。45 秒內完成可獲時間滿分。</p><a class="module-link" href="05_mixed_optics_advanced.html">開始挑戰</a></article>
+</div>
+<div class="note"><strong>學生：</strong><span id="studentBadge">尚未輸入</span><br><strong>計分：</strong>200 秒內 100 分；其後每多 10 秒扣 5 分；只要完成 10 題，最低 60 分。</div>
+<details class="teacher"><summary>教師設定（Google Sheet 提交網址）</summary><div>部署後只需在這裡貼一次「目前正在使用的」Google Apps Script Web App URL。新版使用獨立的 v4 設定，不會再讀取舊版瀏覽器中殘留的提交網址。若你建立了新的部署 URL，請在此重新貼上並按「儲存設定」。</div><input id="gasUrl" placeholder="https://script.google.com/macros/s/AKfycbzZEDyF2-NGZI7vZOiENrWEyh_4hMVVBOPOeXwIPMuxJQqPmD5WJ1cq66lC-gBt_RIf/exec"><button id="saveGas" class="btn" style="margin-top:8px">儲存設定</button> <button id="clearGas" class="btn" style="margin-top:8px">清除舊提交網址</button><span id="gasStatus" style="margin-left:8px"></span></details>
+</div>
+<div id="studentOverlay" class="overlay show"><div class="modal"><h3>學生資料</h3><p>請先輸入班別、學號及姓名。之後五個練習會共用這組資料，每部分完成後獨立提交。</p><div class="form-grid"><input id="stuClass" placeholder="班別"><input id="stuId" placeholder="學號"><input id="stuName" class="full" placeholder="姓名"></div><div id="studentStatus" class="submit-status"></div><button id="studentEnter" class="btn primary" style="width:100%;margin-top:12px">進入練習主頁</button></div></div>
+<script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s);
+const student={className:'',studentId:'',name:''};
+function update(){$('#studentBadge').textContent=`${student.className}｜${student.studentId}｜${student.name}`;}
+function openEditor(){$('#stuClass').value=student.className;$('#stuId').value=student.studentId;$('#stuName').value=student.name;$('#studentStatus').textContent='';$('#studentOverlay').classList.add('show');}
+function save(){const c=$('#stuClass').value.trim(),id=$('#stuId').value.trim(),n=$('#stuName').value.trim();if(!c||!id||!n){$('#studentStatus').textContent='請完整填寫班別、學號及姓名。';return;}Object.assign(student,{className:c,studentId:id,name:n});try{localStorage.setItem('opticsStudent',JSON.stringify(student));}catch{}update();$('#studentOverlay').classList.remove('show');}
+try{const x=JSON.parse(localStorage.getItem('opticsStudent')||'null');if(x&&x.className&&x.studentId&&x.name){Object.assign(student,x);update();$('#studentOverlay').classList.remove('show');}}catch{}
+$('#studentEnter').addEventListener('click',save);
+$('#editStudent').addEventListener('click',openEditor);
+
+// Google Apps Script URL：支援三種來源，依次為「輸入框值 → localStorage → placeholder 內預設網址」。
+// 因此即使教師把正式網址直接寫進 placeholder，主頁亦會真正使用它，而不是只把它當灰色提示文字。
+const gasInput=$('#gasUrl');
+const looksLikeGasUrl=v=>/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:[?#].*)?$/i.test((v||'').trim());
+let storedGas='';
+try{storedGas=localStorage.getItem('opticsGoogleScriptUrl_v4')||'';}catch{}
+const placeholderGas=(gasInput.getAttribute('placeholder')||'').trim();
+const embeddedGas=looksLikeGasUrl(placeholderGas)?placeholderGas:'';
+const initialGas=embeddedGas||(looksLikeGasUrl(storedGas)?storedGas:'');
+if(initialGas){
+  gasInput.value=initialGas;
+  try{localStorage.setItem('opticsGoogleScriptUrl_v4',initialGas);}catch{}
+  $('#gasStatus').textContent='已載入提交網址';
+}
+function currentGas(){
+  const typed=gasInput.value.trim();
+  if(looksLikeGasUrl(typed)) return typed;
+  let saved=''; try{saved=localStorage.getItem('opticsGoogleScriptUrl_v4')||'';}catch{}
+  if(looksLikeGasUrl(saved)) return saved;
+  return embeddedGas;
+}
+$('#clearGas').addEventListener('click',()=>{
+  try{localStorage.removeItem('opticsGoogleScriptUrl');localStorage.removeItem('opticsGoogleScriptUrl_v4');}catch{}
+  gasInput.value=embeddedGas||'';
+  if(embeddedGas){try{localStorage.setItem('opticsGoogleScriptUrl_v4',embeddedGas);}catch{}}
+  $('#gasStatus').textContent=embeddedGas?'已清除舊網址，改用本頁設定的網址':'已清除舊網址，請重新貼上目前 Web App URL';
+});
+$('#saveGas').addEventListener('click',()=>{
+  const v=gasInput.value.trim();
+  if(v && !looksLikeGasUrl(v)){$('#gasStatus').textContent='網址格式不正確，應為 script.google.com/macros/s/.../exec';return;}
+  if(v){try{localStorage.setItem('opticsGoogleScriptUrl_v4',v);}catch{} $('#gasStatus').textContent='已儲存';}
+  else{try{localStorage.removeItem('opticsGoogleScriptUrl_v4');}catch{} $('#gasStatus').textContent=embeddedGas?'已改用頁面內預設網址':'已清除';}
+});
+
+document.querySelectorAll('.module-link').forEach(a=>a.addEventListener('click',e=>{
+  const gas=currentGas();
+  if(gas){
+    // 無論是本機 file:// 或部署網站，都把網址直接帶到子頁，避免不同頁面的 localStorage 行為差異。
+    e.preventDefault();
+    const u=new URL(a.getAttribute('href'),location.href);
+    u.searchParams.set('gas',gas);
+    u.searchParams.set('router','v4');
+    location.href=u.href;
+  }
+}));
+})();
+</script></body></html>
