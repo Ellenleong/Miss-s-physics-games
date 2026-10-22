@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>波動與振動｜互動挑戰</title>
+<style>
+:root{--bg:#100e1a;--panel:#191627;--panel2:#211d32;--line:#34304a;--text:#f3f0fc;--muted:#aaa4bf;--purple:#a991ff;--purple2:#7357d8;--mint:#83e5cc;--pink:#ff91bd;--gold:#f5ce78}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 48% -10%,#292044 0,transparent 42%),var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}.wrap{max-width:1050px;margin:auto;padding:26px 20px 50px}.top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:20px}.brand{font-weight:750;letter-spacing:.03em}.brand small{display:block;color:var(--muted);font-weight:500;font-size:13px;letter-spacing:0}.pill{border:1px solid #51466f;border-radius:999px;padding:7px 13px;color:#d5caff;font-size:13px;background:#211b34}.layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(290px,.8fr);gap:18px;align-items:start}.card{background:linear-gradient(150deg,#1b1828,#171421);border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 50px #07060c55}.graph-card{padding:18px 18px 12px}.cardhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.cardhead h2{font-size:17px;margin:0}.sub{color:var(--muted);font-size:12px}.chartbox{width:100%;overflow:hidden;border-radius:12px;background:#12101b;border:1px solid #302b40}.chartbox svg{display:block;width:100%;height:auto}.chart-note{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:12px;margin:10px 2px 0}.facts{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.fact{flex:1;min-width:120px;background:#211d30;border:1px solid #39334d;border-radius:12px;padding:10px 12px}.fact span{display:block;color:var(--muted);font-size:12px}.fact b{font-size:18px;color:#e9e2ff}.side{padding:20px}.stats{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}.progress{height:7px;border-radius:8px;background:#332e45;overflow:hidden;margin:0 0 18px}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8266e8,#c0aaff);border-radius:8px;transition:width .25s}.qtype{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--mint);font-weight:700}.question{font-size:21px;line-height:1.38;margin:7px 0 18px;font-weight:680}.unit{font-size:13px;color:var(--muted);margin-top:-9px;margin-bottom:12px}.answer{width:100%;padding:13px 14px;border:1px solid #45405a;background:#110f19;color:var(--text);font:inherit;border-radius:11px;outline:none}.answer:focus{border-color:var(--purple);box-shadow:0 0 0 3px #a991ff22}.options{display:grid;gap:9px}.opt{width:100%;text-align:left;padding:12px 13px;color:var(--text);background:#201c2d;border:1px solid #413b53;border-radius:11px;cursor:pointer;font:inherit;transition:.15s}.opt:hover{border-color:#aa96ff;background:#28223c}.opt.selected{border-color:var(--purple);background:#342b4c}.opt.correct{border-color:var(--mint);background:#16352e}.opt.wrong{border-color:var(--pink);background:#3a2030}.actions{display:flex;gap:9px;margin-top:15px}.btn{border:0;border-radius:11px;padding:11px 14px;font:650 14px system-ui;cursor:pointer}.primary{background:linear-gradient(135deg,#9b82f5,#785bdd);color:white;flex:1;box-shadow:0 6px 18px #6c50cb35}.primary:hover{filter:brightness(1.08)}.secondary{background:#292438;color:#d8d1ed;border:1px solid #464057}.secondary:hover{border-color:#a991ff}.hintbox,.feedback{padding:11px 12px;border-radius:10px;margin-top:13px;font-size:13px;display:none}.hintbox{background:#29233a;border:1px solid #4b4267;color:#e1d9fc}.feedback{border:1px solid #3b3750;background:#211e2c}.feedback.ok{display:block;color:var(--mint);border-color:#38715e}.feedback.no{display:block;color:#ffadc8;border-color:#74415a}.foot{color:#777187;font-size:11px;margin:13px 1px 0}.end{text-align:center;padding:16px 4px}.end h2{margin:5px 0 4px;font-size:25px}.scorebig{font-size:50px;line-height:1.2;color:#d4c7ff;font-weight:800;margin:12px}.hidden{display:none!important}.restart{margin-top:12px}.notice{font-size:12px;color:var(--muted);margin-top:11px}
+@media(max-width:780px){.wrap{padding:16px 12px 35px}.layout{grid-template-columns:1fr}.graph-card{padding:13px}.side{padding:17px}.question{font-size:19px}.chart-note{font-size:11px}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="top"><div class="brand">WAVE / LAB <small>波動與振動 · 20 題互動挑戰</small></div><div class="pill">✦ 每輪隨機生成</div></header>
+<div class="layout" id="quizLayout">
+<section class="card graph-card"><div class="cardhead"><h2>橫波圖像 <span class="sub">（位移—位置圖）</span></h2><span class="pill" id="waveCount">圖像 1 / 2</span></div><div class="chartbox"><svg id="waveSvg" viewBox="0 0 760 390" role="img" aria-label="標有A至J十個點的橫波圖像"></svg></div><div class="chart-note"><span>縱軸：位移（cm）</span><span>橫軸：位置 x（cm）</span></div><div class="facts" id="facts"></div><div class="notice">圖像是某一刻的波形快照；A–J 落在平衡位置、波峰或波谷等特殊位置，橫軸逐點標出位置座標。</div></section>
+<section class="card side" id="questionCard"><div class="stats"><strong id="qCount">第 1 / 20 題</strong><span class="pill">分數 <b id="score">0</b></span></div><div class="progress"><i id="progress"></i></div><div id="questionArea"></div><div class="hintbox" id="hintbox"></div><div class="feedback" id="feedback"></div><div class="actions" id="actions"><button class="btn secondary" id="hintBtn">提示 −2</button><button class="btn primary" id="submitBtn">確認答案</button></div><div class="foot">答對 +5 分 · 使用提示 −2 分 · 每題可答一次</div></section>
+</div>
+<section class="card side end hidden" id="result"><div class="qtype">挑戰完成</div><h2>波動觀察員，做得好！</h2><div class="scorebig" id="finalScore">0</div><div id="resultText" class="sub"></div><button class="btn primary restart" onclick="location.reload()">再挑戰一輪（重新隨機）</button></section>
+</main>
+<script>
+(()=>{
+const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const choice=a=>a[rand(0,a.length-1)];
+const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=rand(0,i);[b[i],b[j]]=[b[j],b[i]]}return b};
+const nice=n=>Number.isInteger(n)?String(n):String(Number(n.toFixed(2)));
+const letter=i=>String.fromCharCode(65+i), TAU=2*Math.PI;
+function makeWave(){const wavelength=choice([8,10,12,16]),amplitude=choice([2,3,4,5,6]),period=choice([2,2.5,4,5]),direction=choice(['向右傳播','向左傳播']);return {wavelength,amplitude,period,direction,frequency:1/period,speed:wavelength/period,xAt:i=>wavelength*i/4,yAt(x){return amplitude*Math.sin(TAU*x/wavelength)},slopeAt(x){return amplitude*TAU/wavelength*Math.cos(TAU*x/wavelength)}}}
+const wave1=makeWave();let wave2=makeWave();while(wave2.wavelength===wave1.wavelength&&wave2.amplitude===wave1.amplitude)wave2=makeWave();
+let activeWave=wave1;
+function draw(w){
+ const svg=document.getElementById('waveSvg'),W=760,H=390,L=70,R=24,T=30,B=55,pw=W-L-R,ph=H-T-B,cx=L,cy=T+ph/2,scaleY=ph/(2*w.amplitude*1.35),xmax=w.wavelength*2.25,sx=x=>L+x/xmax*pw,sy=y=>cy-y*scaleY;
+ let s='<defs><linearGradient id="waveGrad" x1="0" x2="1"><stop stop-color="#a991ff"/><stop offset="1" stop-color="#67d9cc"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';
+ for(let j=-2;j<=2;j++){let yy=cy-j*w.amplitude/2*scaleY;s+=`<line x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}" stroke="#282438" stroke-width="1"/>`}
+ for(let k=0;k<10;k++){let xx=sx(w.xAt(k));s+=`<line x1="${xx}" y1="${T}" x2="${xx}" y2="${H-B}" stroke="#252133" stroke-width="1"/>`}
+ s+=`<line x1="${L}" y1="${cy}" x2="${W-R}" y2="${cy}" stroke="#817a98" stroke-width="1.4"/><line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#817a98" stroke-width="1.4"/><line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#817a98" stroke-width="1.2"/>`;
+ for(const v of [-w.amplitude,0,w.amplitude]){const yy=sy(v);s+=`<line x1="${L-5}" y1="${yy}" x2="${L}" y2="${yy}" stroke="#928ba6"/><text x="${L-11}" y="${yy+4}" text-anchor="end" fill="#aaa4bf" font-size="14">${v}</text>`}
+ for(let k=0;k<10;k++){let xx=sx(w.xAt(k));s+=`<line x1="${xx}" y1="${H-B-5}" x2="${xx}" y2="${H-B+5}" stroke="#c3b8e8" stroke-width="1.5"/><text x="${xx}" y="${H-B+22}" text-anchor="middle" fill="#e1daf2" font-size="15" font-weight="600">${nice(w.xAt(k))}</text>`}
+ let path='';for(let i=0;i<=320;i++){let x=xmax*i/320;path+=(i?'L':'M')+sx(x).toFixed(1)+','+sy(w.yAt(x)).toFixed(1)}s+=`<path d="${path}" fill="none" stroke="url(#waveGrad)" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>`;
+ for(let i=0;i<10;i++){let x=w.xAt(i),y=w.yAt(x),xx=sx(x),yy=sy(y),labelY=yy+(y>=0?-19:25);s+=`<circle cx="${xx}" cy="${yy}" r="5.2" fill="#f4efff" stroke="#9f88f5" stroke-width="2"/><text x="${xx}" y="${labelY}" text-anchor="middle" fill="#dfd5ff" font-weight="700" font-size="14">${letter(i)}</text>`}
+ s+=`<text x="${L-9}" y="${T-7}" text-anchor="end" fill="#b7b0ca" font-size="13">位移</text><text x="${W-R}" y="${H-11}" text-anchor="end" fill="#b7b0ca" font-size="13">位置 x</text>`;svg.innerHTML=s;
+ document.getElementById('facts').innerHTML=`<div class="fact"><span>波的週期 T</span><b>${nice(w.period)} s</b></div><div class="fact"><span>傳播方向</span><b>${w.direction}</b></div>`;
+}
+const numeric=(text,unit,answer,hint)=>({type:'讀圖與計算',text,unit,answer,hint});
+const directionQ=w=>{const i=2,up=w.direction==='向右傳播'?w.slopeAt(w.xAt(i))<0:w.slopeAt(w.xAt(i))>0;return {type:'質點運動',text:`波沿「${w.direction}」傳播。${letter(i)} 點的質點在下一刻會向哪個方向移動？`,opts:['向上','向下','保持靜止'],answer:up?'向上':'向下',hint:'看該點附近波形的斜率，再配合波的傳播方向判斷質點瞬時運動方向。'}};
+const halfCycleQ=w=>{const i=choice([1,3,5,7,9]),initial=w.yAt(w.xAt(i)),target=-initial,correct=target>0?`波峰（+${w.amplitude} cm）`:`波谷（−${w.amplitude} cm）`;return {type:'質點運動',text:`質點 ${letter(i)} 經過 ${nice(w.period/2)} s（半個週期）後，它的垂直位置會在哪裡？`,opts:shuffle([`波峰（+${w.amplitude} cm）`,'平衡位置',`波谷（−${w.amplitude} cm）`]),answer:correct,hint:'經過半個週期，質點會到達平衡位置另一側、與原位移大小相同的位置。'}};
+function graphQuestions(w){return [
+ numeric('由圖像讀出這列波的振幅是多少？','cm',w.amplitude,'振幅是平衡位置到波峰（或波谷）的最大位移。'),
+ numeric('由圖像讀出波長是多少？','cm',w.wavelength,'波長是相鄰兩個波峰（或相鄰兩個波谷）之間的水平距離。'),
+ numeric(`已知週期 T = ${nice(w.period)} s，求頻率 f。`,'Hz',w.frequency,'使用 f = 1 ÷ T。'),
+ numeric('根據圖像和週期求這列波的波速。','cm/s',w.speed,'先由圖像讀出波長，再使用 v = λ ÷ T。'),
+ directionQ(w),
+ halfCycleQ(w)
+]}
+const concepts=[
+ {type:'概念推理',text:'沿同一列波，相距一個波長的兩個質點，在同一時刻的振動狀態如何？',opts:['同相','反相','相差四分之一週期','無法比較'],answer:'同相',hint:'一個波長對應完整一輪相位變化。'},
+ {type:'概念推理',text:'同一列波中，相鄰波峰與波谷相距多少？兩點的振動狀態如何？',opts:['相距半個波長，反相','相距一個波長，同相','相距半個波長，同相','相距四分之一波長，反相'],answer:'相距半個波長，反相',hint:'波峰到相鄰波谷是半個完整波形週期。'},
+ {type:'概念推理',text:'波在同一介質中傳播，若頻率增加一倍，哪項敘述正確？',opts:['波速不變，波長減半','波速增加一倍，波長不變','波速減半，波長不變','波速和波長都增加一倍'],answer:'波速不變，波長減半',hint:'同一介質中的波速不變，並使用 v = fλ。'},
+ {type:'概念推理',text:'這張位移—位置圖是某一刻的快照。單靠這張圖，哪個量不能直接讀出？',opts:['週期','振幅','波長','某點當刻的位移'],answer:'週期',hint:'週期描述時間變化；這張圖的橫軸表示位置而非時間。'},
+ {type:'概念推理',text:'質點在波峰的瞬間，以下哪項最合理？',opts:['瞬時速度為零，並開始向平衡位置回移','瞬時速度最大，並繼續向上','瞬時速度為零，並停在波峰','質點隨波向前移動一個波長'],answer:'瞬時速度為零，並開始向平衡位置回移',hint:'波峰是質點垂直振動的轉向位置。'},
+ {type:'概念推理',text:'橫波傳過介質時，介質質點整體會隨波從波源移到遠處嗎？',opts:['不會；質點在平衡位置附近振動，波傳遞能量','會；所有質點都向前移動','只有波峰會移動，質點不振動','會；質點每秒移動一個波長'],answer:'不會；質點在平衡位置附近振動，波傳遞能量',hint:'分清介質質點的局部振動和波形的傳播。'},
+ {type:'概念推理',text:'波峰到相鄰波谷的垂直距離，與振幅 A 的關係是甚麼？',opts:['2A','A','A/2','4A'],answer:'2A',hint:'波峰在平衡位置上方 A，波谷在下方 A。'},
+ {type:'概念推理',text:'比較位移—位置圖和位移—時間圖，哪項配對正確？',opts:['位置圖的波峰間距是波長；時間圖的相鄰同相點間隔是週期','位置圖的波峰間距是週期；時間圖的間隔是波長','兩種圖的橫軸都表示時間','兩種圖都不能顯示振幅'],answer:'位置圖的波峰間距是波長；時間圖的相鄰同相點間隔是週期',hint:'先辨認兩種圖的橫軸分別代表位置和時間。'}
+];
+const conceptOrder=shuffle(concepts),block1=shuffle([...graphQuestions(wave1),...conceptOrder.slice(0,4)]),block2=shuffle([...graphQuestions(wave2),...conceptOrder.slice(4)]),questions=[...block1,...block2];
+let idx=0,score=0,hintUsed=false,answered=false,selected=null;
+const area=document.getElementById('questionArea'),feedback=document.getElementById('feedback'),hintbox=document.getElementById('hintbox');
+function render(){if(idx>=questions.length){finish();return}if(idx===10){activeWave=wave2;draw(activeWave);document.getElementById('waveCount').textContent='圖像 2 / 2'}const q=questions[idx];document.getElementById('qCount').textContent=`第 ${idx+1} / 20 題`;document.getElementById('score').textContent=score;document.getElementById('progress').style.width=`${idx/20*100}%`;hintUsed=false;answered=false;selected=null;hintbox.style.display='none';feedback.className='feedback';feedback.style.display='none';let html=`<div class="qtype">${q.type}</div><div class="question">${q.text}</div>`;if(q.opts){html+='<div class="options">'+q.opts.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join('')+'</div>'}else{html+=`<div class="unit">請輸入數值（可輸入小數） · ${q.unit}</div><input id="numericAnswer" class="answer" type="number" step="any" inputmode="decimal" placeholder="輸入答案">`}area.innerHTML=html;area.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(answered)return;area.querySelectorAll('.opt').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');selected=Number(b.dataset.i)});const n=document.getElementById('numericAnswer');if(n)n.addEventListener('keydown',e=>{if(e.key==='Enter')submit()});document.getElementById('submitBtn').textContent=idx===19?'完成挑戰':'確認答案'}
+function submit(){if(answered)return;const q=questions[idx];let correct=false;if(q.opts){if(selected===null){show('請先選擇一個答案。','no');return}correct=q.opts[selected]===q.answer;area.querySelectorAll('.opt').forEach(b=>{if(q.opts[Number(b.dataset.i)]===q.answer)b.classList.add('correct');else if(b.classList.contains('selected'))b.classList.add('wrong')})}else{const n=document.getElementById('numericAnswer');if(n.value===''){show('請先輸入答案。','no');return}const val=Number(n.value),tol=Math.max(.06,Math.abs(q.answer)*.025);correct=Math.abs(val-q.answer)<=tol}answered=true;if(correct){score+=5;show(`答對了！${hintUsed?'已使用提示，本題得 3 分。':'本題 +5 分。'}`,'ok')}else show(`未答對。參考答案：${q.opts?q.answer:`${nice(q.answer)} ${q.unit}`}。`,'no');document.getElementById('score').textContent=score;document.getElementById('submitBtn').textContent=idx===19?'看結果':'下一題';document.getElementById('submitBtn').onclick=next}
+function next(){if(!answered)return;idx++;document.getElementById('submitBtn').onclick=submit;render()}
+function show(msg,kind){feedback.textContent=msg;feedback.className='feedback '+kind;feedback.style.display='block'}
+document.getElementById('hintBtn').onclick=()=>{if(answered||hintUsed)return;const q=questions[idx];hintUsed=true;score-=2;document.getElementById('score').textContent=score;hintbox.textContent='提示（已扣 2 分）：'+q.hint;hintbox.style.display='block'};document.getElementById('submitBtn').onclick=submit;
+function finish(){document.getElementById('quizLayout').classList.add('hidden');document.getElementById('result').classList.remove('hidden');document.getElementById('finalScore').textContent=score;document.getElementById('resultText').textContent='你完成了 20 題挑戰。答題期間會在第 10 題後切換至第二張隨機波形。';document.getElementById('progress').style.width='100%'}
+draw(wave1);render();
+})();
+</script>
+</body></html>
