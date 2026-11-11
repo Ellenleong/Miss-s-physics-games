@@ -17,7 +17,7 @@ const $=id=>document.getElementById(id);const presets=[['紅',650,'#ff536c'],['�
 ['10｜終極核心：光子帳本','終極綜合','同一金屬 W = 2.00 eV，受光面積及量子效率固定，全部光電子均被收集。將 600 nm 光換成 400 nm 光，且保持相同光功率。新的飽和光電流約為原來多少？最大動能又如何？',['1.5 倍；增加','2/3 倍；增加','1 倍；不變','2/3 倍；減少'],1,'兩種光都可觸發。相同功率 P 下，光子到達率 N = P/E = Pλ/(hc)，所以 I新/I舊 = 400/600 = 2/3。最大動能由約 0.067 eV 升至 1.10 eV。強度與電流成正比的敘述必須固定頻率！']
 ];
 // 可在這裡預先填入老師部署的 /exec 網址。
-const SHEET_WEB_APP_URL = "";
+const SHEET_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxESG0YjtygCPMKBkYmvsaKQ3rD55q3lsldJLpCA0c54YJRpHh2jaSYQ8yai-n0Fg9z4A/exec";
 let student=null,restarts=0,startedAt=null,endedAt=null,startedMono=null,elapsedFinal=null,record=null,uploading=false;
 function readStore(k){try{return localStorage.getItem(k)||''}catch{return ''}}
 function writeStore(k,v){try{localStorage.setItem(k,v)}catch{}}
