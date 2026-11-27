@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>物理測驗：靜電學與庫侖定律（50題）</title>
+  <style>
+    :root {
+      --primary: #1e40af;
+      --primary-light: #3b82f6;
+      --primary-bg: #eff6ff;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #cbd5e1;
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --success: #15803d;
+      --success-bg: #f0fdf4;
+      --warning: #b45309;
+      --warning-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+      padding: 28px;
+      margin-bottom: 20px;
+      border: 1px solid #e2e8f0;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.6rem;
+      color: var(--primary);
+    }
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .rules-box {
+      background: var(--primary-bg);
+      border-left: 4px solid var(--primary);
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin-bottom: 22px;
+      font-size: 0.94rem;
+    }
+    .rules-box ul {
+      margin: 6px 0 0;
+      padding-left: 20px;
+    }
+    .rules-box li {
+      margin-bottom: 4px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    label.field-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.92rem;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-user-select: text;
+      user-select: text;
+    }
+    input[type="text"]:focus {
+      border-color: var(--primary-light);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 22px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover:not(:disabled) { background: #1d4ed8; }
+    .btn-secondary {
+      background: #e2e8f0;
+      color: var(--text);
+    }
+    .btn-secondary:hover:not(:disabled) { background: #cbd5e1; }
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+    }
+    .btn-danger:hover:not(:disabled) { background: #b91c1c; }
+    .btn-next {
+      background: #0f766e;
+      color: #fff;
+      padding: 12px 28px;
+      font-size: 1.02rem;
+    }
+    .btn-next:hover:not(:disabled) { background: #0d9488; }
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* Sticky Top Bar */
+    .sticky-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .sticky-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.92rem;
+    }
+    .student-badge {
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .status-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .pill-progress {
+      background: var(--primary-bg);
+      color: var(--primary);
+    }
+    .pill-blur {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+    .pill-blur.danger {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    /* Progress Bar */
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1e40af, #3b82f6);
+      width: 2%;
+      transition: width 0.25s ease;
+    }
+
+    /* Constants Banner */
+    .constants-bar {
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 10px 16px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      font-size: 0.88rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+    .constants-bar strong { color: #93c5fd; }
+
+    /* Single Question Card */
+    .section-tag {
+      display: inline-block;
+      background: var(--primary-bg);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.84rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+    .q-num {
+      font-weight: 800;
+      color: var(--text);
+      font-size: 1.15rem;
+    }
+    .q-score-tag {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: #f1f5f9;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+    .q-text {
+      font-size: 1.12rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 13px 16px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+      background: #fff;
+      font-size: 1rem;
+    }
+    .option-item:hover {
+      background: #f8fafc;
+      border-color: var(--primary-light);
+    }
+    .option-item.selected {
+      background: var(--primary-bg);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+    .option-item input[type="radio"] {
+      margin-top: 4px;
+      accent-color: var(--primary);
+      transform: scale(1.2);
+    }
+    .q-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 18px;
+    }
+    .q-hint {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    /* Result Screen */
+    .score-display {
+      font-size: 3.4rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 10px 0;
+    }
+    .upload-status {
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin: 16px 0;
+      font-weight: 600;
+    }
+    .upload-status.success { background: var(--success-bg); color: var(--success); border: 1px solid #86efac; }
+    .upload-status.error { background: var(--danger-bg); color: var(--danger); border: 1px solid #fca5a5; }
+    .upload-status.loading { background: var(--primary-bg); color: var(--primary); border: 1px solid #93c5fd; }
+
+    /* Custom Modals (avoids native alert/confirm triggering window.blur) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.68);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 16px;
+    }
+    .modal-box {
+      background: #fff;
+      border-radius: 14px;
+      max-width: 440px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      text-align: center;
+    }
+    .modal-box.blur-modal {
+      border: 3px solid var(--danger);
+    }
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0 0 10px;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header (only visible during quiz) -->
+  <div id="stickyBar" class="sticky-bar hidden">
+    <div class="sticky-inner">
+      <div class="student-badge" id="studentInfoBadge"></div>
+      <div class="status-pills">
+        <span class="pill pill-progress" id="progressPill">第 1 / 50 題</span>
+        <span class="pill pill-blur" id="blurPill">失焦次數：0 / 3</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- 1. LOGIN SCREEN -->
+    <div id="loginScreen" class="card">
+      <h1>物理科線上測驗：靜電學與庫侖定律</h1>
+      <div class="subtitle">全卷共 50 題單選題｜每題 2 分｜總分 100 分</div>
+
+      <div class="rules-box">
+        <strong>測驗規則與須知：</strong>
+        <ul>
+          <li>本測驗<strong>可以查閱講義、課本、使用計數機及與同學討論</strong>。</li>
+          <li><strong>嚴禁離開本測驗頁面或切換視窗／分頁</strong>：系統已啟用失焦偵測功能，離開頁面會被記錄；達 <span id="maxBlurRule">3</span> 次將自動強制交卷。</li>
+          <li>全班題目順序相同，<strong>每次只顯示 1 題</strong>。每題按下「確認提交並前往下一題」後即鎖定，<strong>無法返回上一題或更改答案</strong>，且<strong>不會即時顯示對錯</strong>。</li>
+          <li>完成第 50 題並按下「最終提交試卷」後，系統將上傳成績並顯示最終分數。</li>
+          <li>每位同學最多只能上傳 <strong><span id="maxAttemptRule">2</span> 次</strong> 成績。</li>
+        </ul>
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <label class="field-label" for="inputClass">班別（例如：高一正 / S4E）</label>
+          <input type="text" id="inputClass" placeholder="請輸入班別" autocomplete="off" />
+        </div>
+        <div>
+          <label class="field-label" for="inputName">姓名</label>
+          <input type="text" id="inputName" placeholder="請輸入姓名" autocomplete="off" />
+        </div>
+        <div>
+          <label class="field-label" for="inputId">學號</label>
+          <input type="text" id="inputId" placeholder="請輸入學號" autocomplete="off" />
+        </div>
+      </div>
+
+      <div id="loginError" style="color:var(--danger);font-weight:600;margin-bottom:14px;" class="hidden"></div>
+
+      <button class="btn btn-primary" style="width:100%;padding:13px;" onclick="startQuiz()">開始測驗（立即記錄開始時間）</button>
+    </div>
+
+    <!-- 2. QUIZ SCREEN (Single Question Mode) -->
+    <div id="quizScreen" class="hidden">
+      <div class="constants-bar">
+        <strong>常用常數：</strong>
+        <span>庫侖常數 <i>k</i> = 9.0 &times; 10<sup>9</sup> N&middot;m<sup>2</sup>/C<sup>2</sup></span>
+        <span>元電荷 <i>e</i> = 1.6 &times; 10<sup>&minus;19</sup> C</span>
+        <span>重力加速度 <i>g</i> = 10 m/s<sup>2</sup></span>
+      </div>
+
+      <div class="progress-track">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+
+      <div class="card" id="singleQuestionCard">
+        <div class="section-tag" id="qSectionTag"></div>
+        <div class="q-header">
+          <span class="q-num" id="qNumText"></span>
+          <span class="q-score-tag">單選題｜2 分</span>
+        </div>
+        <div class="q-text" id="qText"></div>
+        <div class="options-list" id="optionsList"></div>
+        <div class="q-footer">
+          <span class="q-hint" id="qHintText">請選擇答案後提交，提交後無法返回修改。</span>
+          <button class="btn btn-next" id="nextOrSubmitBtn" disabled onclick="handleQuestionSubmit()">確認提交並前往下一題</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. RESULT SCREEN -->
+    <div id="resultScreen" class="card hidden" style="text-align:center;">
+      <h1 style="margin-bottom:4px;">測驗已提交</h1>
+      <div id="resultStudentInfo" class="subtitle"></div>
+
+      <div class="score-display"><span id="finalScoreNum">0</span> <span style="font-size:1.3rem;color:var(--muted);">/ 100 分</span></div>
+      <div id="resultSummary" style="color:var(--muted);margin-bottom:14px;"></div>
+
+      <div id="uploadStatusBox" class="upload-status loading">正在將成績上傳至 Google Sheet，請勿關閉頁面...</div>
+      <button id="retryUploadBtn" class="btn btn-danger hidden" onclick="uploadToSheet()">重新嘗試上傳成績</button>
+
+      <div style="margin-top:24px;font-size:0.88rem;color:var(--muted);">
+        <div id="timeLogText"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blur Warning Modal -->
+  <div id="blurModal" class="modal-backdrop hidden">
+    <div class="modal-box blur-modal">
+      <div class="modal-title" style="color:var(--danger);">⚠️ 偵測到頁面失焦！</div>
+      <p id="blurModalMsg" style="margin:0;font-size:0.98rem;"></p>
+      <div class="modal-actions">
+        <button class="btn btn-danger" onclick="closeBlurModal()">我知道了，返回測驗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final Submit Confirm Modal -->
+  <div id="confirmModal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="modal-title">確定提交最後一題並交卷？</div>
+      <p style="margin:0;font-size:0.96rem;color:#334155;">按下確定後將鎖定第 50 題答案，立即計算最終分數並上傳至 Google Sheet。</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeConfirmModal()">再檢查第 50 題</button>
+        <button class="btn btn-primary" onclick="confirmFinalSubmit()">確定交卷</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // ⚙️ 老師設定區（請務必填入你的 Google Apps Script 網路應用程式網址）
+    // =========================================================================
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyt2IKMZ51xJXs7ZvUTmPNog1G8X1GeKEu3cpfWAmtZQEeo1I9VOTJ_mPWi19fMTnj/exec";
+    const MAX_ATTEMPTS = 2;     // 每人最多上傳次數（前後端雙重驗證）
+    const MAX_BLUR_COUNT = 5;   // 失焦次數上限（達到此數自動強制交卷；若只想記錄不強制交卷可改為 999）
+
+    // =========================================================================
+    // 題庫資料（全班固定順序 1–50 題）
+    // =========================================================================
+    const QUESTIONS = [{"id": 1, "section": "第一部分：生活靜電與應用", "q": "為什麼冬天比夏天更容易發生「觸摸門把被靜電電到」的現象？", "options": ["冬天的空氣溫度低，電子移動速度變慢", "冬天空氣較乾燥、濕度低，靜電荷不易透過空氣中的水氣散失", "冬天人體內部的電阻變小，容易產生更多電荷", "夏天陽光較強，會把物體表面的電子全部蒸發"]}, {"id": 2, "section": "第一部分：生活靜電與應用", "q": "脫掉羊毛衫或抓絨外套時，常聽到「劈啪」聲甚至在暗處看到微弱火花，這主要是什麼現象？", "options": ["衣服纖維斷裂產生的摩擦熱", "不同材質衣物摩擦起電後，積聚的電荷發生空氣放電", "靜電感應導致衣物磁化", "衣服內的水分受熱汽化"]}, {"id": 3, "section": "第一部分：生活靜電與應用", "q": "運載汽油的油罐車尾部通常會拖著一條接觸地面的金屬鏈（或導電橡膠帶），其主要目的是什麼？", "options": ["增加車身重量，防止轉彎翻車", "提醒後方車輛保持安全車距", "將行駛中油料晃動與摩擦產生的靜電導入大地，避免火花引發爆炸", "幫助引擎散熱"]}, {"id": 4, "section": "第一部分：生活靜電與應用", "q": "在自助加油站加油前，通常建議先用手觸摸加油機上的「靜電釋放器」（金屬觸摸板），這是利用了什麼原理？", "options": ["摩擦起電", "接地導走人體積聚的靜電", "靜電屏蔽", "絕緣隔離"]}, {"id": 5, "section": "第一部分：生活靜電與應用", "q": "用乾塑膠梳子梳乾燥的頭髮後，頭髮會「豎起來」且互相散開，原因為何？", "options": ["頭髮帶上同種電荷而互相排斥", "頭髮帶上異種電荷而互相吸引", "梳子把頭髮的磁場打亂了", "頭髮因摩擦失去所有質子"]}, {"id": 6, "section": "第一部分：生活靜電與應用", "q": "把充氣氣球在頭髮上摩擦幾下，氣球就能黏在原本不帶電的乾牆壁上，最準確的解釋是什麼？", "options": ["摩擦使氣球表面產生膠水般的黏性", "牆壁原本就帶有與氣球相反的淨電荷", "帶電氣球使牆壁表面發生電荷重新分佈（極化），近端出現異種電荷而相吸", "氣球內的空氣受熱膨脹產生大氣壓力吸附"]}, {"id": 7, "section": "第一部分：生活靜電與應用", "q": "冬天使用烘衣機烘乾衣物後，尼龍衫與棉質衣服經常緊緊黏在一起，下列哪項做法最能減少這種靜電現象？", "options": ["把烘衣溫度調到最高並延長時間", "加入柔順劑或防靜電烘衣紙，減少纖維摩擦並幫助電荷消散", "將所有衣物換成純化纖材質", "在完全真空的環境中烘乾"]}, {"id": 8, "section": "第一部分：生活靜電與應用", "q": "組裝電腦主機（安裝 CPU、記憶體）時，技術人員常佩戴連接地線的「防靜電手環」，主要是為了防止什麼？", "options": ["防止主機板漏電電傷人體", "防止人體靜電瞬間放電擊穿精密電子元件", "防止電腦零件生鏽", "防止工具掉落"]}, {"id": 9, "section": "第一部分：生活靜電與應用", "q": "為什麼電視機螢幕或電腦顯示器使用一段時間後，表面特別容易吸附大量灰塵？", "options": ["螢幕表面有黏性塗層", "螢幕運作時帶有靜電，能吸引空氣中不帶電的輕小灰塵", "灰塵本身全部帶有正電荷", "螢幕散熱產生強大氣流把灰塵吹上去"]}, {"id": 10, "section": "第一部分：生活靜電與應用", "q": "高樓大廈頂部安裝避雷針，在雷雨天保護建築物的主要作用機制是？", "options": ["避雷針是絕緣體，能阻擋閃電靠近建築物", "利用尖端放電與良好接地，將雲層雷電安全引導至大地", "把閃電反射回天空", "吸收雲層中的所有水分以阻止打雷"]}, {"id": 11, "section": "第一部分：生活靜電與應用", "q": "工廠的「靜電噴漆」技術能讓油漆均勻附著在金屬車身上並大幅減少浪費，其原理是？", "options": ["讓霧化油漆微粒與金屬車身帶上同種電荷", "讓霧化油漆微粒與金屬車身帶上異種電荷，利用靜電引力吸附", "利用強風把油漆吹入金屬微孔", "將金屬車身加熱至高溫熔化油漆"]}, {"id": 12, "section": "第一部分：生活靜電與應用", "q": "用乾燥的絲綢擦拭眼鏡鏡片後，鏡片反而容易吸灰塵；若改用略微濕潤的專用拭鏡布則不易吸灰塵，原因是？", "options": ["濕布的摩擦力較大", "濕布能提供導電通路，減少摩擦起電的電荷積聚", "乾絲綢會把鏡片磨出凹槽", "水分子會排斥所有灰塵"]}, {"id": 13, "section": "第一部分：生活靜電與應用", "q": "關於生活中「觸摸金屬門把被電到」的防範方法，下列哪一項最有效？", "options": ["盡量穿著厚底橡膠鞋並在化纖地毯上快走", "觸摸門把前，先用鑰匙的金屬端碰觸門把，或先用手掌輕觸牆壁釋放電荷", "每次開門前用力拍打自己的毛衣", "保持室內極度乾燥"]}, {"id": 14, "section": "第一部分：生活靜電與應用", "q": "在印表機或影印機中，碳粉能精準附著在紙張特定區域形成文字，這主要應用了靜電學的哪項特性？", "options": ["同種電荷互相排斥", "異種電荷互相吸引", "導體不能帶電", "電荷可以憑空產生"]}, {"id": 15, "section": "第一部分：生活靜電與應用", "q": "醫院手術室的地板通常採用微導電材料，醫護人員也穿著防靜電鞋，主要考量是？", "options": ["讓地面更防滑", "防止靜電火花引燃手術室內的易燃氣體（如麻醉氣體、高濃度氧氣）", "方便清潔消毒", "增強室內 Wi-Fi 訊號"]}, {"id": 16, "section": "第一部分：生活靜電與應用", "q": "飛機機翼的後緣通常裝有數根細長的「靜電放電刷」（金屬針狀物），其功用是？", "options": ["測量飛行速度", "接收無線電訊號", "將飛機與空氣高速摩擦產生的靜電透過尖端放電釋放到大氣中，避免干擾通訊儀器", "增加機翼升力"]}, {"id": 17, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "關於「電荷守恆定律」，下列敘述何者正確？", "options": ["摩擦起電的過程會憑空創造出新的電荷", "孤立系統中，正電荷總量與負電荷總量永遠各自不變", "孤立系統中，電荷只能轉移，系統的淨電荷總量保持不變", "電荷在接地後會徹底從宇宙中消失"]}, {"id": 18, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "自然界中物體所帶的電荷量必然是元電荷 <i>e</i> = 1.6 &times; 10<sup>&minus;19</sup> C 的整數倍。下列哪一個電荷量在自然界中<strong>不可能</strong>單獨存在於一個獨立物體上？", "options": ["+3.2 &times; 10<sup>&minus;19</sup> C", "&minus;4.8 &times; 10<sup>&minus;19</sup> C", "+2.4 &times; 10<sup>&minus;19</sup> C", "&minus;8.0 &times; 10<sup>&minus;19</sup> C"]}, {"id": 19, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "一個原本電中性的物體，經摩擦後帶有 &minus;4.8 &times; 10<sup>&minus;9</sup> C 的電荷，請問該物體發生了什麼變化？", "options": ["失去了 3.0 &times; 10<sup>10</sup> 個質子", "獲得了 3.0 &times; 10<sup>10</sup> 個電子", "失去了 3.0 &times; 10<sup>10</sup> 個電子", "獲得了 3.0 &times; 10<sup>9</sup> 個電子"]}, {"id": 20, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "用絲綢摩擦玻璃棒後，玻璃棒帶正電，絲綢帶負電。這是因為在摩擦過程中：", "options": ["玻璃棒上的質子轉移到了絲綢上", "絲綢上的質子轉移到了玻璃棒上", "玻璃棒上的電子轉移到了絲綢上", "絲綢上的電子轉移到了玻璃棒上"]}, {"id": 21, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "金屬導體與絕緣體在微觀結構上的主要區別是？", "options": ["金屬導體有質子，絕緣體沒有質子", "金屬導體擁有大量可自由移動的電子，絕緣體的電子被緊密束縛在原子附近", "絕緣體完全不能帶電", "金屬導體內部沒有原子核"]}, {"id": 22, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "將一根帶正電的玻璃棒<strong>靠近</strong>（但不接觸）一個原本不帶電的絕緣金屬球，金屬球靠近玻璃棒的一端會出現什麼電荷？整個金屬球的淨電荷為何？", "options": ["負電荷；淨電荷為負", "正電荷；淨電荷為零", "負電荷；淨電荷為零", "正電荷；淨電荷為正"]}, {"id": 23, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "承上題，當帶正電的玻璃棒仍停留在金屬球附近時，若用手觸摸一下金屬球（接地），然後<strong>先移開手，再移走玻璃棒</strong>，最後金屬球會帶什麼電？", "options": ["正電", "負電", "不帶電", "無法判斷"]}, {"id": 24, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "若在上一題的步驟中，操作順序改為<strong>先移走玻璃棒，再移開手</strong>，則最後金屬球會帶什麼電？", "options": ["正電", "負電", "不帶電", "視手觸摸的位置而定"]}, {"id": 25, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "兩個完全相同、置於絕緣架上的不帶電金屬球 A 和 B 互相接觸。現將帶負電的膠棒靠近 A 球（不接觸），在膠棒未移走前將 A、B 兩球分開，最後移走膠棒。此時 A、B 兩球的帶電情況為？", "options": ["A 帶正電，B 帶負電", "A 帶負電，B 帶正電", "A、B 均帶正電", "A、B 均不帶電"]}, {"id": 26, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "兩個完全相同的金屬小球，分別帶有 +6.0 &mu;C 和 &minus;2.0 &mu;C 的電荷。將兩球接觸後再分開，每個小球所帶的電荷量為？", "options": ["+4.0 &mu;C", "+2.0 &mu;C", "&minus;2.0 &mu;C", "+8.0 &mu;C"]}, {"id": 27, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "有三個完全相同的金屬球 A、B、C，初始時 A 帶電 +8.0 &mu;C，B 和 C 均不帶電。先讓 A 與 B 接觸後分開，再讓 B 與 C 接觸後分開，最終 C 球所帶的電荷量為？", "options": ["+4.0 &mu;C", "+2.67 &mu;C", "+2.0 &mu;C", "+1.0 &mu;C"]}, {"id": 28, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "驗電器（Electroscope）的金屬箔片張開，代表金屬箔片發生了什麼情況？", "options": ["兩片金屬箔片帶上異種電荷", "兩片金屬箔片帶上同種電荷而互相排斥", "金屬箔片受熱膨脹", "金屬箔片受到向上的浮力"]}, {"id": 29, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "一個驗電器原本帶有<strong>正電</strong>（箔片已張開一定角度）。現將一根帶<strong>負電</strong>的膠棒慢慢<strong>靠近</strong>（但不接觸）驗電器的金屬球，金屬箔片的張角會如何變化？", "options": ["一定變大", "先變小（甚至閉合），若膠棒靠得更近可能再張開", "完全不變", "立刻永久閉合，移走膠棒後也不再張開"]}, {"id": 30, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "若將一根帶正電的棒子<strong>靠近</strong>一個原本<strong>帶正電</strong>的驗電器金屬球（不接觸），箔片的張角會如何變化？", "options": ["變大", "變小", "不變", "先變小後變大"]}, {"id": 31, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "實驗中觀察到帶正電的輕質小球 A <strong>吸引</strong>了另一個輕質小球 B，由此可以推斷小球 B 的帶電情況為？", "options": ["一定帶負電", "一定不帶電", "可能帶負電，也可能不帶電", "一定帶正電"]}, {"id": 32, "section": "第二部分：電荷本質、起電方式與驗電器", "q": "實驗中觀察到帶正電的小球 A <strong>排斥</strong>了小球 B，由此可以推斷小球 B 的帶電情況為？", "options": ["一定帶正電", "一定帶負電", "可能帶正電，也可能不帶電", "一定不帶電"]}, {"id": 33, "section": "第三部分：庫侖定律與靜電力計算", "q": "真空中有兩個點電荷 <i>q</i><sub>1</sub> = +2.0 &times; 10<sup>&minus;6</sup> C 和 <i>q</i><sub>2</sub> = &minus;3.0 &times; 10<sup>&minus;6</sup> C，相距 0.30 m。兩者之間的靜電力大小與性質為？", "options": ["0.60 N，吸引力", "0.60 N，排斥力", "0.18 N，吸引力", "6.0 N，吸引力"]}, {"id": 34, "section": "第三部分：庫侖定律與靜電力計算", "q": "關於庫侖定律公式 <i>F</i> = <i>k</i> |<i>q</i><sub>1</sub><i>q</i><sub>2</sub>| / <i>r</i><sup>2</sup> 的適用條件，下列何者正確？", "options": ["適用於任何形狀與大小的帶電物體，不論距離多近", "僅適用於真空（或近似於空氣）中的靜止點電荷", "只適用於同種電荷，不適用於異種電荷", "當兩帶電球距離 <i>r</i> &rarr; 0 時，公式預測靜電力為零"]}, {"id": 35, "section": "第三部分：庫侖定律與靜電力計算", "q": "兩個點電荷相距 <i>r</i> 時，彼此間的靜電力大小為 <i>F</i>。若電荷量保持不變，將兩者距離增大為 3<i>r</i>，則靜電力大小變為？", "options": ["<i>F</i> / 3", "<i>F</i> / 6", "<i>F</i> / 9", "9<i>F</i>"]}, {"id": 36, "section": "第三部分：庫侖定律與靜電力計算", "q": "兩個點電荷相距 <i>r</i> 時靜電力為 <i>F</i>。若將 <i>q</i><sub>1</sub> 增為原來的 2 倍，<i>q</i><sub>2</sub> 增為原來的 3 倍，並將距離 <i>r</i> 減半，新的靜電力大小變為？", "options": ["6<i>F</i>", "12<i>F</i>", "24<i>F</i>", "1.5<i>F</i>"]}, {"id": 37, "section": "第三部分：庫侖定律與靜電力計算", "q": "點電荷 <i>q</i><sub>1</sub> = +2.0 &mu;C 與點電荷 <i>q</i><sub>2</sub> = +8.0 &mu;C 相距 10 cm。請問 <i>q</i><sub>2</sub> 作用於 <i>q</i><sub>1</sub> 的靜電力大小 <i>F</i><sub>1</sub>，與 <i>q</i><sub>1</sub> 作用於 <i>q</i><sub>2</sub> 的靜電力大小 <i>F</i><sub>2</sub> 之比 <i>F</i><sub>1</sub> : <i>F</i><sub>2</sub> 為何？", "options": ["1 : 4", "4 : 1", "1 : 1", "1 : 16"]}, {"id": 38, "section": "第三部分：庫侖定律與靜電力計算", "q": "兩個完全相同的金屬小球（可視為點電荷）分別帶有 +2<i>Q</i> 和 +6<i>Q</i> 的電荷，相距 <i>r</i> 時排斥力為 <i>F</i>。現將兩球接觸後再放回原處（距離仍為 <i>r</i>），新的靜電力變為？", "options": ["<i>F</i>", "(4/3) <i>F</i>", "(3/4) <i>F</i>", "(16/3) <i>F</i>"]}, {"id": 39, "section": "第三部分：庫侖定律與靜電力計算", "q": "兩個完全相同的金屬小球（可視為點電荷）分別帶有 +5<i>Q</i> 和 &minus;<i>Q</i> 的電荷，相距 <i>r</i> 時吸引力大小為 <i>F</i>。將兩球接觸後再放回相距 <i>r</i> 的原處，兩球間的靜電力變為？", "options": ["(4/5) <i>F</i>，吸引力", "(4/5) <i>F</i>，排斥力", "(9/5) <i>F</i>，排斥力", "(16/5) <i>F</i>，排斥力"]}, {"id": 40, "section": "第三部分：庫侖定律與靜電力計算", "q": "兩個點電荷分別為 +4.0 &mu;C 和 +1.0 &mu;C，彼此間的靜電排斥力為 0.90 N，則它們之間的距離為？", "options": ["0.04 m", "0.20 m", "0.40 m", "2.0 m"]}, {"id": 41, "section": "第三部分：庫侖定律與靜電力計算", "q": "在氫原子中，質子與電子之間的平均距離約為 5.3 &times; 10<sup>&minus;11</sup> m，兩者帶電量大小皆為 1.6 &times; 10<sup>&minus;19</sup> C。它們之間的靜電吸引力約為多少？", "options": ["8.2 &times; 10<sup>&minus;8</sup> N", "4.3 &times; 10<sup>&minus;18</sup> N", "2.3 &times; 10<sup>&minus;28</sup> N", "1.5 &times; 10<sup>&minus;9</sup> N"]}, {"id": 42, "section": "第三部分：庫侖定律與靜電力計算", "q": "在 <i>x</i> 軸上，<i>q</i><sub>1</sub> = +2.0 &mu;C 固定於 <i>x</i> = 0，<i>q</i><sub>2</sub> = +4.0 &mu;C 固定於 <i>x</i> = 0.20 m。今將 <i>q</i><sub>3</sub> = &minus;1.0 &mu;C 放於 <i>x</i> = 0.10 m 處，求 <i>q</i><sub>3</sub> 所受的淨靜電力大小與方向？", "options": ["5.4 N，指向 +<i>x</i> 方向", "1.8 N，指向 +<i>x</i> 方向", "1.8 N，指向 &minus;<i>x</i> 方向", "0 N"]}, {"id": 43, "section": "第三部分：庫侖定律與靜電力計算", "q": "在 <i>x</i> 軸上，<i>q</i><sub>1</sub> = +3.0 &mu;C 固定於 <i>x</i> = 0，<i>q</i><sub>2</sub> = &minus;3.0 &mu;C 固定於 <i>x</i> = 0.60 m。將 <i>q</i><sub>3</sub> = +2.0 &mu;C 放於兩者中點 <i>x</i> = 0.30 m 處，求 <i>q</i><sub>3</sub> 所受的淨靜電力大小與方向？", "options": ["0 N", "0.60 N，指向 +<i>x</i> 方向", "1.2 N，指向 +<i>x</i> 方向", "1.2 N，指向 &minus;<i>x</i> 方向"]}, {"id": 44, "section": "第三部分：庫侖定律與靜電力計算", "q": "兩個固定點電荷 <i>q</i><sub>1</sub> = +<i>Q</i> 位於 <i>x</i> = 0，<i>q</i><sub>2</sub> = +4<i>Q</i> 位於 <i>x</i> = 30 cm。若要放入第三個點電荷 <i>q</i><sub>3</sub> 使其所受淨靜電力為零，應將 <i>q</i><sub>3</sub> 放在哪個位置？", "options": ["<i>x</i> = 15 cm", "<i>x</i> = 10 cm", "<i>x</i> = 20 cm", "<i>x</i> = &minus;10 cm"]}, {"id": 45, "section": "第三部分：庫侖定律與靜電力計算", "q": "兩個固定點電荷 <i>q</i><sub>1</sub> = +<i>Q</i> 位於 <i>x</i> = 0，<i>q</i><sub>2</sub> = &minus;9<i>Q</i> 位於 <i>x</i> = 40 cm。若要放入第三個點電荷 <i>q</i><sub>3</sub> 使其所受淨靜電力為零，應將 <i>q</i><sub>3</sub> 放在哪個位置？", "options": ["<i>x</i> = 10 cm", "<i>x</i> = &minus;20 cm", "<i>x</i> = +60 cm", "<i>x</i> = &minus;10 cm"]}, {"id": 46, "section": "第三部分：庫侖定律與靜電力計算", "q": "在直角坐標平面上，三個正點電荷的位置如下：<i>q</i><sub>1</sub> = +3.0 &mu;C 在 (0, 0.30 m)，<i>q</i><sub>2</sub> = +4.0 &mu;C 在 (0.30 m, 0)，<i>q</i><sub>3</sub> = +1.0 &mu;C 在原點 (0, 0)。請問原點處的 <i>q</i><sub>3</sub> 所受淨靜電力大小為何？", "options": ["0.70 N", "0.10 N", "0.50 N", "0.25 N"]}, {"id": 47, "section": "第三部分：庫侖定律與靜電力計算", "q": "三個帶電量均為 +<i>q</i> 的相同點電荷，分別固定在等邊三角形的三個頂點上。若任意兩個電荷之間的排斥力大小為 <i>F</i>，則其中任何一個電荷所受的淨靜電力大小為？", "options": ["2<i>F</i>", "&radic;2 <i>F</i>", "&radic;3 <i>F</i>", "<i>F</i>"]}, {"id": 48, "section": "第三部分：庫侖定律與靜電力計算", "q": "兩個質量均為 0.010 kg 的帶電小球，用等長絕緣細線懸掛於同一點。兩球因同性相斥而張開，平衡時每條細線與鉛垂線的夾角均為 45&deg;。請問兩球之間的靜電排斥力大小為？（取 <i>g</i> = 10 m/s<sup>2</sup>）", "options": ["0.050 N", "0.10 N", "0.14 N", "0.20 N"]}, {"id": 49, "section": "第三部分：庫侖定律與靜電力計算", "q": "兩個帶電小球 A（帶電量 +2<i>Q</i>、質量 <i>m</i><sub>A</sub>）和 B（帶電量 +<i>Q</i>、質量 <i>m</i><sub>B</sub>）用等長絕緣細線懸掛於同一點。平衡時，發現兩條細線與鉛垂線的夾角完全相等（&theta;<sub>A</sub> = &theta;<sub>B</sub>）。由此可知兩球質量的關係為？", "options": ["<i>m</i><sub>A</sub> = 2<i>m</i><sub>B</sub>", "<i>m</i><sub>B</sub> = 2<i>m</i><sub>A</sub>", "<i>m</i><sub>A</sub> = <i>m</i><sub>B</sub>", "無法比較"]}, {"id": 50, "section": "第三部分：庫侖定律與靜電力計算", "q": "在計算兩個電子或兩個質子之間的相互作用力時，物理學家通常會忽略它們之間的萬有引力，最主要的原因是？", "options": ["微觀粒子沒有質量，因此沒有萬有引力", "靜電力的大小遠大於萬有引力（相差超過 10<sup>36</sup> 倍）", "萬有引力不遵守平方反比定律", "靜電力只在真空中存在，萬有引力在真空中不存在"]}];
+    const _AK = "WzEsIDEsIDIsIDEsIDAsIDIsIDEsIDEsIDEsIDEsIDEsIDEsIDEsIDEsIDEsIDIsIDIsIDIsIDEsIDIsIDEsIDIsIDEsIDIsIDAsIDEsIDIsIDEsIDEsIDAsIDIsIDAsIDAsIDEsIDIsIDIsIDIsIDEsIDEsIDEsIDAsIDEsIDIsIDEsIDEsIDIsIDIsIDEsIDIsIDFd";
+
+    // 狀態變數
+    let quizActive = false;
+    let quizSubmitted = false;
+    let currentIdx = 0;
+    let currentSelected = null;
+    let studentData = { classStr: "", name: "", studentId: "", startTime: "", endTime: "", ip: "Unknown" };
+    let lockedAnswers = new Array(QUESTIONS.length).fill(null);
+    let blurCount = 0;
+    let lastBlurTimestamp = 0;
+    let lastPayload = null;
+
+    document.getElementById("maxBlurRule").textContent = MAX_BLUR_COUNT;
+    document.getElementById("maxAttemptRule").textContent = MAX_ATTEMPTS;
+
+    function formatLocalTime(d) {
+      const pad = n => String(n).padStart(2, "0");
+      return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+
+    async function fetchIP() {
+      try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        if (data && data.ip) studentData.ip = data.ip;
+      } catch (e) {
+        studentData.ip = "Unknown";
+      }
+    }
+
+    function getAttemptStorageKey(cls, sid) {
+      return `phy_elec_quiz_attempts_${cls.trim().toUpperCase()}_${sid.trim().toUpperCase()}`;
+    }
+
+    function startQuiz() {
+      const cls = document.getElementById("inputClass").value.trim();
+      const name = document.getElementById("inputName").value.trim();
+      const sid = document.getElementById("inputId").value.trim();
+      const errBox = document.getElementById("loginError");
+
+      if (!cls || !name || !sid) {
+        errBox.textContent = "請完整填寫班別、姓名及學號！";
+        errBox.classList.remove("hidden");
+        return;
+      }
+
+      const localAttempts = parseInt(localStorage.getItem(getAttemptStorageKey(cls, sid)) || "0", 10);
+      if (localAttempts >= MAX_ATTEMPTS) {
+        errBox.textContent = `此學號（${cls} ${sid}）已達最高上傳次數上限（${MAX_ATTEMPTS} 次），無法再次作答。`;
+        errBox.classList.remove("hidden");
+        return;
+      }
+
+      errBox.classList.add("hidden");
+      studentData.classStr = cls;
+      studentData.name = name;
+      studentData.studentId = sid;
+      studentData.startTime = formatLocalTime(new Date());
+      fetchIP();
+
+      document.getElementById("loginScreen").classList.add("hidden");
+      document.getElementById("quizScreen").classList.remove("hidden");
+      document.getElementById("stickyBar").classList.remove("hidden");
+      document.getElementById("studentInfoBadge").textContent = `${cls} ｜ ${name}（${sid}）`;
+      document.getElementById("blurPill").textContent = `失焦次數：0 / ${MAX_BLUR_COUNT}`;
+
+      currentIdx = 0;
+      renderCurrentQuestion();
+      quizActive = true;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderCurrentQuestion() {
+      const q = QUESTIONS[currentIdx];
+      const labels = ["A", "B", "C", "D"];
+      currentSelected = null;
+
+      // 更新頂部進度
+      document.getElementById("progressPill").textContent = `第 ${currentIdx + 1} / ${QUESTIONS.length} 題`;
+      const pct = ((currentIdx + 1) / QUESTIONS.length) * 100;
+      document.getElementById("progressFill").style.width = `${pct}%`;
+
+      // 填入題目內容
+      document.getElementById("qSectionTag").textContent = q.section;
+      document.getElementById("qNumText").textContent = `第 ${q.id} 題`;
+      document.getElementById("qText").innerHTML = q.q;
+
+      // 渲染四個選項
+      const listEl = document.getElementById("optionsList");
+      listEl.innerHTML = "";
+      q.options.forEach((opt, oIdx) => {
+        const lbl = document.createElement("label");
+        lbl.className = "option-item";
+        lbl.id = `opt-label-${oIdx}`;
+        lbl.onclick = () => selectOption(oIdx);
+        lbl.innerHTML = `
+          <input type="radio" name="current_q" value="${oIdx}" id="radio-${oIdx}" />
+          <span><strong>${labels[oIdx]}.</strong> ${opt}</span>
+        `;
+        listEl.appendChild(lbl);
+      });
+
+      // 更新按鈕文字與狀態
+      const btn = document.getElementById("nextOrSubmitBtn");
+      btn.disabled = true;
+      if (currentIdx === QUESTIONS.length - 1) {
+        btn.textContent = "最終提交試卷並查看總分";
+        btn.className = "btn btn-primary";
+        btn.style.padding = "12px 28px";
+        document.getElementById("qHintText").textContent = "這是最後一題，提交後將上傳成績並顯示最終總分。";
+      } else {
+        btn.textContent = "確認提交並前往下一題";
+        btn.className = "btn btn-next";
+        document.getElementById("qHintText").textContent = "請選擇答案後提交，提交後無法返回修改（不顯示對錯）。";
+      }
+    }
+
+    function selectOption(oIdx) {
+      if (quizSubmitted) return;
+      currentSelected = oIdx;
+      for (let i = 0; i < 4; i++) {
+        document.getElementById(`opt-label-${i}`).classList.toggle("selected", i === oIdx);
+      }
+      document.getElementById(`radio-${oIdx}`).checked = true;
+      document.getElementById("nextOrSubmitBtn").disabled = false;
+    }
+
+    function handleQuestionSubmit() {
+      if (currentSelected === null || quizSubmitted) return;
+
+      if (currentIdx < QUESTIONS.length - 1) {
+        // 鎖定本題並直接進入下一題（不顯示對錯）
+        lockedAnswers[currentIdx] = currentSelected;
+        currentIdx++;
+        renderCurrentQuestion();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        // 最後一題，跳出最終交卷確認
+        document.getElementById("confirmModal").classList.remove("hidden");
+      }
+    }
+
+    function closeConfirmModal() {
+      document.getElementById("confirmModal").classList.add("hidden");
+    }
+
+    function confirmFinalSubmit() {
+      closeConfirmModal();
+      lockedAnswers[currentIdx] = currentSelected;
+      finalizeAndSubmit(false);
+    }
+
+    // =========================================================================
+    // 失焦偵測功能（防離開頁面／切換分頁）
+    // =========================================================================
+    function handlePageBlur() {
+      if (!quizActive || quizSubmitted) return;
+      const now = Date.now();
+      if (now - lastBlurTimestamp < 800) return;
+      lastBlurTimestamp = now;
+
+      blurCount++;
+      const blurPill = document.getElementById("blurPill");
+      blurPill.textContent = `失焦次數：${blurCount} / ${MAX_BLUR_COUNT}`;
+      blurPill.classList.add("danger");
+
+      if (blurCount >= MAX_BLUR_COUNT) {
+        closeBlurModal();
+        closeConfirmModal();
+        finalizeAndSubmit(true);
+      } else {
+        const remaining = MAX_BLUR_COUNT - blurCount;
+        document.getElementById("blurModalMsg").innerHTML =
+          `系統偵測到你離開了測驗頁面或切換了視窗（目前累計 <strong>${blurCount} / ${MAX_BLUR_COUNT}</strong> 次）。<br><br>` +
+          `再離開頁面 <strong>${remaining}</strong> 次，系統將立即自動強制交卷！`;
+        document.getElementById("blurModal").classList.remove("hidden");
+      }
+    }
+
+    function closeBlurModal() {
+      document.getElementById("blurModal").classList.add("hidden");
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) handlePageBlur();
+    });
+    window.addEventListener("blur", () => {
+      handlePageBlur();
+    });
+
+    window.addEventListener("beforeunload", (e) => {
+      if (quizActive && !quizSubmitted) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    });
+
+    // =========================================================================
+    // 最終計分與上傳
+    // =========================================================================
+    function finalizeAndSubmit(forcedByBlur) {
+      if (quizSubmitted) return;
+      quizSubmitted = true;
+      quizActive = false;
+      studentData.endTime = formatLocalTime(new Date());
+
+      const answerKey = JSON.parse(atob(_AK));
+      let correctCount = 0;
+      let lockedCount = 0;
+      for (let i = 0; i < QUESTIONS.length; i++) {
+        if (lockedAnswers[i] !== null) {
+          lockedCount++;
+          if (lockedAnswers[i] === answerKey[i]) {
+            correctCount++;
+          }
+        }
+      }
+      const finalScore = correctCount * 2;
+
+      document.getElementById("stickyBar").classList.add("hidden");
+      document.getElementById("quizScreen").classList.add("hidden");
+      document.getElementById("resultScreen").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      document.getElementById("resultStudentInfo").textContent =
+        `${studentData.classStr} ｜ ${studentData.name}（學號：${studentData.studentId}）`;
+      document.getElementById("finalScoreNum").textContent = finalScore;
+
+      let summaryText = `共作答 ${lockedCount} / 50 題，答對 ${correctCount} 題（每題 2 分）。失焦次數：${blurCount} 次。`;
+      if (forcedByBlur) {
+        summaryText = `⚠️ 因頁面失焦達 ${MAX_BLUR_COUNT} 次，系統已自動強制交卷。` + summaryText;
+      }
+      document.getElementById("resultSummary").textContent = summaryText;
+      document.getElementById("timeLogText").textContent =
+        `開始時間：${studentData.startTime} ｜ 結束時間：${studentData.endTime} ｜ IP：${studentData.ip}`;
+
+      lastPayload = {
+        startTime: studentData.startTime,
+        endTime: studentData.endTime,
+        ip: studentData.ip,
+        class: studentData.classStr,
+        classStr: studentData.classStr,
+        name: studentData.name,
+        studentId: studentData.studentId,
+        score: finalScore,
+        blurCount: blurCount
+      };
+
+      uploadToSheet();
+    }
+
+    async function uploadToSheet() {
+      const statusBox = document.getElementById("uploadStatusBox");
+      const retryBtn = document.getElementById("retryUploadBtn");
+      retryBtn.classList.add("hidden");
+
+      if (!SCRIPT_URL || SCRIPT_URL.includes("請在這裡貼上")) {
+        statusBox.className = "upload-status error";
+        statusBox.textContent = "⚠️ 尚未設定 Google Apps Script 網址，成績未上傳（請老師先在 HTML 內填入 SCRIPT_URL）。";
+        return;
+      }
+
+      statusBox.className = "upload-status loading";
+      statusBox.textContent = "正在上傳成績至 Google Sheet，請稍候...";
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(lastPayload)
+        });
+        const text = (await res.text()).trim();
+
+        if (text === "success") {
+          statusBox.className = "upload-status success";
+          statusBox.textContent = "✅ 成績已成功上傳並記錄至 Google Sheet！";
+          const key = getAttemptStorageKey(studentData.classStr, studentData.studentId);
+          const prev = parseInt(localStorage.getItem(key) || "0", 10);
+          localStorage.setItem(key, String(prev + 1));
+        } else if (text === "limit_exceeded") {
+          statusBox.className = "upload-status error";
+          statusBox.textContent = `❌ 上傳被拒：系統記錄顯示你已上傳滿 ${MAX_ATTEMPTS} 次，本次成績不予記錄。`;
+          const key = getAttemptStorageKey(studentData.classStr, studentData.studentId);
+          localStorage.setItem(key, String(MAX_ATTEMPTS));
+        } else {
+          throw new Error("伺服器回傳異常：" + text);
+        }
+      } catch (err) {
+        statusBox.className = "upload-status error";
+        statusBox.textContent = "❌ 上傳失敗，請檢查網路連線後點擊下方按鈕重試。（" + err.message + "）";
+        retryBtn.classList.remove("hidden");
+      }
+    }
+  </script>
+</body>
+</html>
